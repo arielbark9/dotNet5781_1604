@@ -7,11 +7,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlGui", "PlGui\PlGui.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{B5A1C49C-0A47-4470-BDD3-35D31DC3A7C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDL", "DalApi\IDL.csproj", "{DCF4FF4A-3689-441B-9A53-D8DDEC67482E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLAPI", "DalApi\DLAPI.csproj", "{DCF4FF4A-3689-441B-9A53-D8DDEC67482E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLObject", "DalObject\DLObject.csproj", "{74D618C2-E181-4BB3-9555-0AE96BA5DA5F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DS", "DS\DS.csproj", "{6C2C01DA-DB4C-4C15-96B3-21C10BECC1DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BEC590FC-30B4-40D4-B8D4-581EA6738C74}"
+	ProjectSection(SolutionItems) = preProject
+		CONFIG.xml = CONFIG.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
