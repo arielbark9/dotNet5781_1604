@@ -10,6 +10,6 @@ namespace BL
 {
     class BLImp : IBL // internal, use only through interface BLApi.
     {
-
+        private IDL dl = DLFactory.GetDL();
     }
 }

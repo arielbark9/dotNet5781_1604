@@ -77,7 +77,7 @@ namespace DLAPI
             try
             {
                 IDL dal = type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null) as IDL;
-                // If the instance property is not initialized (i.e. it does not hold a real instance reference)...
+                // If the instance property is not initialized (i.e. it does not hold a real instance reference...
                 if (dal == null)
                     throw new DLConfigException($"Class {dlNameSpace}.{dlClass} instance is not initialized");
                 // now it looks like we have appropriate dal implementation instance :-)
