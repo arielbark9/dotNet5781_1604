@@ -50,6 +50,7 @@
     <Compile Include="BO\LineStation.cs" />
     <Compile Include="BO\Station.cs" />
     <Compile Include="BO\User.cs" />
+    <Compile Include="DeepCopyUtilities.cs" />
     <Compile Include="IBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

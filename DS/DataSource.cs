@@ -9,5 +9,47 @@ namespace DS
 {
     public static class DataSource
     {
+        #region Declerations
+        public static List<User> ListUsers;
+        public static List<Bus> ListBuses;
+        #endregion
+        static DataSource()
+        {
+            InitAllLists();
+        }
+        private static void InitAllLists()
+        {
+            ListUsers = new List<User>
+            {
+                new User
+                {
+                    UserName = "user",
+                    Password = "user",
+                    Admin = false,
+                    Active = true
+                },
+                new User
+                {
+                    UserName = "admin",
+                    Password = "admin",
+                    Admin = true,
+                    Active = true
+                }
+            };
+            ListBuses = new List<Bus>
+            {
+                new Bus
+                {
+                    Active = true,
+                    LicenceNum = 22399223,
+                    StartDate = DateTime.Parse("12.23.2019"),
+                    BusStatus = Status.READY,
+                    Mileage = 2400,
+                    MileageSinceFuel = 0,
+                    MileageSinceMaintenance = 2400,
+                    DateSinceMaintenance = DateTime.Parse("12.23.2019")
+                }
+            };
+        }
     }
 }

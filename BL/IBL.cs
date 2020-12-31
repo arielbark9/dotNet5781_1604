@@ -9,5 +9,13 @@ namespace BLAPI
 {
     public interface IBL
     {
+        #region User
+        BO.User userDoBoAdapter(DO.User userDo);
+        IEnumerable<BO.User> GetAllUsers();
+        #endregion
+        #region Bus
+        BO.Bus busDoBoAdapter(DO.Bus busDo);
+        IEnumerable<BO.Bus> GetAllBuses();
+        #endregion
     }
 }

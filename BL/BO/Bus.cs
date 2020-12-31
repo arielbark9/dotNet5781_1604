@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DO
+namespace BO
 {
     public class Bus
     {
@@ -14,8 +14,7 @@ namespace DO
         public int Mileage { get; set; }
         public int MileageSinceFuel { get; set; }
         public int MileageSinceMaintenance { get; set; }
-        public Status BusStatus { get; set; }
-        public bool Active { get; set; }
+        public BO.Status BusStatus { get; set; }
         public override string ToString()
         {
             string res;

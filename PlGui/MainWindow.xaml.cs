@@ -21,10 +21,33 @@ namespace PlGui
     /// </summary>
     public partial class MainWindow : Window
     {
-        IBL bl = BLFactory.GetBL("1");
+        IBL bl = BLFactory.GetBL();
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void bLogin_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var user in bl.GetAllUsers())
+            {
+                if (user.UserName == tbUser.Text && user.Password == passboxPass.Password)
+                {
+                    if (user.Admin == true)
+                    {
+                        new MainAdminWindow(user, bl).Show();
+                        this.Close();
+                        break;
+                    }
+                    //else
+                    //    new MainUserWindow().Show();
+                }    
+            }
+        }
+
+        private void bReg_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
