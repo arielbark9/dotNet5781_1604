@@ -44,6 +44,12 @@ namespace DL
             else
                 throw new InvalidOperationException(); // bl takes care of messages
         }
+
+        public void DeleteBus(Bus bus)
+        {
+            // ASSUMING BUS RECIEVED EXISTS!! otherwise couldn't have been sent!!
+            DataSource.ListBuses.Find(b => b.LicenceNum == bus.LicenceNum).Active = false;
+        }
         #endregion
     }
 }

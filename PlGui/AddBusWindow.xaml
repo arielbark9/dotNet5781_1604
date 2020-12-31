@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Date Since Maintenance:"/>
-            <DatePicker x:Name="dateSinceMaintenanceDatePicker" VerticalAlignment="Center" SelectedDate="{Binding DateSinceMaintenance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Text="1/1/2018"/>
+            <DatePicker x:Name="dateSinceMaintenanceDatePicker" VerticalAlignment="Center" SelectedDate="{Binding DateSinceMaintenance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Text="1/1/2018" DisplayDate="2018-01-01"/>
             <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Licence Num:"/>
         <TextBox x:Name="licenceNumTextBox" Width="120" VerticalAlignment="Center" Text="{Binding LicenceNum, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="licenceNumPreviewTextInput"/>
             <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Mileage:"/>

@@ -18,7 +18,7 @@
                         <RowDefinition Height="7*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <ListView x:Name="busListView" Grid.Row="0" SelectionMode="Single" Margin="0,0" ItemsSource="{Binding}">
+                    <ListView x:Name="busListView" Grid.Row="0" SelectionMode="Single" Margin="0,0" ItemsSource="{Binding}" MouseDoubleClick="busListView_MouseDoubleClick">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn x:Name="busStatusColumn" Width="80" Header="Bus Status">
@@ -56,10 +56,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn x:Name="FuelColumn" Width="80">
+                                <GridViewColumn x:Name="DeleteColumn" Width="80">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button x:Name="pbFuel" Content="Fuel" Margin="3,3" Click="pbFuel_Click"/>
+                                            <Button x:Name="pbDelete" Content="Delete" Margin="3,3" Click="pbDelete_Click"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

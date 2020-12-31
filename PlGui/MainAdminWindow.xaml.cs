@@ -41,17 +41,28 @@ namespace PlGui
 
         private void pbDrive_Click(object sender, RoutedEventArgs e)
         {
-
+            // TODO: implement
         }
 
-        private void pbFuel_Click(object sender, RoutedEventArgs e)
+        private void pbDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            if(MessageBox.Show("Are you sure?", "Consent", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                bl.DeleteBus((sender as Button).DataContext as BO.Bus); // No exceptions because if it is a part of the list view it can bel deleted.
+                // assuming that our binded collection is synced with DATASOURCE
+                buses.Remove((sender as Button).DataContext as BO.Bus);
+                
+            }
         }
 
         private void pbUpdate_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void busListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            new BusDetailsWindow((sender as ListView).SelectedItem as BO.Bus, bl).Show();
         }
     }
 }

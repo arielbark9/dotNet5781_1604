@@ -20,6 +20,7 @@ namespace DLAPI
         #region Bus
         IEnumerable<DO.Bus> GetAllBuses();
         void AddBus(DO.Bus newBus);
+        void DeleteBus(DO.Bus bus);
         #endregion
     }
 }

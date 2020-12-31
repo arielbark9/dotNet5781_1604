@@ -1,0 +1,49 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.BusDetailsWindow"
+        mc:Ignorable="d"
+        Title="BusDetailsWindow" Height="350" Width="335">
+    <Window.Resources>
+        <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Bus}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid>
+
+        <Grid x:Name="gridViewBus" VerticalAlignment="Stretch" Margin="0,0" HorizontalAlignment="Stretch" DataContext="{StaticResource busViewSource}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Bus Status:"/>
+            <Label x:Name="busStatusLabel" VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding BusStatus, Mode=OneWay}"/>
+            <Label VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Date Since Maintenance:"/>
+            <Label x:Name="dateSinceMaintenanceLabel" VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding DateSinceMaintenance, Mode=OneWay}"/>
+            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Licence Num:"/>
+            <Label x:Name="licenceNumLabel" VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding LicenceNum, Mode=OneWay}"/>
+            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Mileage:"/>
+            <Label x:Name="mileageLabel" VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding Mileage, Mode=OneWay}"/>
+            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Mileage Since Fuel:"/>
+            <Label x:Name="mileageSinceFuelLabel" VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding MileageSinceFuel, Mode=OneWay}"/>
+            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Mileage Since Maintenance:"/>
+            <Label x:Name="mileageSinceMaintenanceLabel" VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding MileageSinceMaintenance, Mode=OneWay}"/>
+            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Start Date:"/>
+            <Label x:Name="startDateLabel" VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding StartDate, Mode=OneWay}"/>
+            <Button x:Name="pbRepair" Content="Repair" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0" Grid.Row="7" VerticalAlignment="Center" Width="75" Click="pbRepair_Click"/>
+            <Button x:Name="pbFuel" Content="Refuel" Grid.Column="0" HorizontalAlignment="Center" Margin="0,0" Grid.Row="7" VerticalAlignment="Center" Width="75" Click="pbFuel_Click"/>
+        </Grid>
+        
+    </Grid>
+</Window>

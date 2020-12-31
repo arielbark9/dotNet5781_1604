@@ -67,6 +67,12 @@ namespace BL
             else
                 throw new ArgumentException("Provided bus is not valid!");
         }
+        public void DeleteBus(Bus bus)
+        {
+            DO.Bus busDo = new DO.Bus();
+            bus.CopyPropertiesTo(busDo);
+            dl.DeleteBus(busDo);
+        }
         #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace BLAPI
         BO.Bus busDoBoAdapter(DO.Bus busDo);
         IEnumerable<BO.Bus> GetAllBuses();
         void AddBus(BO.Bus newBus);
+        void DeleteBus(BO.Bus bus);
         #endregion
     }
 }

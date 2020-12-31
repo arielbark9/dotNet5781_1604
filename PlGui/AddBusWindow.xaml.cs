@@ -40,6 +40,7 @@ namespace PlGui
             {
                 bl.AddBus(newBus);
                 buses.Add(newBus); //if bl failed this wont execute
+                this.Close();
             }
             catch(InvalidOperationException ex)
             {
@@ -50,11 +51,11 @@ namespace PlGui
                 MessageBox.Show("Error! you tried to add a bus that is invalid!");
             }
         }
-
         private void pbCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
         #region input check
         private void licenceNumPreviewTextInput(object sender, TextCompositionEventArgs e) // allow only for digits to be entered
         {
