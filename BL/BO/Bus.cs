@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace BO
 {
     public class Bus
-    {
+    { // same as DO because there is an option to add a bus.
         public int LicenceNum { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime DateSinceMaintenance { get; set; }

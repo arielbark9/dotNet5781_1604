@@ -19,7 +19,7 @@ namespace DL
         public static DalObject Instance { get => instance; }// The public Instance property to use
         #endregion
         #region User
-        public IEnumerable<DO.User> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
             // Filter out non-active entities
             return from item in DataSource.ListUsers
@@ -34,6 +34,15 @@ namespace DL
             return from item in DataSource.ListBuses
                    where item.Active == true
                    select item.Clone();
+        }
+
+        public void AddBus(Bus newBus)
+        {
+            newBus.Active = true;
+            if (!DataSource.ListBuses.Exists(x => x.LicenceNum == newBus.LicenceNum))
+                DataSource.ListBuses.Add(newBus);
+            else
+                throw new InvalidOperationException(); // bl takes care of messages
         }
         #endregion
     }

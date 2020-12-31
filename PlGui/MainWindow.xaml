@@ -16,8 +16,8 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="tbUser" HorizontalAlignment="Center" Height="25" Margin="0,0" Grid.Row="2" TextWrapping="Wrap" Text="User Name" VerticalAlignment="Center" Width="120"/>
-        <PasswordBox x:Name="passboxPass" HorizontalAlignment="Center" Margin="0,0" Grid.Row="3" VerticalAlignment="Center" Width="120" Height="25"/>
+        <TextBox x:Name="tbUser" HorizontalAlignment="Center" Height="25" Margin="0,0" Grid.Row="2" TextWrapping="Wrap" Text="admin" VerticalAlignment="Center" Width="120"/>
+        <PasswordBox x:Name="passboxPass" Password="admin" HorizontalAlignment="Center" Margin="0,0" Grid.Row="3" VerticalAlignment="Center" Width="120" Height="25"/>
         <Label Content="Enter user name and password" HorizontalAlignment="Center" Margin="0,0" Grid.Row="1" VerticalAlignment="Center" Width="auto"/>
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>

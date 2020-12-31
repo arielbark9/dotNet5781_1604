@@ -1,0 +1,42 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.AddBusWindow"
+        mc:Ignorable="d"
+        Title="AddBusWindow" Height="350" Width="338">
+    <Window.Resources>
+        <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Bus}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid x:Name="gridViewBus" VerticalAlignment="Stretch" Margin="0,0" HorizontalAlignment="Stretch" DataContext="{StaticResource busViewSource}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Date Since Maintenance:"/>
+            <DatePicker x:Name="dateSinceMaintenanceDatePicker" VerticalAlignment="Center" SelectedDate="{Binding DateSinceMaintenance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Text="1/1/2018"/>
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Licence Num:"/>
+        <TextBox x:Name="licenceNumTextBox" Width="120" VerticalAlignment="Center" Text="{Binding LicenceNum, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="licenceNumPreviewTextInput"/>
+            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Mileage:"/>
+            <TextBox x:Name="mileageTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Mileage, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="mileageTextBox_PreviewTextInput"/>
+            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Mileage Since Fuel:"/>
+            <TextBox x:Name="mileageSinceFuelTextBox" Width="120" VerticalAlignment="Center" Text="{Binding MileageSinceFuel, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="3" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="mileageSinceFuelTextBox_PreviewTextInput"/>
+            <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Mileage Since Maintenance:"/>
+            <TextBox x:Name="mileageSinceMaintenanceTextBox" Width="120" VerticalAlignment="Center" Text="{Binding MileageSinceMaintenance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="4" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="mileageSinceMaintenanceTextBox_PreviewTextInput"/>
+            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Start Date:"/>
+        <DatePicker x:Name="startDateDatePicker" VerticalAlignment="Center" SelectedDate="{Binding StartDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="1" DisplayDate="2018-01-01" Text="1/1/2018" IsTodayHighlighted="False"/>
+        <Button x:Name="pbAddBus" Grid.ColumnSpan="1" Content="Add Bus" HorizontalAlignment="Center" Margin="0,0" Grid.Row="6" VerticalAlignment="Center" Width="75" Click="pbAddBus_Click"/>
+        <Button x:Name="pbCancel" Content="Cancel" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0" Grid.Row="6" VerticalAlignment="Center" Width="75" Click="pbCancel_Click"/>
+    </Grid>
+</Window>

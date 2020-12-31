@@ -36,7 +36,7 @@ namespace PlGui
         }
         private void pbAddBus_Click(object sender, RoutedEventArgs e)
         {
-
+            new AddBusWindow(bl, buses).Show();
         }
 
         private void pbDrive_Click(object sender, RoutedEventArgs e)

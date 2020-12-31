@@ -38,14 +38,14 @@
                                 <GridViewColumn x:Name="mileageColumn" Width="80" Header="Mileage">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBox Margin="-6,-1" Text="{Binding Mileage, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                            <Label Margin="-6,-1" Content="{Binding Mileage}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn x:Name="startDateColumn" Width="100" Header="Start Date">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <DatePicker Margin="-6,-1" SelectedDate="{Binding StartDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                            <Label Margin="-6,-1" Content="{Binding StartDate}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
