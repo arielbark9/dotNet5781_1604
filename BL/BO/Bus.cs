@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BO
+namespace BO 
 {
     public class Bus
     { // same as DO because there is an option to add a bus.

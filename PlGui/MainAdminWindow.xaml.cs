@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,16 +49,23 @@ namespace PlGui
         {
             if(MessageBox.Show("Are you sure?", "Consent", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                bl.DeleteBus((sender as Button).DataContext as BO.Bus); // No exceptions because if it is a part of the list view it can bel deleted.
-                // assuming that our binded collection is synced with DATASOURCE
+                try
+                {
+                    bl.DeleteBus((sender as Button).DataContext as BO.Bus);
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
                 buses.Remove((sender as Button).DataContext as BO.Bus);
-                
             }
         }
 
         private void pbUpdate_Click(object sender, RoutedEventArgs e)
         {
-
+            BO.Bus updateBus = new BO.Bus();
+            ((sender as Button).DataContext as BO.Bus).CopyPropertiesTo(updateBus);
+            new UpdateBusWindow(updateBus, buses, bl).Show();
         }
 
         private void busListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)

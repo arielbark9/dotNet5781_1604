@@ -25,7 +25,22 @@ namespace BL
             userDo.CopyPropertiesTo(userBo);
             return userBo;
         }
+        public void AddUser(BO.User newUser)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateUser(BO.User User)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteUser(BO.User User)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
+
         #region Bus
         public BO.Bus busDoBoAdapter(DO.Bus busDo)
         {
@@ -67,11 +82,113 @@ namespace BL
             else
                 throw new ArgumentException("Provided bus is not valid!");
         }
-        public void DeleteBus(Bus bus)
+        public void DeleteBus(BO.Bus bus)
         {
             DO.Bus busDo = new DO.Bus();
             bus.CopyPropertiesTo(busDo);
-            dl.DeleteBus(busDo);
+            try
+            {
+                dl.DeleteBus(busDo);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("FATAL ERROR! BUS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);    
+            }
+        }
+        public void UpdateBus(BO.Bus bus)
+        {
+            DO.Bus busDo = new DO.Bus();
+            bus.CopyPropertiesTo(busDo);
+            try
+            {
+                dl.UpdateBus(busDo);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("FATAL ERROR! BUS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+            }
+        }
+        #endregion
+
+        #region Line
+        public BO.Line LineDoBoAdapter(DO.Line LineDo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<BO.Line> GetAllLinees()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddLine(BO.Line newLine)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateLine(BO.Line Line)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteLine(BO.Line Line)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region Station
+        public BO.Station StationDoBoAdapter(DO.Station StationDo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<BO.Station> GetAllStations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddStation(BO.Station newStation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateStation(BO.Station Station)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteStation(BO.Station Station)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region LineStation
+        public BO.LineStation LineStationDoBoAdapter(DO.LineStation LineStationDo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<BO.LineStation> GetAllLineStations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddLineStation(BO.LineStation newLineStation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateLineStation(BO.LineStation LineStation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteLineStation(BO.LineStation LineStation)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

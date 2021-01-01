@@ -9,7 +9,7 @@ namespace DL
 {
     static class Cloning
     {
-        //third way - With Bonus // generic shallowed copy, properties only
+         // generic shallowed copy, properties only
         internal static T Clone<T>(this T original) where T : new()
         {
             T copyToObject = new T();
@@ -19,7 +19,5 @@ namespace DL
 
             return copyToObject;
         }
-
-
     }
 }

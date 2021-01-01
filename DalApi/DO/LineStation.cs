@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-    class LineStation
+    public class LineStation
     {
         private static int running = 0;
         int id = running++; 
