@@ -12,6 +12,7 @@ namespace DS
         #region Declerations
         public static List<User> ListUsers;
         public static List<Bus> ListBuses;
+        public static List<Station> ListStations;
         #endregion
         static DataSource()
         {
@@ -48,6 +49,18 @@ namespace DS
                     MileageSinceFuel = 0,
                     MileageSinceMaintenance = 2400,
                     DateSinceMaintenance = DateTime.Parse("12.23.2019")
+                }
+            }; 
+
+            ListStations = new List<Station>
+            {
+                new Station
+                {
+                    Active = true,
+                    StationCode = 38833,
+                    StationName = "Hanachshol/Hadayagim",
+                    Latitude = 31.984553,
+                    Longitude = 34.782828
                 }
             };
         }

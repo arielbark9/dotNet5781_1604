@@ -99,14 +99,25 @@ namespace BL
         {
             DO.Bus busDo = new DO.Bus();
             bus.CopyPropertiesTo(busDo);
-            try
+            bool shouldChange = true;
+            // check for validity first
+            if (bus.LicenceNum.ToString().Length == 7 && bus.StartDate.Year >= 2018)
+                shouldChange = false;
+            else if (bus.LicenceNum.ToString().Length == 8 && bus.StartDate.Year <= 2018)
+                shouldChange = false;
+            if (shouldChange)
             {
-                dl.UpdateBus(busDo);
+                try
+                {
+                    dl.UpdateBus(busDo);
+                }
+                catch (ArgumentException ex)
+                {
+                    throw new ArgumentException("FATAL ERROR! BUS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+                }
             }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException("FATAL ERROR! BUS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
-            }
+            else
+                throw new InvalidOperationException("Error! invalid change to bus start of operation year!");
         }
         #endregion
 
@@ -116,7 +127,7 @@ namespace BL
             throw new NotImplementedException();
         }
 
-        public IEnumerable<BO.Line> GetAllLinees()
+        public IEnumerable<BO.Line> GetAllLines()
         {
             throw new NotImplementedException();
         }
@@ -138,31 +149,66 @@ namespace BL
         #endregion
 
         #region Station
-        public BO.Station StationDoBoAdapter(DO.Station StationDo)
+        public BO.Station stationDoBoAdapter(DO.Station stationDo)
         {
-            throw new NotImplementedException();
+            BO.Station stationBo = new BO.Station();
+            stationDo.CopyPropertiesTo(stationBo);
+            return stationBo;
         }
-
         public IEnumerable<BO.Station> GetAllStations()
         {
-            throw new NotImplementedException();
+            return from item in dl.GetAllStations()
+                   select stationDoBoAdapter(item);
         }
-
         public void AddStation(BO.Station newStation)
         {
-            throw new NotImplementedException();
+            bool shouldAdd = true;
+            // check for validity first
+            if (newStation.StationCode.ToString().Length != 5 && newStation.StationCode.ToString().Length != 6)
+                shouldAdd = false;
+            // add Station
+            if (shouldAdd)
+            {
+                DO.Station newStationDo = new DO.Station();
+                newStation.CopyPropertiesTo(newStationDo);
+                try
+                {
+                    dl.AddStation(newStationDo);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    throw new InvalidOperationException("Error! that Station already exists!", ex);
+                }
+            }
+            else
+                throw new ArgumentException("Provided Station is not valid!");
         }
-
-        public void UpdateStation(BO.Station Station)
+        public void UpdateStation(BO.Station station)
         {
-            throw new NotImplementedException();
+            DO.Station stationDo = new DO.Station();
+            station.CopyPropertiesTo(stationDo);
+            try
+            {
+                dl.UpdateStation(stationDo);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("FATAL ERROR! STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+            }
         }
-
-        public void DeleteStation(BO.Station Station)
+        public void DeleteStation(BO.Station station)
         {
-            throw new NotImplementedException();
+            DO.Station stationDo = new DO.Station();
+            station.CopyPropertiesTo(stationDo);
+            try
+            {
+                dl.DeleteStation(stationDo);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("FATAL ERROR! STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+            }
         }
-
         #endregion
 
         #region LineStation

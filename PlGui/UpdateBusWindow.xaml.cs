@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,12 +40,15 @@ namespace PlGui
             {
                 bl.UpdateBus(updateBus); // will stop here if an exception is thrown
                 BO.Bus bus = buses.FirstOrDefault(x => x.LicenceNum == updateBus.LicenceNum);
-                buses.Remove(bus);
-                buses.Add(updateBus);
+                updateBus.CopyPropertiesTo(bus);
             }
             catch (ArgumentException)
             {
                 MessageBox.Show("ERROR!");
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
             this.Close();
         }
@@ -53,5 +57,24 @@ namespace PlGui
         {
             this.Close();
         }
+        #region input check
+        private static bool IsTextAllowed(string text)
+        {
+            return !_regex.IsMatch(text);
+        }
+        private void mileageTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
+        private void mileageSinceFuelTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
+        private void mileageSinceMaintenanceTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
+        private static readonly Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
+        #endregion
     }
 }

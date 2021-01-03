@@ -9,6 +9,8 @@
         Title="MainAdminWindow" Height="450" Width="610">
     <Window.Resources>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Bus}, CreateList=True}"/>
+        <CollectionViewSource x:Key="stationViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Station}, CreateList=True}"/>
+        <CollectionViewSource x:Key="adjacentStationsViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:AdjacentStations}, CreateList=True}"/>
     </Window.Resources>
     <Grid>
         <TabControl>
@@ -66,7 +68,7 @@
                                 <GridViewColumn x:Name="updateColumn" Width="80">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button x:Name="pbUpdate" Content="update" Margin="3,3" Click="pbUpdate_Click"/>
+                                            <Button x:Name="pbUpdate" Content="Update" Margin="3,3" Click="pbUpdate_Click"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -86,9 +88,94 @@
                 <Grid/>
             </TabItem>
             <TabItem Header="Stations" Width="195">
-                <Grid/>
+                <Grid DataContext="{StaticResource stationViewSource}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="stationListView" Grid.ColumnSpan="1" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}"  SelectionMode="Single" Margin="5,5" MouseDoubleClick="stationListView_MouseDoubleClick">
+                        <ListView.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn x:Name="stationCodeColumn" Header="Station Code" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding StationCode}" Margin="6,-1,-6,-1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="stationNameColumn" Header="Station Name" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding StationName}" Margin="-6,-1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="DelColumn" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="pbDeleteStat" Content="Delete" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Click="pbDeleteStat_Click" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="UpdateColumn" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="pbUpdateStat" Content="Update" HorizontalAlignment="Center" VerticalAlignment="Center" Width="60" Click="pbUpdateStat_Click" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button x:Name="AddStation" Content="Add Station" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" Width="75" Grid.Row="2" Grid.Column="0" Click="AddStation_Click"/>
+                    <ListView x:Name="adjacentStationsListView" Grid.Column="1" ItemsSource="{Binding Source={StaticResource adjacentStationsViewSource}}" Margin="5,5" Grid.Row="1" SelectionMode="Single">
+                        <ListView.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn x:Name="station1Column" Header="Station 1" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Station1}" Margin="1,1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="station2Column" Header="Station 2" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Station2}" Margin="1,1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="timeColumn" Header="Time" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Time}" Margin="-6,-1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
             </TabItem>
         </TabControl>
+
 
     </Grid>
 </Window>

@@ -58,9 +58,15 @@ namespace DL
 
         public void AddBus(Bus newBus)
         {
+            DO.Bus oldBus = DataSource.ListBuses.FirstOrDefault(x => x.LicenceNum == newBus.LicenceNum);
             newBus.Active = true;
-            if (DataSource.ListBuses.FirstOrDefault(x => x.LicenceNum == newBus.LicenceNum) == null)
+            if (oldBus == null)
                 DataSource.ListBuses.Add(newBus);
+            else if (oldBus.Active == false)
+            {
+                oldBus.Active = true;
+                newBus.CopyPropertiesTo(newBus);
+            }
             else
                 throw new InvalidOperationException("ERROR! that bus already exists!");
         }
@@ -110,22 +116,38 @@ namespace DL
         #region Station
         public void AddStation(Station newStation)
         {
-            throw new NotImplementedException();
+            newStation.Active = true;
+            if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == newStation.StationCode) == null)
+                DataSource.ListStations.Add(newStation);
+            else
+                throw new InvalidOperationException("ERROR! that Station already exists!");
         }
 
         public IEnumerable<Station> GetAllStations()
         {
-            throw new NotImplementedException();
+            // Filter out non-active entities
+            return from item in DataSource.ListStations
+                   where item.Active == true
+                   select item.Clone();
         }
 
-        public void UpdateStation(Station Station)
+        public void UpdateStation(Station station)
         {
-            throw new NotImplementedException();
+            if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
+            {
+                DO.Station StationToUpdate = DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode);
+                station.CopyPropertiesTo(StationToUpdate);
+            }
+            else
+                throw new ArgumentException("Invalid Station Code");
         }
 
-        public void DeleteStation(Station Station)
+        public void DeleteStation(Station station)
         {
-            throw new NotImplementedException();
+            if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
+                DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode).Active = false;
+            else
+                throw new ArgumentException("Invalid Station Code");
         }
         #endregion
 

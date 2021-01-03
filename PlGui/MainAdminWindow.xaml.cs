@@ -26,6 +26,7 @@ namespace PlGui
         BO.User user;
         IBL bl;
         ObservableCollection<BO.Bus> buses;
+        ObservableCollection<BO.Station> stations;
         public MainAdminWindow(BO.User user, IBL bl)
         {
             InitializeComponent();
@@ -34,7 +35,10 @@ namespace PlGui
             // using more than one BL request to Bind all listviews
             buses = new ObservableCollection<BO.Bus>(from item in bl.GetAllBuses() select item);
             busListView.DataContext = buses;
+            stations = new ObservableCollection<BO.Station>(from item in bl.GetAllStations() select item);
+            stationListView.DataContext = stations;
         }
+        #region Buses View
         private void pbAddBus_Click(object sender, RoutedEventArgs e)
         {
             new AddBusWindow(bl, buses).Show();
@@ -72,5 +76,38 @@ namespace PlGui
         {
             new BusDetailsWindow((sender as ListView).SelectedItem as BO.Bus, bl).Show();
         }
+        #endregion
+
+        #region Stations View
+        private void AddStation_Click(object sender, RoutedEventArgs e)
+        {
+            new AddStationWindow(stations, bl).Show();
+        }
+        private void stationListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            new StationDetailsWindow((sender as ListView).SelectedItem as BO.Station).Show();
+        }
+        private void pbDeleteStat_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure?", "Consent", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    bl.DeleteStation((sender as Button).DataContext as BO.Station);
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                stations.Remove((sender as Button).DataContext as BO.Station);
+            }
+        }
+        private void pbUpdateStat_Click(object sender, RoutedEventArgs e)
+        {
+            BO.Station updateStation = new BO.Station();
+            ((sender as Button).DataContext as BO.Station).CopyPropertiesTo(updateStation);
+            new UpdateStationWindow(updateStation, stations, bl).Show();
+        }
+        #endregion
     }
 }
