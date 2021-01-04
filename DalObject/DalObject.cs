@@ -31,16 +31,14 @@ namespace DL
         {
             newUser.Active = true;
             if (DataSource.ListUsers.FirstOrDefault(x => x.UserName == newUser.UserName) == null)
-                DataSource.ListUsers.Add(newUser);
+                DataSource.ListUsers.Add(newUser.Clone());
             else
                 throw new InvalidOperationException("ERROR! that username already exists!");
         }
-
         public void UpdateUser(User user)
         {
             throw new NotImplementedException();
         }
-
         public void DeleteUser(User user)
         {
             throw new NotImplementedException();
@@ -55,13 +53,12 @@ namespace DL
                    where item.Active == true
                    select item.Clone();
         }
-
         public void AddBus(Bus newBus)
         {
             DO.Bus oldBus = DataSource.ListBuses.FirstOrDefault(x => x.LicenceNum == newBus.LicenceNum);
             newBus.Active = true;
             if (oldBus == null)
-                DataSource.ListBuses.Add(newBus);
+                DataSource.ListBuses.Add(newBus.Clone());
             else if (oldBus.Active == false)
             {
                 oldBus.Active = true;
@@ -70,7 +67,6 @@ namespace DL
             else
                 throw new InvalidOperationException("ERROR! that bus already exists!");
         }
-
         public void DeleteBus(Bus bus)
         {
             if(DataSource.ListBuses.FirstOrDefault(b => b.LicenceNum == bus.LicenceNum) != null)
@@ -78,7 +74,6 @@ namespace DL
             else
                 throw new ArgumentException("Invalid Bus Licence Number");
         }
-
         public void UpdateBus(Bus bus)
         {
             if (DataSource.ListBuses.FirstOrDefault(b => b.LicenceNum == bus.LicenceNum) != null)
@@ -118,11 +113,10 @@ namespace DL
         {
             newStation.Active = true;
             if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == newStation.StationCode) == null)
-                DataSource.ListStations.Add(newStation);
+                DataSource.ListStations.Add(newStation.Clone());
             else
                 throw new InvalidOperationException("ERROR! that Station already exists!");
         }
-
         public IEnumerable<Station> GetAllStations()
         {
             // Filter out non-active entities
@@ -130,7 +124,6 @@ namespace DL
                    where item.Active == true
                    select item.Clone();
         }
-
         public void UpdateStation(Station station)
         {
             if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
@@ -141,7 +134,6 @@ namespace DL
             else
                 throw new ArgumentException("Invalid Station Code");
         }
-
         public void DeleteStation(Station station)
         {
             if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
