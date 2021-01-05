@@ -237,5 +237,32 @@ namespace BL
             throw new NotImplementedException();
         }
         #endregion
+
+        #region AdjacentStations
+        public BO.AdjacentStations AdjacentStationsDoBoAdapter(DO.AdjacentStations adjStatDo)
+        {
+            BO.AdjacentStations AdjacentStationsBo = new BO.AdjacentStations();
+            adjStatDo.CopyPropertiesTo(AdjacentStationsBo);
+            return AdjacentStationsBo;
+        }
+        public IEnumerable<BO.AdjacentStations> GetAllAdjacentStations()
+        {
+            return from AdjacentStations in dl.GetAllAdjacentStations()
+                   select AdjacentStationsDoBoAdapter(AdjacentStations);
+        }
+        public void UpdateAdjacentStations(BO.AdjacentStations adjStat)
+        {
+            DO.AdjacentStations adjStatDo = new DO.AdjacentStations();
+            adjStat.CopyPropertiesTo(adjStatDo);
+            try
+            {
+                dl.UpdateAdjacentStation(adjStatDo);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("FATAL ERROR! ADJACENT STATIONS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+            }
+        }
+        #endregion
     }
 }

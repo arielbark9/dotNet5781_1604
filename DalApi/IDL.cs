@@ -48,6 +48,13 @@ namespace DLAPI
         void UpdateLineStation(DO.LineStation LineStation); // at least running num will be the same
         void DeleteLineStation(DO.LineStation LineStation);
         #endregion
-        
+
+        #region AdjacentStations
+        void AddAdjacentStation(DO.AdjacentStations newAdjacentStation);
+        IEnumerable<DO.AdjacentStations> GetAllAdjacentStations();
+        void UpdateAdjacentStation(DO.AdjacentStations adjacentStation); // at least running num will be the same
+        void DeleteAdjacentStation(DO.AdjacentStations adjacentStation);
+        #endregion
+
     }
 }

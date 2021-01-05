@@ -48,5 +48,12 @@ namespace BLAPI
         void UpdateLineStation(BO.LineStation LineStation);
         void DeleteLineStation(BO.LineStation LineStation);
         #endregion
+
+        #region AdjacentStations 
+        // no option for user to delete
+        BO.AdjacentStations AdjacentStationsDoBoAdapter(DO.AdjacentStations adjStatDo);
+        IEnumerable<BO.AdjacentStations> GetAllAdjacentStations();
+        void UpdateAdjacentStations(BO.AdjacentStations AdjStat);
+        #endregion
     }
 }

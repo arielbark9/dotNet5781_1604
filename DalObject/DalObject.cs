@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using DLAPI;
 using DO;
-//using DO;
 using DS;
 
 namespace DL
@@ -62,7 +61,7 @@ namespace DL
             else if (oldBus.Active == false)
             {
                 oldBus.Active = true;
-                newBus.CopyPropertiesTo(newBus);
+                newBus.CopyPropertiesTo(oldBus);
             }
             else
                 throw new InvalidOperationException("ERROR! that bus already exists!");
@@ -137,7 +136,14 @@ namespace DL
         public void DeleteStation(Station station)
         {
             if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
+            {
                 DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode).Active = false;
+                // deactivate entities using this station
+                if(DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
+                    DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == station.StationCode).Active = false;
+                if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode) != null)
+                    DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode).Active = false;
+            }
             else
                 throw new ArgumentException("Invalid Station Code");
         }
@@ -164,5 +170,48 @@ namespace DL
             throw new NotImplementedException();
         }
         #endregion
+
+        #region AdjacentStations
+        public void AddAdjacentStation(AdjacentStations newAdjStat)
+        {
+            DO.AdjacentStations oldAdjStat = DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == newAdjStat.Station1 && x.Station2 == newAdjStat.Station2);
+            newAdjStat.Active = true;
+            if (oldAdjStat == null)
+                DataSource.ListAdjacentStations.Add(newAdjStat.Clone());
+            else if (oldAdjStat.Active == false)
+            {
+                oldAdjStat.Active = true;
+                newAdjStat.CopyPropertiesTo(oldAdjStat);
+            }
+            else
+                throw new InvalidOperationException("ERROR! that pair of stations already exists!");
+        }
+        public IEnumerable<AdjacentStations> GetAllAdjacentStations()
+        {
+            // Filter out non-active entities
+            return from item in DataSource.ListAdjacentStations
+                   where item.Active == true
+                   select item.Clone();
+        }
+        public void UpdateAdjacentStation(AdjacentStations adjStat)
+        {
+            if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2) != null)
+            {
+                DO.AdjacentStations AdjStatToUpdate = DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2);
+                adjStat.CopyPropertiesTo(AdjStatToUpdate);
+            }
+            else
+                throw new ArgumentException("Invalid AdjacentStations Entity");
+        }
+        public void DeleteAdjacentStation(AdjacentStations adjStat)
+        {
+            // only BL deletes Adjacent stations
+            if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2) != null)
+                DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2).Active = false;
+            else
+                throw new ArgumentException("Invalid AdjacentStations Licence Number");
+        }
+        #endregion
+
     }
 }

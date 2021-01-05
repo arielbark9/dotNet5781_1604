@@ -27,6 +27,7 @@ namespace PlGui
         IBL bl;
         ObservableCollection<BO.Bus> buses;
         ObservableCollection<BO.Station> stations;
+        ObservableCollection<BO.AdjacentStations> adjStats;
         public MainAdminWindow(BO.User user, IBL bl)
         {
             InitializeComponent();
@@ -37,6 +38,8 @@ namespace PlGui
             busListView.DataContext = buses;
             stations = new ObservableCollection<BO.Station>(from item in bl.GetAllStations() select item);
             stationListView.DataContext = stations;
+            adjStats = new ObservableCollection<BO.AdjacentStations>(from item in bl.GetAllAdjacentStations() select item);
+            adjacentStationsListView.DataContext = adjStats;
         }
         #region Buses View
         private void pbAddBus_Click(object sender, RoutedEventArgs e)
@@ -89,17 +92,28 @@ namespace PlGui
         }
         private void pbDeleteStat_Click(object sender, RoutedEventArgs e)
         {
+            BO.Station delStation = (sender as Button).DataContext as BO.Station;
             if (MessageBox.Show("Are you sure?", "Consent", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 try
                 {
-                    bl.DeleteStation((sender as Button).DataContext as BO.Station);
+                    bl.DeleteStation(delStation);
                 }
                 catch (ArgumentException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
-                stations.Remove((sender as Button).DataContext as BO.Station);
+                stations.Remove(delStation);
+                List<BO.AdjacentStations> delList = new List<BO.AdjacentStations>();
+                foreach (var item in adjStats)
+                {
+                    if (item.Station1 == delStation.StationCode || item.Station2 == delStation.StationCode)
+                        delList.Add(item);
+                }
+                foreach (var item in delList)
+                {
+                    adjStats.Remove(item);
+                }
             }
         }
         private void pbUpdateStat_Click(object sender, RoutedEventArgs e)
@@ -109,5 +123,18 @@ namespace PlGui
             new UpdateStationWindow(updateStation, stations, bl).Show();
         }
         #endregion
+
+        #region AdjacentStations View
+        private void adjacentStationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            new AdjStatDetailsWindow((sender as ListView).SelectedItem as BO.AdjacentStations).Show();
+        }
+        private void pbUpdateAdjStat_Click(object sender, RoutedEventArgs e)
+        {
+            new UpdateAdjStatWindow((sender as Button).DataContext as BO.AdjacentStations, adjStats, bl).Show();
+        }
+        #endregion
+
+
     }
 }

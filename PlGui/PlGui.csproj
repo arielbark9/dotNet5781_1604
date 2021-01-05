@@ -58,9 +58,15 @@
     <Compile Include="AddStationWindow.xaml.cs">
       <DependentUpon>AddStationWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdjStatDetailsWindow.xaml.cs">
+      <DependentUpon>AdjStatDetailsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DeepCopyUtilities.cs" />
     <Compile Include="StationDetailsWindow.xaml.cs">
       <DependentUpon>StationDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateAdjStatWindow.xaml.cs">
+      <DependentUpon>UpdateAdjStatWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UpdateBusWindow.xaml.cs">
       <DependentUpon>UpdateBusWindow.xaml</DependentUpon>
@@ -73,6 +79,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddStationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdjStatDetailsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,6 +116,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="StationDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpdateAdjStatWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
