@@ -164,7 +164,7 @@ namespace BL
         {
             bool shouldAdd = true;
             // check for validity first
-            if (newStation.StationCode.ToString().Length != 5 && newStation.StationCode.ToString().Length != 6)
+            if (newStation.StationCode.ToString().Length < 3 || newStation.StationCode.ToString().Length > 6)
                 shouldAdd = false;
             // add Station
             if (shouldAdd)
