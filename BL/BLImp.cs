@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLAPI;
-using BO;
 using DLAPI;
 
 namespace BL
@@ -122,16 +121,23 @@ namespace BL
         #endregion
 
         #region Line
-        public BO.Line LineDoBoAdapter(DO.Line LineDo)
+        public BO.Line LineDoBoAdapter(DO.Line lineDo)
         {
-            throw new NotImplementedException();
+            BO.Line lineBo = new BO.Line();
+            lineDo.CopyPropertiesTo(lineBo);
+            // get the Line's Stations
+            List<DO.LineStation> StationsDo = (from s in dl.GetAllLineStations()
+                                                                          where s.LineID == lineBo.ID
+                                                                          select s).ToList();
+            lineBo.Stations = (from s in StationsDo
+                                            select LineStationDoBoAdapter(s)).ToList();
+            return lineBo;
         }
-
         public IEnumerable<BO.Line> GetAllLines()
         {
-            throw new NotImplementedException();
+            return from line in dl.GetAllLines()
+                   select LineDoBoAdapter(line);
         }
-
         public void AddLine(BO.Line newLine)
         {
             throw new NotImplementedException();
@@ -212,9 +218,21 @@ namespace BL
         #endregion
 
         #region LineStation
-        public BO.LineStation LineStationDoBoAdapter(DO.LineStation LineStationDo)
+        public BO.LineStation LineStationDoBoAdapter(DO.LineStation lineStationDo)
         {
-            throw new NotImplementedException();
+            BO.LineStation lineStationBo = new BO.LineStation();
+            lineStationDo.CopyPropertiesTo(lineStationBo);
+            lineStationBo.Station = stationDoBoAdapter(dl.GetStation(lineStationDo.StationCode));
+            if (lineStationDo.StationBeforeCode != 0)
+                lineStationBo.BeforeStation = stationDoBoAdapter(dl.GetStation(lineStationDo.StationBeforeCode));
+            else
+                lineStationBo.BeforeStation = null;
+            if (lineStationDo.StationAfterCode != 0)
+                lineStationBo.AfterStation = stationDoBoAdapter(dl.GetStation(lineStationDo.StationAfterCode));
+            else
+                lineStationBo.AfterStation = null;
+
+            return lineStationBo;
         }
 
         public IEnumerable<BO.LineStation> GetAllLineStations()

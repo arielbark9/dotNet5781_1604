@@ -93,7 +93,10 @@ namespace DL
 
         public IEnumerable<Line> GetAllLines()
         {
-            throw new NotImplementedException();
+            // Filter out non-active entities
+            return from item in DataSource.ListLines
+                   where item.Active == true
+                   select item.Clone();
         }
 
         public void UpdateLine(Line Line)
@@ -122,6 +125,13 @@ namespace DL
             return from item in DataSource.ListStations
                    where item.Active == true
                    select item.Clone();
+        }
+        public Station GetStation(int stationCode)
+        {
+            if (DataSource.ListStations.Where(x => x.Active == true).FirstOrDefault(x => x.StationCode == stationCode) != null)
+                return DataSource.ListStations.Where(x => x.Active == true).FirstOrDefault(x => x.StationCode == stationCode);
+            else
+                throw new ArgumentException("Invalid Station Code");
         }
         public void UpdateStation(Station station)
         {
@@ -157,7 +167,10 @@ namespace DL
 
         public IEnumerable<LineStation> GetAllLineStations()
         {
-            throw new NotImplementedException();
+            // Filter out non-active entities
+            return from item in DataSource.ListLineStations
+                   where item.Active == true
+                   select item.Clone();
         }
 
         public void UpdateLineStation(LineStation LineStation)

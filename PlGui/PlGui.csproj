@@ -167,5 +167,11 @@
       <Name>BL</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Bus Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bus-icon-flat-style-vector-7995329.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

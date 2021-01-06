@@ -10,7 +10,7 @@ namespace DO
     {
         private static int running = 0;
         int id = running++;
-        public int ID { get=>id; }
+        public int ID { get => id; set => id = value; }
         public int LineNum { get; set; }
         public int FirstStation { get; set; }
         public int LastStation { get; set; }

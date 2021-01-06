@@ -26,6 +26,7 @@ namespace PlGui
         BO.User user;
         IBL bl;
         ObservableCollection<BO.Bus> buses;
+        ObservableCollection<BO.Line> lines;
         ObservableCollection<BO.Station> stations;
         ObservableCollection<BO.AdjacentStations> adjStats;
         public MainAdminWindow(BO.User user, IBL bl)
@@ -33,9 +34,13 @@ namespace PlGui
             InitializeComponent();
             this.user = user;
             this.bl = bl;
+            labelGreeting.Content = $"Hello {user.UserName}! Welcome to Ariel's Bus handeling system";
             // using more than one BL request to Bind all listviews
             buses = new ObservableCollection<BO.Bus>(from item in bl.GetAllBuses() select item);
             busListView.DataContext = buses;
+            lines = new ObservableCollection<BO.Line>(from item in bl.GetAllLines() select item);
+            cbLineNum.ItemsSource = lines;
+            cbLineNum.DisplayMemberPath = " LineNum ";
             stations = new ObservableCollection<BO.Station>(from item in bl.GetAllStations() select item);
             stationListView.DataContext = stations;
             adjStats = new ObservableCollection<BO.AdjacentStations>(from item in bl.GetAllAdjacentStations() select item);
@@ -135,6 +140,8 @@ namespace PlGui
         }
         #endregion
 
+        #region Lines View
 
+        #endregion
     }
 }

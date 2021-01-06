@@ -38,6 +38,7 @@ namespace DLAPI
         #region Station
         void AddStation(DO.Station newStation);
         IEnumerable<DO.Station> GetAllStations();
+        DO.Station GetStation(int stationCode);
         void UpdateStation(DO.Station Station); // at least running num will be the same
         void DeleteStation(DO.Station Station);
         #endregion

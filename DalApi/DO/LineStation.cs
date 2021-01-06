@@ -9,10 +9,10 @@ namespace DO
     public class LineStation
     {
         public bool Active { get; set; }
-        public int LineNum { get; set; }
+        public int LineID { get; set; }
         public int StationCode { get; set; }
-        public int StationBefore { get; set; }
-        public int StationAfter { get; set; }
+        public int StationBeforeCode { get; set; }
+        public int StationAfterCode { get; set; }
         public int StationPlacement { get; set; }
     }
 }

@@ -231,190 +231,190 @@ namespace DS
                 {
                     Active = true,
                     StationCode = 2524,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 0,
-                    StationBefore = 0,
-                    StationAfter = 276
+                    StationBeforeCode = 0,
+                    StationAfterCode = 276
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 276,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 1,
-                    StationBefore = 2524,
-                    StationAfter = 277
+                    StationBeforeCode = 2524,
+                    StationAfterCode = 277
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 277,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 2,
-                    StationBefore = 276,
-                    StationAfter = 2538
+                    StationBeforeCode = 276,
+                    StationAfterCode = 2538
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 2538,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 3,
-                    StationBefore = 277,
-                    StationAfter = 2944
+                    StationBeforeCode = 277,
+                    StationAfterCode = 2944
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 2944,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 4,
-                    StationBefore = 2538,
-                    StationAfter = 2539
+                    StationBeforeCode = 2538,
+                    StationAfterCode = 2539
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 2539,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 5,
-                    StationBefore = 2944,
-                    StationAfter = 4216
+                    StationBeforeCode = 2944,
+                    StationAfterCode = 4216
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 4216,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 6,
-                    StationBefore = 2539,
-                    StationAfter = 4159
+                    StationBeforeCode = 2539,
+                    StationAfterCode = 4159
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 4159,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 7,
-                    StationBefore = 4216,
-                    StationAfter = 800
+                    StationBeforeCode = 4216,
+                    StationAfterCode = 800
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 800,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 8,
-                    StationBefore = 4159,
-                    StationAfter = 3375
+                    StationBeforeCode = 4159,
+                    StationAfterCode = 3375
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 3375,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 9,
-                    StationBefore = 800,
-                    StationAfter = 221
+                    StationBeforeCode = 800,
+                    StationAfterCode = 221
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 221,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 10,
-                    StationBefore = 3375,
-                    StationAfter = 2531
+                    StationBeforeCode = 3375,
+                    StationAfterCode = 2531
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 2531,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 11,
-                    StationBefore = 221,
-                    StationAfter = 973
+                    StationBeforeCode = 221,
+                    StationAfterCode = 973
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 973,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 12,
-                    StationBefore = 2531,
-                    StationAfter = 975
+                    StationBeforeCode = 2531,
+                    StationAfterCode = 975
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 975,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 13,
-                    StationBefore = 973,
-                    StationAfter = 6094
+                    StationBeforeCode = 973,
+                    StationAfterCode = 6094
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 6094,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 14,
-                    StationBefore = 975,
-                    StationAfter = 950
+                    StationBeforeCode = 975,
+                    StationAfterCode = 950
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 950,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 15,
-                    StationBefore = 6094,
-                    StationAfter = 1512
+                    StationBeforeCode = 6094,
+                    StationAfterCode = 1512
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 1512,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 16,
-                    StationBefore = 950,
-                    StationAfter = 1539
+                    StationBeforeCode = 950,
+                    StationAfterCode = 1539
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 1539,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 17,
-                    StationBefore = 1512,
-                    StationAfter = 2398
+                    StationBeforeCode = 1512,
+                    StationAfterCode = 2398
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 2398,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 18,
-                    StationBefore = 1539,
-                    StationAfter = 222
+                    StationBeforeCode = 1539,
+                    StationAfterCode = 222
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 222,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 19,
-                    StationBefore = 2398,
-                    StationAfter = 3093
+                    StationBeforeCode = 2398,
+                    StationAfterCode = 3093
                 },
                 new LineStation
                 {
                     Active = true,
                     StationCode = 3093,
-                    LineNum = 6,
+                    LineID = 0,
                     StationPlacement = 20,
-                    StationBefore = 222,
-                    StationAfter = 0
+                    StationBeforeCode = 222,
+                    StationAfterCode = 0
                 }
             };
             ListLines = new List<Line>
@@ -423,6 +423,7 @@ namespace DS
                 {
                     Active = true,
                     LineNum = 6,
+                    ID = 0,
                     Region = Area.Jerusalem,
                     FirstStation = 2524,
                     LastStation = 3093
