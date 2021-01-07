@@ -31,6 +31,7 @@ namespace DLAPI
         #region Line
         void AddLine(DO.Line newLine);
         IEnumerable<DO.Line> GetAllLines();
+        DO.Line GetLine(int lineID);
         void UpdateLine(DO.Line Line); // at least running num will be the same
         void DeleteLine(DO.Line Line);
         #endregion
@@ -46,6 +47,7 @@ namespace DLAPI
         #region LineStation
         void AddLineStation(DO.LineStation newLineStation);
         IEnumerable<DO.LineStation> GetAllLineStations();
+        DO.LineStation GetLineStation(int lineID, int stationCode);
         void UpdateLineStation(DO.LineStation LineStation); // at least running num will be the same
         void DeleteLineStation(DO.LineStation LineStation);
         #endregion
@@ -53,8 +55,10 @@ namespace DLAPI
         #region AdjacentStations
         void AddAdjacentStation(DO.AdjacentStations newAdjacentStation);
         IEnumerable<DO.AdjacentStations> GetAllAdjacentStations();
-        void UpdateAdjacentStation(DO.AdjacentStations adjacentStation); // at least running num will be the same
+        DO.AdjacentStations GetAdjacentStations(int stationCode1, int stationCode2);
+        void UpdateAdjacentStation(DO.AdjacentStations adjacentStation);
         void DeleteAdjacentStation(DO.AdjacentStations adjacentStation);
+        void DeleteAdjacentStationsAssociated(int stationCode);
         #endregion
 
     }

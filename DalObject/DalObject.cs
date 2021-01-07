@@ -90,7 +90,6 @@ namespace DL
         {
             throw new NotImplementedException();
         }
-
         public IEnumerable<Line> GetAllLines()
         {
             // Filter out non-active entities
@@ -98,12 +97,17 @@ namespace DL
                    where item.Active == true
                    select item.Clone();
         }
-
+        public Line GetLine(int lineID)
+        {
+            if (DataSource.ListLines.Where(x => x.Active == true).FirstOrDefault(x => x.ID == lineID) != null)
+                return DataSource.ListLines.Where(x => x.Active == true).FirstOrDefault(x => x.ID == lineID);
+            else
+                throw new ArgumentException("Invalid line ID");
+        }
         public void UpdateLine(Line Line)
         {
             throw new NotImplementedException();
         }
-
         public void DeleteLine(Line Line)
         {
             throw new NotImplementedException();
@@ -151,8 +155,12 @@ namespace DL
                 // deactivate entities using this station
                 if(DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
                     DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == station.StationCode).Active = false;
+
                 if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode) != null)
-                    DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode).Active = false;
+                    foreach (var adjStat in DataSource.ListAdjacentStations.ToList().FindAll(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode))
+                    {
+                        adjStat.Active = false;
+                    }
             }
             else
                 throw new ArgumentException("Invalid Station Code");
@@ -164,7 +172,6 @@ namespace DL
         {
             throw new NotImplementedException();
         }
-
         public IEnumerable<LineStation> GetAllLineStations()
         {
             // Filter out non-active entities
@@ -172,7 +179,13 @@ namespace DL
                    where item.Active == true
                    select item.Clone();
         }
-
+        public LineStation GetLineStation(int lineID, int stationCode)
+        {
+            if (DataSource.ListLineStations.Where(x => x.Active == true).FirstOrDefault(x => (x.StationCode == stationCode && x.LineID == lineID)) != null)
+                return DataSource.ListLineStations.Where(x => x.Active == true).FirstOrDefault(x => x.StationCode == stationCode && x.LineID == lineID);
+            else
+                throw new ArgumentException("Invalid Station and Line Code");
+        }
         public void UpdateLineStation(LineStation LineStation)
         {
             throw new NotImplementedException();
@@ -206,6 +219,13 @@ namespace DL
                    where item.Active == true
                    select item.Clone();
         }
+        public AdjacentStations GetAdjacentStations(int stationCode1, int stationCode2)
+        {
+            if (DataSource.ListAdjacentStations.Where(x => x.Active == true).FirstOrDefault(x => (x.Station1 == stationCode1 && x.Station2 == stationCode2)) != null)
+                return DataSource.ListAdjacentStations.Where(x => x.Active == true).FirstOrDefault(x => (x.Station1 == stationCode1 && x.Station2 == stationCode2));
+            else
+                throw new ArgumentException("Invalid Adjacent Station Pair");
+        }
         public void UpdateAdjacentStation(AdjacentStations adjStat)
         {
             if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2) != null)
@@ -222,7 +242,14 @@ namespace DL
             if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2) != null)
                 DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2).Active = false;
             else
-                throw new ArgumentException("Invalid AdjacentStations Licence Number");
+                throw new ArgumentException("Invalid AdjacentStations Entity");
+        }
+        public void DeleteAdjacentStationsAssociated(int stationCode)
+        {
+            if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == stationCode || x.Station2 == stationCode) != null)
+                DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == stationCode || x.Station2 == stationCode).Active = false;
+            else
+                throw new ArgumentException("Invalid AdjacentStations Code");
         }
         #endregion
 

@@ -13,11 +13,12 @@ namespace BO
         private double latitude;
         private string stationName;
         private double longitude;
+        private List<LineStation> lineStationsByStation;
 
         public int StationCode { get; set; }
         public string StationName
         {
-            get => stationName; 
+            get => stationName;
             set
             {
                 stationName = value;
@@ -26,7 +27,7 @@ namespace BO
         }
         public double Latitude
         {
-            get => latitude; 
+            get => latitude;
             set
             {
                 latitude = value;
@@ -35,10 +36,19 @@ namespace BO
         }
         public double Longitude
         {
-            get => longitude; 
+            get => longitude;
             set
             {
                 longitude = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<LineStation> LineStationsByStation
+        {
+            get => lineStationsByStation; 
+            set
+            {
+                lineStationsByStation = value;
                 OnPropertyChanged();
             }
         }

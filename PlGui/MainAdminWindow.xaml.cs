@@ -93,7 +93,7 @@ namespace PlGui
         }
         private void stationListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            new StationDetailsWindow((sender as ListView).SelectedItem as BO.Station).Show();
+            new StationDetailsWindow((sender as ListView).SelectedItem as BO.Station, bl).Show();
         }
         private void pbDeleteStat_Click(object sender, RoutedEventArgs e)
         {

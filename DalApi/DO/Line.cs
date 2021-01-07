@@ -12,8 +12,8 @@ namespace DO
         int id = running++;
         public int ID { get => id; set => id = value; }
         public int LineNum { get; set; }
-        public int FirstStation { get; set; }
-        public int LastStation { get; set; }
+        public int FirstStationCode { get; set; }
+        public int LastStationCode { get; set; }
         public Area Region { get; set; }
         public bool Active { get;set; }
         

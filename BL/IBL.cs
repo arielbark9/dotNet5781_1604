@@ -28,9 +28,11 @@ namespace BLAPI
         #region Line
         BO.Line LineDoBoAdapter(DO.Line LineDo);
         IEnumerable<BO.Line> GetAllLines();
+        IEnumerable<BO.Line> GetLinesThatGoThroughStation(int stationCode);
         void AddLine(BO.Line newLine);
         void UpdateLine(BO.Line Line);
         void DeleteLine(BO.Line Line);
+        void DeleteStationInLine(BO.Line line, int stationCode);
         #endregion
 
         #region Station

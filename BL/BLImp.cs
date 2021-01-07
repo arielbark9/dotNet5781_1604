@@ -60,8 +60,9 @@ namespace BL
                 shouldAdd = false;
             else if (newBus.LicenceNum.ToString().Length == 8 && newBus.StartDate.Year <= 2018)
                 shouldAdd = false;
-
             if (newBus.LicenceNum.ToString().Length != 7 && newBus.LicenceNum.ToString().Length != 8)
+                shouldAdd = false;
+            if (newBus.MileageSinceFuel > newBus.Mileage || newBus.MileageSinceMaintenance > newBus.Mileage)
                 shouldAdd = false;
 
             // add bus
@@ -126,17 +127,29 @@ namespace BL
             BO.Line lineBo = new BO.Line();
             lineDo.CopyPropertiesTo(lineBo);
             // get the Line's Stations
-            List<DO.LineStation> StationsDo = (from s in dl.GetAllLineStations()
-                                                                          where s.LineID == lineBo.ID
-                                                                          select s).ToList();
-            lineBo.Stations = (from s in StationsDo
+            lineBo.Stations = (from s in dl.GetAllLineStations()
+                                            where s.LineID == lineBo.ID
                                             select LineStationDoBoAdapter(s)).ToList();
+            lineBo.LastStation = stationDoBoAdapter(dl.GetStation(lineBo.Stations.Last().StationCode));
+            // get the Adjacent stations associated with the line
+            lineBo.AdjStats = new List<BO.AdjacentStations>();
+            for (int i = 0; i < lineBo.Stations.Count - 1; i++)
+                lineBo.AdjStats.Add(AdjacentStationsDoBoAdapter(dl.GetAdjacentStations(lineBo.Stations[i].StationCode, lineBo.Stations[i + 1].StationCode)));
+
             return lineBo;
         }
         public IEnumerable<BO.Line> GetAllLines()
         {
             return from line in dl.GetAllLines()
                    select LineDoBoAdapter(line);
+        }
+        public IEnumerable<BO.Line> GetLinesThatGoThroughStation(int stationCode)
+        {
+            BO.Station s =  stationDoBoAdapter(dl.GetStation(stationCode));
+            return from line in dl.GetAllLines() // foreach line
+                   let lineBo = LineDoBoAdapter(line) // convert line
+                   where lineBo.Stations.FirstOrDefault(x => x.StationCode == stationCode) != null //if line contains station
+                   select lineBo;
         }
         public void AddLine(BO.Line newLine)
         {
@@ -152,6 +165,35 @@ namespace BL
         {
             throw new NotImplementedException();
         }
+        public void DeleteStationInLine(BO.Line line, int stationCode)
+        {
+            // update adjacent stations
+            if (line.Stations[0].StationCode == stationCode || line.Stations.Last().StationCode == stationCode) // if station is first or last in line
+                line.AdjStats.RemoveAll(x => (x.Station1 == stationCode || x.Station2 == stationCode));
+            else // need to update adjacent stations
+            {
+                BO.AdjacentStations oldAdjStatBefore = line.AdjStats.Find(x => x.Station2 == stationCode); // the station before
+                BO.AdjacentStations oldAdjStatAfter = line.AdjStats.Find(x => x.Station1 == stationCode); // the station after
+                BO.AdjacentStations newAdjacentStations =
+                    new BO.AdjacentStations
+                    {
+                        Station1 = oldAdjStatBefore.Station1,
+                        Station2 = oldAdjStatAfter.Station2,
+                        Time = oldAdjStatBefore.Time + oldAdjStatAfter.Time
+                    };
+                //Add the new pair
+                DO.AdjacentStations newAdjStatDo = new DO.AdjacentStations();
+                newAdjacentStations.CopyPropertiesTo(newAdjStatDo);
+                dl.AddAdjacentStation(newAdjStatDo);
+                //update line
+                line.AdjStats.RemoveAll(x => (x.Station1 == stationCode || x.Station2 == stationCode));
+                line.AdjStats.Add(newAdjacentStations);
+            }
+
+            line.Stations.RemoveAll(x => x.StationCode == stationCode);
+            line.LastStation = stationDoBoAdapter(dl.GetStation(line.Stations.Last().StationCode)); // update last station
+        }
+
         #endregion
 
         #region Station
@@ -159,6 +201,10 @@ namespace BL
         {
             BO.Station stationBo = new BO.Station();
             stationDo.CopyPropertiesTo(stationBo);
+            // get the Station's lines
+            stationBo.LineStationsByStation = (from s in dl.GetAllLineStations()
+                                               where s.StationCode == stationBo.StationCode
+                                               select LineStationDoBoAdapter(s)).ToList();
             return stationBo;
         }
         public IEnumerable<BO.Station> GetAllStations()
@@ -206,6 +252,11 @@ namespace BL
         {
             DO.Station stationDo = new DO.Station();
             station.CopyPropertiesTo(stationDo);
+            //update all lines first
+            foreach (var line in GetLinesThatGoThroughStation(station.StationCode))
+            {
+                DeleteStationInLine(line, station.StationCode);
+            }
             try
             {
                 dl.DeleteStation(stationDo);
@@ -214,7 +265,10 @@ namespace BL
             {
                 throw new ArgumentException("FATAL ERROR! STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
+            
         }
+
+        
         #endregion
 
         #region LineStation
@@ -222,19 +276,8 @@ namespace BL
         {
             BO.LineStation lineStationBo = new BO.LineStation();
             lineStationDo.CopyPropertiesTo(lineStationBo);
-            lineStationBo.Station = stationDoBoAdapter(dl.GetStation(lineStationDo.StationCode));
-            if (lineStationDo.StationBeforeCode != 0)
-                lineStationBo.BeforeStation = stationDoBoAdapter(dl.GetStation(lineStationDo.StationBeforeCode));
-            else
-                lineStationBo.BeforeStation = null;
-            if (lineStationDo.StationAfterCode != 0)
-                lineStationBo.AfterStation = stationDoBoAdapter(dl.GetStation(lineStationDo.StationAfterCode));
-            else
-                lineStationBo.AfterStation = null;
-
             return lineStationBo;
         }
-
         public IEnumerable<BO.LineStation> GetAllLineStations()
         {
             throw new NotImplementedException();
@@ -280,6 +323,10 @@ namespace BL
             {
                 throw new ArgumentException("FATAL ERROR! ADJACENT STATIONS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
+        }
+        private void DeleteAllAdjacentStationsAssociated(int stationCode)
+        {
+            dl.DeleteAdjacentStationsAssociated(stationCode);
         }
         #endregion
     }

@@ -33,6 +33,8 @@ namespace BO
                 OnPropertyChanged();
             }
         }
+        public Station LastStation { get; set; }
+        public  List<BO.AdjacentStations> AdjStats { get; set; }
         public BO.Area Region
         {
             get => region;

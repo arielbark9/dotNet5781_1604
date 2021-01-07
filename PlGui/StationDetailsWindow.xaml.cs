@@ -21,11 +21,14 @@ namespace PlGui
     public partial class StationDetailsWindow : Window
     {
         BO.Station displayStat;
-        public StationDetailsWindow(BO.Station station)
+        IBL bl;
+        public StationDetailsWindow(BO.Station station, IBL bl)
         {
             displayStat = station;
+            this.bl = bl;
             InitializeComponent();
             gridViewStat.DataContext = displayStat;
+            linesByStationListView.ItemsSource = bl.GetLinesThatGoThroughStation(displayStat.StationCode);
         }
     }
 }

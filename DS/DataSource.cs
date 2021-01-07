@@ -425,8 +425,8 @@ namespace DS
                     LineNum = 6,
                     ID = 0,
                     Region = Area.Jerusalem,
-                    FirstStation = 2524,
-                    LastStation = 3093
+                    FirstStationCode = 2524,
+                    LastStationCode = 3093
                 }
             };
             ListAdjacentStations = new List<AdjacentStations>
