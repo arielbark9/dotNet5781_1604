@@ -49,7 +49,7 @@ namespace PlGui
         #region Buses View
         private void pbAddBus_Click(object sender, RoutedEventArgs e)
         {
-            new AddBusWindow(bl, buses).Show();
+            new AddBusWindow(bl, buses).ShowDialog();
         }
 
         private void pbDrive_Click(object sender, RoutedEventArgs e)
@@ -77,7 +77,7 @@ namespace PlGui
         {
             BO.Bus updateBus = new BO.Bus();
             ((sender as Button).DataContext as BO.Bus).CopyPropertiesTo(updateBus);
-            new UpdateBusWindow(updateBus, buses, bl).Show();
+            new UpdateBusWindow(updateBus, buses, bl).ShowDialog();
         }
 
         private void busListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -89,7 +89,7 @@ namespace PlGui
         #region Stations View
         private void AddStation_Click(object sender, RoutedEventArgs e)
         {
-            new AddStationWindow(stations, bl).Show();
+            new AddStationWindow(stations, bl).ShowDialog();
         }
         private void stationListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -110,7 +110,7 @@ namespace PlGui
                 }
                 stations.Remove(delStation);
                 List<BO.AdjacentStations> delList = new List<BO.AdjacentStations>();
-                // update adjacent stations
+                // update adjacent stations view
                 adjStats.Clear();
                 foreach (var adjStat in bl.GetAllAdjacentStations())
                     adjStats.Add(adjStat);
@@ -120,7 +120,7 @@ namespace PlGui
         {
             BO.Station updateStation = new BO.Station();
             ((sender as Button).DataContext as BO.Station).CopyPropertiesTo(updateStation);
-            new UpdateStationWindow(updateStation, stations, bl).Show();
+            new UpdateStationWindow(updateStation, stations, bl).ShowDialog();
         }
         #endregion
 
@@ -131,7 +131,7 @@ namespace PlGui
         }
         private void pbUpdateAdjStat_Click(object sender, RoutedEventArgs e)
         {
-            new UpdateAdjStatWindow((sender as Button).DataContext as BO.AdjacentStations, adjStats, bl).Show();
+            new UpdateAdjStatWindow((sender as Button).DataContext as BO.AdjacentStations, adjStats, bl).ShowDialog();
         }
         #endregion
 

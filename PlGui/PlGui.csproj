@@ -61,6 +61,7 @@
     <Compile Include="AdjStatDetailsWindow.xaml.cs">
       <DependentUpon>AdjStatDetailsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters.cs" />
     <Compile Include="DeepCopyUtilities.cs" />
     <Compile Include="StationDetailsWindow.xaml.cs">
       <DependentUpon>StationDetailsWindow.xaml</DependentUpon>
