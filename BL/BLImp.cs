@@ -193,7 +193,6 @@ namespace BL
             line.Stations.RemoveAll(x => x.StationCode == stationCode);
             line.LastStation = stationDoBoAdapter(dl.GetStation(line.Stations.Last().StationCode)); // update last station
         }
-
         #endregion
 
         #region Station
@@ -321,9 +320,10 @@ namespace BL
                 throw new ArgumentException("FATAL ERROR! ADJACENT STATIONS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
         }
-        private void DeleteAllAdjacentStationsAssociated(int stationCode)
+        private void AddAdjacentStations(BO.LineStation s1, BO.LineStation s2, TimeSpan time)
         {
-            dl.DeleteAdjacentStationsAssociated(stationCode);
+            DO.AdjacentStations adjStatDo = new DO.AdjacentStations { Active = true, Station1 = s1.StationCode, Station2 = s2.StationCode, Time = time};
+            dl.AddAdjacentStation(adjStatDo);
         }
         #endregion
     }

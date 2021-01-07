@@ -105,7 +105,7 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Line Number :" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
-                        <ComboBox x:Name="cbLineNum" Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16" Width="80"/>
+                        <ComboBox x:Name="cbLineNum" Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16" Width="80" SelectionChanged="cbLineNum_SelectionChanged"/>
                         <Label Content="Region :" Grid.Column="2" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
                         <Label x:Name="labelArea" Grid.Column="3" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
                         <Button x:Name="pbAddLine" Content="New Line" Grid.Column="5" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16"/>

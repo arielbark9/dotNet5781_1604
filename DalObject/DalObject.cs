@@ -186,14 +186,30 @@ namespace DL
             else
                 throw new ArgumentException("Invalid Station and Line Code");
         }
-        public void UpdateLineStation(LineStation LineStation)
+        public void UpdateLineStation(LineStation lineStation)
         {
-            throw new NotImplementedException();
+            if (DataSource.ListLineStations.FirstOrDefault(x => (x.StationCode == lineStation.StationCode && x.LineID == lineStation.LineID)) != null)
+            {
+                DO.LineStation LineStationToUpdate = DataSource.ListLineStations.FirstOrDefault(x => (x.StationCode == lineStation.StationCode && x.LineID == lineStation.LineID));
+                lineStation.CopyPropertiesTo(LineStationToUpdate);
+            }
+            else
+                throw new ArgumentException("Invalid Station Code");
         }
-
         public void DeleteLineStation(LineStation LineStation)
         {
-            throw new NotImplementedException();
+            if (DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == LineStation.StationCode) != null)
+            {
+                DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == LineStation.StationCode).Active = false;
+                // deactivate entities using this LineStation
+                if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == LineStation.StationCode || x.Station2 == LineStation.StationCode) != null)
+                    foreach (var adjStat in DataSource.ListAdjacentStations.ToList().FindAll(x => x.Station1 == LineStation.StationCode || x.Station2 == LineStation.StationCode))
+                    {
+                        adjStat.Active = false;
+                    }
+            }
+            else
+                throw new ArgumentException("Invalid Station Code");
         }
         #endregion
 

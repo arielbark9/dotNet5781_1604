@@ -136,7 +136,12 @@ namespace PlGui
         #endregion
 
         #region Lines View
+        private void cbLineNum_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+        }
         #endregion
+
+
     }
 }
