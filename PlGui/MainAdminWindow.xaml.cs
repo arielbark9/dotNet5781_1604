@@ -110,15 +110,10 @@ namespace PlGui
                 }
                 stations.Remove(delStation);
                 List<BO.AdjacentStations> delList = new List<BO.AdjacentStations>();
-                foreach (var item in adjStats)
-                {
-                    if (item.Station1 == delStation.StationCode || item.Station2 == delStation.StationCode)
-                        delList.Add(item);
-                }
-                foreach (var item in delList)
-                {
-                    adjStats.Remove(item);
-                }
+                // update adjacent stations
+                adjStats.Clear();
+                foreach (var adjStat in bl.GetAllAdjacentStations())
+                    adjStats.Add(adjStat);
             }
         }
         private void pbUpdateStat_Click(object sender, RoutedEventArgs e)

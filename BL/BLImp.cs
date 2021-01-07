@@ -265,10 +265,7 @@ namespace BL
             {
                 throw new ArgumentException("FATAL ERROR! STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
-            
         }
-
-        
         #endregion
 
         #region LineStation
