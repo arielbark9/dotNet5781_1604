@@ -6,14 +6,12 @@
         xmlns:local="clr-namespace:PlGui"
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.StationDetailsWindow"
         mc:Ignorable="d"
-        Title="StationDetailsWindow" Height="250" Width="auto" MaxWidth="600" ResizeMode="CanMinimize">
+        Title="StationDetailsWindow" Height="250" Width="500" ResizeMode="CanMinimize">
     <Window.Resources>
         <CollectionViewSource x:Key="stationViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Station}, CreateList=True}"/>
         <CollectionViewSource x:Key="lineViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Line}, CreateList=True}"/>
-        <local:StationToStationCodeConverter x:Key="StationToStationCodeConverter" />
-        <local:StationToStationNameConverter x:Key="StationToStationNameConverter" />
     </Window.Resources>
-    <Grid x:Name="gridViewStat" VerticalAlignment="Stretch" Margin="0" Width="auto" HorizontalAlignment="Left" DataContext="{StaticResource stationViewSource}">
+    <Grid x:Name="gridViewStat" VerticalAlignment="Stretch" Margin="0" Width="auto" DataContext="{StaticResource stationViewSource}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
@@ -33,7 +31,7 @@
         <Label x:Name="stationCodeLabel" Width="auto" VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding StationCode}"/>
         <Label VerticalAlignment="Center" Width="auto" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Station Name:"/>
         <Label x:Name="stationNameLabel" Width="auto" VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="1" Content="{Binding StationName}"/>
-        <ListView x:Name="linesByStationListView" ItemsSource="{Binding Source={StaticResource lineViewSource}}" Margin="0" Grid.RowSpan="4" SelectionMode="Single" Grid.Column="2" Width="auto" HorizontalAlignment="Left">
+        <ListView x:Name="linesByStationListView" ItemsSource="{Binding Source={StaticResource lineViewSource}}" Margin="0" Grid.RowSpan="4" SelectionMode="Single" Grid.Column="2" Width="auto">
             <ListView.ItemContainerStyle>
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
@@ -52,14 +50,14 @@
                     <GridViewColumn x:Name="lastStationNameColumn" Header="Last Station Name" Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding LastStation, Converter={StaticResource StationToStationNameConverter}}" Margin="6,-1,-6,-1"/>
+                                <Label Content="{Binding LastStation.StationName}" Margin="6,-1,-6,-1"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn x:Name="lastStationCodeColumn" Header="Code" Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding LastStation, Converter={StaticResource StationToStationCodeConverter}}" Margin="6,-1,-6,-1"/>
+                                <Label Content="{Binding LastStation.StationCode}" Margin="6,-1,-6,-1"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

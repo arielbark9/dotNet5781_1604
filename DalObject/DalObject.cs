@@ -104,9 +104,15 @@ namespace DL
             else
                 throw new ArgumentException("Invalid line ID");
         }
-        public void UpdateLine(Line Line)
+        public void UpdateLine(Line line)
         {
-            throw new NotImplementedException();
+            if (DataSource.ListLines.FirstOrDefault(b => b.ID == line.ID) != null)
+            {
+                DO.Line lineToUpdate = DataSource.ListLines.FirstOrDefault(b => b.ID == line.ID);
+                line.CopyPropertiesTo(lineToUpdate);
+            }
+            else
+                throw new ArgumentException("Invalid Line ID Number");
         }
         public void DeleteLine(Line Line)
         {
@@ -154,7 +160,10 @@ namespace DL
                 DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode).Active = false;
                 // deactivate entities using this station
                 if(DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
-                    DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == station.StationCode).Active = false;
+                    foreach (var lineStation in DataSource.ListLineStations.ToList().FindAll(x => x.StationCode == station.StationCode))
+                    {
+                        lineStation.Active = false;
+                    }
 
                 if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode) != null)
                     foreach (var adjStat in DataSource.ListAdjacentStations.ToList().FindAll(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode))

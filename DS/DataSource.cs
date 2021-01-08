@@ -415,6 +415,33 @@ namespace DS
                     StationPlacement = 20,
                     StationBeforeCode = 222,
                     StationAfterCode = 0
+                },
+                new LineStation
+                {
+                    Active = true,
+                    StationCode = 2398,
+                    LineID = 1,
+                    StationPlacement = 0,
+                    StationBeforeCode = 1539,
+                    StationAfterCode = 222
+                },
+                new LineStation
+                {
+                    Active = true,
+                    StationCode = 222,
+                    LineID = 1,
+                    StationPlacement = 1,
+                    StationBeforeCode = 2398,
+                    StationAfterCode = 3093
+                },
+                new LineStation
+                {
+                    Active = true,
+                    StationCode = 3093,
+                    LineID = 1,
+                    StationPlacement = 2,
+                    StationBeforeCode = 222,
+                    StationAfterCode = 0
                 }
             };
             ListLines = new List<Line>
@@ -426,6 +453,15 @@ namespace DS
                     ID = 0,
                     Region = Area.Jerusalem,
                     FirstStationCode = 2524,
+                    LastStationCode = 3093
+                },
+                new Line
+                {
+                    Active = true,
+                    LineNum = 18,
+                    ID = 1,
+                    Region = Area.General,
+                    FirstStationCode = 2398,
                     LastStationCode = 3093
                 }
             };

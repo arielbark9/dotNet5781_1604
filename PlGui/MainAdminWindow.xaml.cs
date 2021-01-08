@@ -35,12 +35,13 @@ namespace PlGui
             this.user = user;
             this.bl = bl;
             labelGreeting.Content = $"Hello {user.UserName}! Welcome to Ariel's Bus handeling system";
-            // using more than one BL request to Bind all listviews
+            // using more than one BL request to Bind all listviews With Hirearchial Data Context
             buses = new ObservableCollection<BO.Bus>(from item in bl.GetAllBuses() select item);
             busListView.DataContext = buses;
             lines = new ObservableCollection<BO.Line>(from item in bl.GetAllLines() select item);
-            cbLineNum.ItemsSource = lines;
-            cbLineNum.DisplayMemberPath = " LineNum ";
+            gridViewLines.DataContext = lines;
+            lineStationsListView.DataContext = lines[0].Stations;
+            cbLineNum.SelectedItem = lines[0];
             stations = new ObservableCollection<BO.Station>(from item in bl.GetAllStations() select item);
             stationListView.DataContext = stations;
             adjStats = new ObservableCollection<BO.AdjacentStations>(from item in bl.GetAllAdjacentStations() select item);
@@ -108,8 +109,12 @@ namespace PlGui
                 {
                     MessageBox.Show(ex.Message);
                 }
+                // Stations View Update
                 stations.Remove(delStation);
-                List<BO.AdjacentStations> delList = new List<BO.AdjacentStations>();
+                // update linesView
+                lines.Clear();
+                foreach (var line in bl.GetAllLines())
+                    lines.Add(line);
                 // update adjacent stations view
                 adjStats.Clear();
                 foreach (var adjStat in bl.GetAllAdjacentStations())
@@ -138,7 +143,9 @@ namespace PlGui
         #region Lines View
         private void cbLineNum_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            BO.Line line = (sender as ComboBox).SelectedItem as BO.Line;
+            if (line != null)
+                lineStationsListView.DataContext = bl.GetLine(line.ID).Stations;
         }
         #endregion
 

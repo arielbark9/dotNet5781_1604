@@ -129,6 +129,7 @@ namespace BL
             // get the Line's Stations
             lineBo.Stations = (from s in dl.GetAllLineStations()
                                             where s.LineID == lineBo.ID
+                                            //orderby s.StationPlacement
                                             select LineStationDoBoAdapter(s)).ToList();
             lineBo.LastStation = stationDoBoAdapter(dl.GetStation(lineBo.Stations.Last().StationCode));
             // get the Adjacent stations associated with the line
@@ -137,6 +138,15 @@ namespace BL
                 lineBo.AdjStats.Add(AdjacentStationsDoBoAdapter(dl.GetAdjacentStations(lineBo.Stations[i].StationCode, lineBo.Stations[i + 1].StationCode)));
 
             return lineBo;
+        }
+        public DO.Line LineBoDoAdapter(BO.Line lineBo)
+        {
+            DO.Line lineDo = new DO.Line();
+            lineBo.CopyPropertiesTo(lineDo);
+            lineDo.FirstStationCode = lineBo.Stations[0].StationCode;
+            lineDo.LastStationCode = lineBo.Stations.Last().StationCode;
+            lineDo.Active = true;
+            return lineDo;
         }
         public IEnumerable<BO.Line> GetAllLines()
         {
@@ -150,6 +160,17 @@ namespace BL
                    let lineBo = LineDoBoAdapter(line) // convert line
                    where lineBo.Stations.FirstOrDefault(x => x.StationCode == stationCode) != null //if line contains station
                    select lineBo;
+        }
+        public BO.Line GetLine(int ID)
+        {
+            try
+            {
+                return LineDoBoAdapter(dl.GetLine(ID));
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("FATAL ERROR! LINE LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+            }
         }
         public void AddLine(BO.Line newLine)
         {
@@ -165,8 +186,9 @@ namespace BL
         {
             throw new NotImplementedException();
         }
-        public void DeleteStationInLine(BO.Line line, int stationCode)
+        public void DeleteStationInLine(int lineID, int stationCode)
         {
+            BO.Line line = LineDoBoAdapter(dl.GetLine(lineID));
             // update adjacent stations
             if (line.Stations[0].StationCode == stationCode || line.Stations.Last().StationCode == stationCode) // if station is first or last in line
                 line.AdjStats.RemoveAll(x => (x.Station1 == stationCode || x.Station2 == stationCode));
@@ -184,14 +206,35 @@ namespace BL
                 //Add the new pair
                 DO.AdjacentStations newAdjStatDo = new DO.AdjacentStations();
                 newAdjacentStations.CopyPropertiesTo(newAdjStatDo);
-                dl.AddAdjacentStation(newAdjStatDo);
+                try
+                {
+                    dl.AddAdjacentStation(newAdjStatDo);
+                }
+                catch (InvalidOperationException) { }//just means it already exists which is fine
+                
                 //update line
                 line.AdjStats.RemoveAll(x => (x.Station1 == stationCode || x.Station2 == stationCode));
                 line.AdjStats.Add(newAdjacentStations);
+                
             }
 
             line.Stations.RemoveAll(x => x.StationCode == stationCode);
             line.LastStation = stationDoBoAdapter(dl.GetStation(line.Stations.Last().StationCode)); // update last station
+            UpdateLineInDL(line);
+        }
+        private void UpdateLineInDL(BO.Line line)
+        {
+            DO.Line lineDo = LineBoDoAdapter(line);
+            for (int i = 0; i < line.Stations.Count; i++)
+            {
+                if (i == 0)
+                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], 0, line.Stations[i + 1].StationCode));
+                else if(i == line.Stations.Count - 1)
+                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], line.Stations[i - 1].StationCode, 0));
+                else
+                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], line.Stations[i-1].StationCode, line.Stations[i + 1].StationCode));        
+            }
+            dl.UpdateLine(lineDo);
         }
         #endregion
 
@@ -210,6 +253,17 @@ namespace BL
         {
             return from item in dl.GetAllStations()
                    select stationDoBoAdapter(item);
+        }
+        public BO.Station GetStation(int stationCode)
+        {
+            try
+            {
+                return stationDoBoAdapter(dl.GetStation(stationCode));
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("FATAL ERROR!", ex);
+            }
         }
         public void AddStation(BO.Station newStation)
         {
@@ -254,7 +308,7 @@ namespace BL
             //update all lines first
             foreach (var line in GetLinesThatGoThroughStation(station.StationCode))
             {
-                DeleteStationInLine(line, station.StationCode);
+                DeleteStationInLine(line.ID, station.StationCode);
             }
             try
             {
@@ -274,6 +328,16 @@ namespace BL
             lineStationDo.CopyPropertiesTo(lineStationBo);
             return lineStationBo;
         }
+        public DO.LineStation LineStationBoDoAdapter(BO.LineStation lineStationBo, int prevSt, int nextSt)
+        {
+            DO.LineStation lineStationDo = new DO.LineStation();
+            lineStationBo.CopyPropertiesTo(lineStationDo);
+            lineStationDo.Active = true;
+            lineStationDo.StationBeforeCode = prevSt;
+            lineStationDo.StationAfterCode = nextSt;
+            return lineStationDo;
+        }
+        
         public IEnumerable<BO.LineStation> GetAllLineStations()
         {
             throw new NotImplementedException();
