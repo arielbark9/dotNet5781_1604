@@ -41,6 +41,7 @@ namespace PlGui
             lines = new ObservableCollection<BO.Line>(from item in bl.GetAllLines() select item);
             lineStationsListView.DataContext = lines[0].Stations;
             cbLineNum.DataContext = lines;
+            cbLineNum.SelectedItem = lines[0];
             stations = new ObservableCollection<BO.Station>(from item in bl.GetAllStations() select item);
             stationListView.DataContext = stations;
             adjStats = new ObservableCollection<BO.AdjacentStations>(from item in bl.GetAllAdjacentStations() select item);
@@ -133,6 +134,8 @@ namespace PlGui
             lines.Clear();
             foreach (var line in bl.GetAllLines())
                 lines.Add(line);
+
+            cbLineNum.SelectedItem = lines[0];
             lineStationsListView.DataContext = lines[0].Stations;
         }
         #endregion
@@ -145,8 +148,8 @@ namespace PlGui
         private void pbUpdateAdjStat_Click(object sender, RoutedEventArgs e)
         {
             UpdateAdjStatWindow updateAdjStat = new UpdateAdjStatWindow((sender as Button).DataContext as BO.AdjacentStations, adjStats, bl);
-            updateAdjStat.ShowDialog();
             updateAdjStat.Closed += UpdateLinesView;
+            updateAdjStat.ShowDialog();
         }
         #endregion
 

@@ -389,15 +389,6 @@ namespace BL
         {
             DO.AdjacentStations adjStatDo = new DO.AdjacentStations();
             adjStat.CopyPropertiesTo(adjStatDo);
-            //foreach (var line in dl.GetAllLines())
-            //{
-            //    BO.Line lineBo = LineDoBoAdapter(line);
-            //    if (lineBo.AdjStats.Contains(adjStat))
-            //    {
-            //        lineBo.AdjStats.Find(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2).Time = adjStat.Time;
-            //        UpdateLine(lineBo);
-            //    }
-            //}
             try
             {
                 dl.UpdateAdjacentStation(adjStatDo);

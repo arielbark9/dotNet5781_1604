@@ -75,6 +75,7 @@ namespace DL
         }
         public void UpdateBus(Bus bus)
         {
+            bus.Active = true;
             if (DataSource.ListBuses.FirstOrDefault(b => b.LicenceNum == bus.LicenceNum) != null)
             {
                 DO.Bus busToUpdate = DataSource.ListBuses.FirstOrDefault(b => b.LicenceNum == bus.LicenceNum);
@@ -116,6 +117,7 @@ namespace DL
         }
         public void UpdateLine(Line line)
         {
+            line.Active = true;
             if (DataSource.ListLines.FirstOrDefault(b => b.ID == line.ID) != null)
             {
                 DO.Line lineToUpdate = DataSource.ListLines.FirstOrDefault(b => b.ID == line.ID);
@@ -158,6 +160,7 @@ namespace DL
         }
         public void UpdateStation(Station station)
         {
+            station.Active = true;
             if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
             {
                 DO.Station StationToUpdate = DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode);
@@ -208,6 +211,7 @@ namespace DL
         }
         public void UpdateLineStation(LineStation lineStation)
         {
+            lineStation.Active = true;
             if (DataSource.ListLineStations.FirstOrDefault(x => (x.StationCode == lineStation.StationCode && x.LineID == lineStation.LineID)) != null)
             {
                 DO.LineStation LineStationToUpdate = DataSource.ListLineStations.FirstOrDefault(x => (x.StationCode == lineStation.StationCode && x.LineID == lineStation.LineID));
@@ -258,6 +262,7 @@ namespace DL
         }
         public void UpdateAdjacentStation(AdjacentStations adjStat)
         {
+            adjStat.Active = true;
             if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2) != null)
             {
                 DO.AdjacentStations AdjStatToUpdate = DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2);
