@@ -24,7 +24,7 @@ namespace DLAPI
         #region Bus
         IEnumerable<DO.Bus> GetAllBuses();
         void AddBus(DO.Bus newBus);
-        void UpdateBus(DO.Bus bus); // at least licence number will be the same
+        void UpdateBus(DO.Bus bus); 
         void DeleteBus(DO.Bus bus);
         #endregion
 
@@ -32,7 +32,7 @@ namespace DLAPI
         void AddLine(DO.Line newLine);
         IEnumerable<DO.Line> GetAllLines();
         DO.Line GetLine(int lineID);
-        void UpdateLine(DO.Line Line); // at least running num will be the same
+        void UpdateLine(DO.Line Line);
         void DeleteLine(DO.Line Line);
         #endregion
 
@@ -40,7 +40,7 @@ namespace DLAPI
         void AddStation(DO.Station newStation);
         IEnumerable<DO.Station> GetAllStations();
         DO.Station GetStation(int stationCode);
-        void UpdateStation(DO.Station Station); // at least running num will be the same
+        void UpdateStation(DO.Station Station);
         void DeleteStation(DO.Station Station);
         #endregion
 
@@ -48,7 +48,7 @@ namespace DLAPI
         void AddLineStation(DO.LineStation newLineStation);
         IEnumerable<DO.LineStation> GetAllLineStations();
         DO.LineStation GetLineStation(int lineID, int stationCode);
-        void UpdateLineStation(DO.LineStation LineStation); // at least running num will be the same
+        void UpdateLineStation(DO.LineStation LineStation);
         void DeleteLineStation(DO.LineStation LineStation);
         #endregion
 
@@ -58,7 +58,6 @@ namespace DLAPI
         DO.AdjacentStations GetAdjacentStations(int stationCode1, int stationCode2);
         void UpdateAdjacentStation(DO.AdjacentStations adjacentStation);
         void DeleteAdjacentStation(DO.AdjacentStations adjacentStation);
-        void DeleteAdjacentStationsAssociated(int stationCode);
         #endregion
 
     }

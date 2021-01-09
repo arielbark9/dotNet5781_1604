@@ -18,7 +18,6 @@ namespace BLAPI
         #endregion
 
         #region Bus
-        BO.Bus busDoBoAdapter(DO.Bus busDo);
         IEnumerable<BO.Bus> GetAllBuses();
         void AddBus(BO.Bus newBus);
         void UpdateBus(BO.Bus bus);
@@ -26,7 +25,6 @@ namespace BLAPI
         #endregion
 
         #region Line
-        BO.Line LineDoBoAdapter(DO.Line LineDo);
         IEnumerable<BO.Line> GetAllLines();
         IEnumerable<BO.Line> GetLinesThatGoThroughStation(int stationCode);
         BO.Line GetLine(int ID);
@@ -37,7 +35,6 @@ namespace BLAPI
         #endregion
 
         #region Station
-        BO.Station stationDoBoAdapter(DO.Station StationDo);
         IEnumerable<BO.Station> GetAllStations();
         BO.Station GetStation(int stationCode);
         void AddStation(BO.Station newStation);
@@ -46,16 +43,12 @@ namespace BLAPI
         #endregion
 
         #region LineStation
-        BO.LineStation LineStationDoBoAdapter(DO.LineStation LineStationDo);
         IEnumerable<BO.LineStation> GetAllLineStations();
         void AddLineStation(BO.LineStation newLineStation);
-        void UpdateLineStation(BO.LineStation LineStation);
-        void DeleteLineStation(BO.LineStation LineStation);
         #endregion
 
         #region AdjacentStations 
-        // no option for user to delete
-        BO.AdjacentStations AdjacentStationsDoBoAdapter(DO.AdjacentStations adjStatDo);
+        // no option for user to delete or add
         IEnumerable<BO.AdjacentStations> GetAllAdjacentStations();
         void UpdateAdjacentStations(BO.AdjacentStations AdjStat);
         #endregion

@@ -93,7 +93,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Lines" Width="200" >
-                <Grid x:Name="gridViewLines" DataContext="{DynamicResource linesViewSource}">
+                <Grid x:Name="gridViewLines">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="8*"/>
@@ -109,13 +109,13 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
                         <Label Content="Line Number :" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
-                        <ComboBox x:Name="cbLineNum" ItemsSource="{Binding}" DisplayMemberPath=" LineNum "  Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16" Width="80" SelectionChanged="cbLineNum_SelectionChanged"/>
+                        <ComboBox x:Name="cbLineNum" DataContext="{DynamicResource linesViewSource}" ItemsSource="{Binding}" DisplayMemberPath=" LineNum "  Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16" Width="80" SelectionChanged="cbLineNum_SelectionChanged"/>
                         <Label Content="Region :" Grid.Column="2" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
-                        <Label x:Name="labelArea" Content="{Binding Path=Region}" Grid.Column="3" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
+                        <Label x:Name="labelArea" Content="{Binding ElementName=cbLineNum, Path=SelectedItem.Region}" Grid.Column="3" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
                         <Button x:Name="pbAddLine" Content="New Line" Grid.Column="5" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16"/>
                         <Button x:Name="pbDeleteLine" Content="Delete" Grid.Column="4" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16"/>
                     </Grid>
-                    <ListView x:Name="lineStationsListView" DataContext="{Binding Source={StaticResource lineStationsViewSource}}" ItemsSource="{Binding}" Margin="0" Grid.Row="1" SelectionMode="Single">
+                    <ListView x:Name="lineStationsListView" DataContext="{DynamicResource lineStationsViewSource}" ItemsSource="{Binding}" Margin="0" Grid.Row="1" SelectionMode="Single">
                         <ListView.ItemContainerStyle>
                             <Style>
                                 <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>

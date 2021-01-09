@@ -88,7 +88,17 @@ namespace DL
         #region Line
         public void AddLine(Line newLine)
         {
-            throw new NotImplementedException();
+            DO.Line oldLine = DataSource.ListLines.FirstOrDefault(x => x.ID == newLine.ID);
+            newLine.Active = true;
+            if (oldLine == null)
+                DataSource.ListLines.Add(newLine.Clone());
+            else if (oldLine.Active == false)
+            {
+                oldLine.Active = true;
+                newLine.CopyPropertiesTo(oldLine);
+            }
+            else
+                throw new InvalidOperationException("ERROR! that Line already exists!");
         }
         public IEnumerable<Line> GetAllLines()
         {
@@ -114,9 +124,12 @@ namespace DL
             else
                 throw new ArgumentException("Invalid Line ID Number");
         }
-        public void DeleteLine(Line Line)
+        public void DeleteLine(Line line)
         {
-            throw new NotImplementedException();
+            if (DataSource.ListLines.FirstOrDefault(x => x.ID == line.ID) != null)
+                DataSource.ListLines.FirstOrDefault(x => x.ID == line.ID).Active = false;
+            else
+                throw new ArgumentException("Invalid Line");
         }
         #endregion
 
@@ -158,18 +171,6 @@ namespace DL
             if (DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
             {
                 DataSource.ListStations.FirstOrDefault(x => x.StationCode == station.StationCode).Active = false;
-                // deactivate entities using this station
-                if(DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == station.StationCode) != null)
-                    foreach (var lineStation in DataSource.ListLineStations.ToList().FindAll(x => x.StationCode == station.StationCode))
-                    {
-                        lineStation.Active = false;
-                    }
-
-                if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode) != null)
-                    foreach (var adjStat in DataSource.ListAdjacentStations.ToList().FindAll(x => x.Station1 == station.StationCode || x.Station2 == station.StationCode))
-                    {
-                        adjStat.Active = false;
-                    }
             }
             else
                 throw new ArgumentException("Invalid Station Code");
@@ -179,7 +180,17 @@ namespace DL
         #region LineStation
         public void AddLineStation(LineStation newLineStation)
         {
-            throw new NotImplementedException();
+            DO.LineStation oldLineStation = DataSource.ListLineStations.FirstOrDefault(x => (x.LineID == newLineStation.LineID && x.StationCode == newLineStation.StationCode));
+            newLineStation.Active = true;
+            if (oldLineStation == null)
+                DataSource.ListLineStations.Add(newLineStation.Clone());
+            else if (oldLineStation.Active == false)
+            {
+                oldLineStation.Active = true;
+                newLineStation.CopyPropertiesTo(oldLineStation);
+            }
+            else
+                throw new InvalidOperationException("ERROR! that LineStation already exists!");
         }
         public IEnumerable<LineStation> GetAllLineStations()
         {
@@ -205,17 +216,11 @@ namespace DL
             else
                 throw new ArgumentException("Invalid Station Code");
         }
-        public void DeleteLineStation(LineStation LineStation)
+        public void DeleteLineStation(LineStation lineStation)
         {
-            if (DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == LineStation.StationCode) != null)
+            if (DataSource.ListLineStations.FirstOrDefault(x => (x.StationCode == lineStation.StationCode && x.LineID == lineStation.LineID)) != null)
             {
-                DataSource.ListLineStations.FirstOrDefault(x => x.StationCode == LineStation.StationCode).Active = false;
-                // deactivate entities using this LineStation
-                if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == LineStation.StationCode || x.Station2 == LineStation.StationCode) != null)
-                    foreach (var adjStat in DataSource.ListAdjacentStations.ToList().FindAll(x => x.Station1 == LineStation.StationCode || x.Station2 == LineStation.StationCode))
-                    {
-                        adjStat.Active = false;
-                    }
+                DataSource.ListLineStations.FirstOrDefault(x => (x.StationCode == lineStation.StationCode && x.LineID == lineStation.LineID)).Active = false;
             }
             else
                 throw new ArgumentException("Invalid Station Code");
@@ -268,13 +273,6 @@ namespace DL
                 DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2).Active = false;
             else
                 throw new ArgumentException("Invalid AdjacentStations Entity");
-        }
-        public void DeleteAdjacentStationsAssociated(int stationCode)
-        {
-            if (DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == stationCode || x.Station2 == stationCode) != null)
-                DataSource.ListAdjacentStations.FirstOrDefault(x => x.Station1 == stationCode || x.Station2 == stationCode).Active = false;
-            else
-                throw new ArgumentException("Invalid AdjacentStations Code");
         }
         #endregion
 

@@ -39,9 +39,8 @@ namespace PlGui
             buses = new ObservableCollection<BO.Bus>(from item in bl.GetAllBuses() select item);
             busListView.DataContext = buses;
             lines = new ObservableCollection<BO.Line>(from item in bl.GetAllLines() select item);
-            gridViewLines.DataContext = lines;
             lineStationsListView.DataContext = lines[0].Stations;
-            cbLineNum.SelectedItem = lines[0];
+            cbLineNum.DataContext = lines;
             stations = new ObservableCollection<BO.Station>(from item in bl.GetAllStations() select item);
             stationListView.DataContext = stations;
             adjStats = new ObservableCollection<BO.AdjacentStations>(from item in bl.GetAllAdjacentStations() select item);
@@ -112,9 +111,7 @@ namespace PlGui
                 // Stations View Update
                 stations.Remove(delStation);
                 // update linesView
-                lines.Clear();
-                foreach (var line in bl.GetAllLines())
-                    lines.Add(line);
+                UpdateLinesView(this, new EventArgs());
                 // update adjacent stations view
                 adjStats.Clear();
                 foreach (var adjStat in bl.GetAllAdjacentStations())
@@ -125,7 +122,18 @@ namespace PlGui
         {
             BO.Station updateStation = new BO.Station();
             ((sender as Button).DataContext as BO.Station).CopyPropertiesTo(updateStation);
-            new UpdateStationWindow(updateStation, stations, bl).ShowDialog();
+            UpdateStationWindow updateStationWindow = new UpdateStationWindow(updateStation, stations, bl);
+            updateStationWindow.ShowDialog();
+            updateStationWindow.Closed += UpdateLinesView;
+        }
+
+        private void UpdateLinesView(object sender, EventArgs e)
+        {
+            // update linesView
+            lines.Clear();
+            foreach (var line in bl.GetAllLines())
+                lines.Add(line);
+            lineStationsListView.DataContext = lines[0].Stations;
         }
         #endregion
 
@@ -136,7 +144,9 @@ namespace PlGui
         }
         private void pbUpdateAdjStat_Click(object sender, RoutedEventArgs e)
         {
-            new UpdateAdjStatWindow((sender as Button).DataContext as BO.AdjacentStations, adjStats, bl).ShowDialog();
+            UpdateAdjStatWindow updateAdjStat = new UpdateAdjStatWindow((sender as Button).DataContext as BO.AdjacentStations, adjStats, bl);
+            updateAdjStat.ShowDialog();
+            updateAdjStat.Closed += UpdateLinesView;
         }
         #endregion
 
