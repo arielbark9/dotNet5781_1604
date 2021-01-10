@@ -1,0 +1,45 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:PlGui"
+        xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.AddLineWindow"
+        mc:Ignorable="d"
+        Title="AddLineWindow" Height="350" Width="300" >
+    <Window.Resources>
+        <CollectionViewSource x:Key="lineViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Line}, CreateList=True}"/>
+        <CollectionViewSource x:Key="stationViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Station}, CreateList=True}"/>
+        <ObjectDataProvider x:Key="dataFromArea" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="BO:Area"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Grid x:Name="gridViewLine" Margin="0,0" DataContext="{StaticResource lineViewSource}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Center" Grid.Column="0" Content="Line Num:"/>
+            <TextBox x:Name="lineNumTextBox" Width="120" VerticalAlignment="Center" Text="{Binding LineNum, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Center" Grid.Column="1" PreviewTextInput="lineNumTextBox_PreviewTextInput"/>
+            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Center" Grid.Column="0" Content="Region:"/>
+            <ComboBox x:Name="regionComboBox" Width="120" VerticalAlignment="Center" Grid.Row="1" Margin="3" ItemsSource="{Binding Source={StaticResource dataFromArea}}" Height="Auto" HorizontalAlignment="Center" Grid.Column="1"/>
+            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Center" Grid.Column="0" Content="First Station:"/>
+            <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Center" Grid.Column="0" Content="Last Station:"/>
+            <ComboBox x:Name="cbFirstStation" DataContext="{StaticResource stationViewSource}" ItemsSource="{Binding}" Grid.Column="1" HorizontalAlignment="Center" Margin="0" Grid.Row="2" VerticalAlignment="Center" Width="120" SelectionChanged="cbFirstStation_SelectionChanged"/>
+            <ComboBox x:Name="cbLastStation" DataContext="{StaticResource stationViewSource}" ItemsSource="{Binding}" Grid.Column="1" HorizontalAlignment="Center" Margin="0" Grid.Row="3" VerticalAlignment="Center" Width="120" SelectionChanged="cbLastStation_SelectionChanged"/>
+            <Button x:Name="pbAddLine" Content="Add Line" HorizontalAlignment="Center" Margin="0" Grid.Row="4" VerticalAlignment="Center" Width="75" Click="pbAddLine_Click"/>
+            <Button x:Name="pbCancel" Content="Cancel" Grid.Column="1" HorizontalAlignment="Center" Margin="0" Grid.Row="4" VerticalAlignment="Center" Width="75" Click="pbCancel_Click"/>
+        </Grid>
+    </Grid>
+</Window>

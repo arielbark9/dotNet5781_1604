@@ -24,7 +24,7 @@ namespace DL
             // Filter out non-active entities
             return from item in DataSource.ListUsers
                    where item.Active == true
-                   select item.Clone();
+                   select item;
         }
         public void AddUser(User newUser)
         {
@@ -34,11 +34,11 @@ namespace DL
             else
                 throw new InvalidOperationException("ERROR! that username already exists!");
         }
-        public void UpdateUser(User user)
+        public void UpdateUser(int userID, Action<User> update)
         {
             throw new NotImplementedException();
         }
-        public void DeleteUser(User user)
+        public void DeleteUser(int userID)
         {
             throw new NotImplementedException();
         }
@@ -92,7 +92,7 @@ namespace DL
             DO.Line oldLine = DataSource.ListLines.FirstOrDefault(x => x.ID == newLine.ID);
             newLine.Active = true;
             if (oldLine == null)
-                DataSource.ListLines.Add(newLine.Clone());
+                DataSource.ListLines.Add(newLine);
             else if (oldLine.Active == false)
             {
                 oldLine.Active = true;
@@ -106,7 +106,7 @@ namespace DL
             // Filter out non-active entities
             return from item in DataSource.ListLines
                    where item.Active == true
-                   select item.Clone();
+                   select item;
         }
         public Line GetLine(int lineID)
         {
@@ -115,21 +115,20 @@ namespace DL
             else
                 throw new ArgumentException("Invalid line ID");
         }
-        public void UpdateLine(Line line)
+        public void UpdateLine(int lineID, Action<Line> update)
         {
-            line.Active = true;
-            if (DataSource.ListLines.FirstOrDefault(b => b.ID == line.ID) != null)
+            if (DataSource.ListLines.Where(x => x.Active).FirstOrDefault(x => x.ID == lineID) != null)
             {
-                DO.Line lineToUpdate = DataSource.ListLines.FirstOrDefault(b => b.ID == line.ID);
-                line.CopyPropertiesTo(lineToUpdate);
+                DO.Line lineToUpdate = DataSource.ListLines.FirstOrDefault(x => x.ID == lineID);
+                update(lineToUpdate);
             }
             else
                 throw new ArgumentException("Invalid Line ID Number");
         }
-        public void DeleteLine(Line line)
+        public void DeleteLine(int lineID)
         {
-            if (DataSource.ListLines.FirstOrDefault(x => x.ID == line.ID) != null)
-                DataSource.ListLines.FirstOrDefault(x => x.ID == line.ID).Active = false;
+            if (DataSource.ListLines.FirstOrDefault(x => x.ID == lineID) != null)
+                DataSource.ListLines.FirstOrDefault(x => x.ID == lineID).Active = false;
             else
                 throw new ArgumentException("Invalid Line");
         }

@@ -17,8 +17,8 @@ namespace DLAPI
         #region User
         void AddUser(DO.User newUser);
         IEnumerable<DO.User> GetAllUsers();
-        void UpdateUser(DO.User user); // at least running num will be the same
-        void DeleteUser(DO.User user);
+        void UpdateUser(int userID, Action<User> update);
+        void DeleteUser(int userID);
         #endregion
 
         #region Bus
@@ -32,8 +32,8 @@ namespace DLAPI
         void AddLine(DO.Line newLine);
         IEnumerable<DO.Line> GetAllLines();
         DO.Line GetLine(int lineID);
-        void UpdateLine(DO.Line Line);
-        void DeleteLine(DO.Line Line);
+        void UpdateLine(int lineID , Action<Line> update);
+        void DeleteLine(int lineID);
         #endregion
 
         #region Station

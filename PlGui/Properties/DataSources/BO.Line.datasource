@@ -7,19 +7,23 @@
 -->
 <GenericObjectDataSource DisplayName="Line" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
    <Children>
-      <GenericObjectDataSource DisplayName="Station" Version="1.0">
+      <GenericObjectDataSource DisplayName="Stations" Version="1.0">
+         <TypeInfo>BO.LineStation, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+      </GenericObjectDataSource>
+      <GenericObjectDataSource DisplayName="LastStation" Version="1.0">
          <TypeInfo>BO.Station, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
          <TypeUISetting>
             <PropertyUISettings>
                <PropertyUISetting Name="Line.Stations.Station">
-                  <ControlSettings>
-                     <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
+                  <ControlSettings><ControlSetting ArtifactName="Microsoft:System.Windows:WPF" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
                         <BindableControlInfo Name="Details" Type="Microsoft.VSDesigner.Data.DataForm.Windows.DetailView" />
-                     </ControlSetting>
-                  </ControlSettings>
+                     </ControlSetting></ControlSettings>
                </PropertyUISetting>
             </PropertyUISettings>
          </TypeUISetting>
+      </GenericObjectDataSource>
+      <GenericObjectDataSource DisplayName="AdjStats" Version="1.0">
+         <TypeInfo>BO.AdjacentStations, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
       </GenericObjectDataSource>
    </Children>
    <TypeInfo>BO.Line, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
@@ -35,14 +39,14 @@
          <PropertyUISetting Name="LineNum">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                  <BindableControlInfo Name="Label" Type="System.Windows.Controls.Label" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+                  <BindableControlInfo Name="TextBox" Type="System.Windows.Controls.TextBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>
          <PropertyUISetting Name="Region">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                  <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
+                  <BindableControlInfo Name="ComboBox" Type="System.Windows.Controls.ComboBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>

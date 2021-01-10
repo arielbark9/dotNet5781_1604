@@ -195,7 +195,9 @@ namespace PlGui
         }
         private void pbAddLine_Click(object sender, RoutedEventArgs e)
         {
-
+            AddLineWindow addLineWindow = new AddLineWindow(bl, stations.ToList());
+            addLineWindow.Closed += UpdateLinesView;
+            addLineWindow.ShowDialog();
         }
         private void pbDownButton_Click(object sender, RoutedEventArgs e)
         {
