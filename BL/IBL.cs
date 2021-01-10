@@ -32,6 +32,8 @@ namespace BLAPI
         void UpdateLine(BO.Line Line);
         void DeleteLine(BO.Line Line);
         void DeleteStationInLine(int lineID, int stationCode);
+        void MoveStationDownInLine(int lineID, int stationCode);
+        void MoveStationUpInLine(int lineID, int stationCode);
         #endregion
 
         #region Station

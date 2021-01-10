@@ -179,62 +179,196 @@ namespace BL
             for (int i = 0; i < line.Stations.Count; i++)
             {
                 if (i == 0)
-                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], 0, line.Stations[i + 1].StationCode, i + 1));
+                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], 0, line.Stations[i + 1].StationCode));
                 else if (i == line.Stations.Count - 1)
-                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], line.Stations[i - 1].StationCode, 0, i + 1));
+                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], line.Stations[i - 1].StationCode, 0));
                 else
-                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], line.Stations[i - 1].StationCode, line.Stations[i + 1].StationCode, i + 1));
+                    dl.UpdateLineStation(LineStationBoDoAdapter(line.Stations[i], line.Stations[i - 1].StationCode, line.Stations[i + 1].StationCode));
             }
-            //foreach(var adjStat in line.AdjStats)
-            //{
-            //    DO.AdjacentStations adjacentStationsDo = new DO.AdjacentStations { Active = true, Station1 = adjStat.Station1, Station2 = adjStat.Station2, Time = adjStat.Time };
-            //    dl.UpdateAdjacentStation(adjacentStationsDo);
-            //}
-            
+            foreach (var adjStat in line.AdjStats)
+            {
+                DO.AdjacentStations adjacentStationsDo = new DO.AdjacentStations { Active = true, Station1 = adjStat.Station1, Station2 = adjStat.Station2, Time = adjStat.Time };
+                try
+                {
+                    dl.UpdateAdjacentStation(adjacentStationsDo);
+                }
+                catch (ArgumentException)
+                {
+                    dl.AddAdjacentStation(adjacentStationsDo);
+                }
+            }
+
             dl.UpdateLine(lineDo);
         }
         public void DeleteLine(BO.Line Line)
         {
-            throw new NotImplementedException();
+            dl.DeleteLine(LineBoDoAdapter(Line));
         }
         public void DeleteStationInLine(int lineID, int stationCode)
         {
             BO.Line line = LineDoBoAdapter(dl.GetLine(lineID));
-            // update Line's adjacent stations
-            if (line.Stations[0].StationCode == stationCode || line.Stations.Last().StationCode == stationCode) // if station is first or last in line
-                line.AdjStats.RemoveAll(x => (x.Station1 == stationCode || x.Station2 == stationCode));
-            else // need to update adjacent stations
+            if (line.Stations.Count > 2)
             {
-                BO.AdjacentStations oldAdjStatBefore = line.AdjStats.Find(x => x.Station2 == stationCode); // the station before
-                BO.AdjacentStations oldAdjStatAfter = line.AdjStats.Find(x => x.Station1 == stationCode); // the station after
-                BO.AdjacentStations newAdjacentStations =
-                    new BO.AdjacentStations
+                // update Line's adjacent stations
+                if (line.Stations[0].StationCode == stationCode || line.Stations.Last().StationCode == stationCode) // if station is first or last in line
+                    line.AdjStats.RemoveAll(x => (x.Station1 == stationCode || x.Station2 == stationCode));
+                else // need to update adjacent stations
+                {
+                    BO.AdjacentStations oldAdjStatBefore = line.AdjStats.Find(x => x.Station2 == stationCode); // the station before
+                    BO.AdjacentStations oldAdjStatAfter = line.AdjStats.Find(x => x.Station1 == stationCode); // the station after
+                    BO.AdjacentStations newAdjacentStations =
+                        new BO.AdjacentStations
+                        {
+                            Station1 = oldAdjStatBefore.Station1,
+                            Station2 = oldAdjStatAfter.Station2,
+                            Time = oldAdjStatBefore.Time + oldAdjStatAfter.Time
+                        };
+                    //Add the new pair
+                    DO.AdjacentStations newAdjStatDo = new DO.AdjacentStations();
+                    newAdjacentStations.CopyPropertiesTo(newAdjStatDo);
+                    try
                     {
-                        Station1 = oldAdjStatBefore.Station1,
-                        Station2 = oldAdjStatAfter.Station2,
-                        Time = oldAdjStatBefore.Time + oldAdjStatAfter.Time
-                    };
-                //Add the new pair
-                DO.AdjacentStations newAdjStatDo = new DO.AdjacentStations();
-                newAdjacentStations.CopyPropertiesTo(newAdjStatDo);
-                try
-                {
-                    dl.AddAdjacentStation(newAdjStatDo);
+                        dl.AddAdjacentStation(newAdjStatDo);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        dl.UpdateAdjacentStation(newAdjStatDo);
+                    }//just means it already exists which is fine, so just update
+
+                    //update line
+                    line.AdjStats.RemoveAll(x => (x.Station1 == stationCode || x.Station2 == stationCode));
+                    line.AdjStats.Add(newAdjacentStations);
                 }
-                catch (InvalidOperationException) 
-                {
-                    dl.UpdateAdjacentStation(newAdjStatDo);
-                }//just means it already exists which is fine, so just update
-                
-                //update line
-                line.AdjStats.RemoveAll(x => (x.Station1 == stationCode || x.Station2 == stationCode));
-                line.AdjStats.Add(newAdjacentStations);
+                //update Line's Stations
+                line.Stations.RemoveAll(x => x.StationCode == stationCode);
+                DO.LineStation delLineStation = new DO.LineStation { LineID = line.ID, StationCode = stationCode };
+                dl.DeleteLineStation(delLineStation);
+                line.LastStation = stationDoBoAdapter(dl.GetStation(line.Stations.Last().StationCode)); // update last station
+                // update line in DL
+                UpdateLine(line);
             }
-            //update Line's Stations
-            line.Stations.RemoveAll(x => x.StationCode == stationCode);
-            DO.LineStation delLineStation = new DO.LineStation { LineID = line.ID, StationCode = stationCode };
-            dl.DeleteLineStation(delLineStation);
-            line.LastStation = stationDoBoAdapter(dl.GetStation(line.Stations.Last().StationCode)); // update last station
+            else
+                throw new InvalidOperationException("ERROR! No line can have less than two stations");
+        }
+        public void MoveStationDownInLine(int lineID, int stationCode)
+        {
+            BO.Line line = LineDoBoAdapter(dl.GetLine(lineID));
+            BO.LineStation station = LineStationDoBoAdapter(dl.GetLineStation(lineID, stationCode));
+            int index = station.StationPlacement - 1;
+            
+            if(index == 0)
+            {
+                BO.LineStation stationAfter = line.Stations[index + 1];
+                BO.LineStation stationAfter2 = line.Stations[index + 2];
+                // add
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationAfter.StationCode, Station2 = station.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = station.StationCode, Station2 = stationAfter2.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                // remove
+                line.AdjStats.RemoveAll(x => x.Station1 == station.StationCode && x.Station2 == stationAfter.StationCode);
+                line.AdjStats.RemoveAll(x => x.Station1 == stationAfter.StationCode && x.Station2 == stationAfter2.StationCode);
+                // update placement
+                line.Stations[index].StationPlacement += 1;
+                line.Stations[index + 1].StationPlacement -= 1;
+                line.Stations = (from s in line.Stations orderby s.StationPlacement select s).ToList();
+            }
+            else if(index == line.Stations.Count - 2)
+            {
+                BO.LineStation stationBefore = line.Stations[index - 1];
+                BO.LineStation stationAfter = line.Stations[index + 1];
+                // add
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationBefore.StationCode, Station2 = stationAfter.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationAfter.StationCode, Station2 = station.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                // remove
+                line.AdjStats.RemoveAll(x => x.Station1 == station.StationCode && x.Station2 == stationAfter.StationCode);
+                line.AdjStats.RemoveAll(x => x.Station1 == stationBefore.StationCode && x.Station2 == station.StationCode);
+                // update placement
+                line.Stations[index].StationPlacement += 1;
+                line.Stations[index + 1].StationPlacement -= 1;
+                line.Stations = (from s in line.Stations orderby s.StationPlacement select s).ToList();
+            }
+            else if(index == line.Stations.Count - 1)
+            {
+                //Can't Go Down!
+            }
+            else
+            {
+                BO.LineStation stationBefore = line.Stations[index - 1];
+                BO.LineStation stationAfter = line.Stations[index + 1];
+                BO.LineStation stationAfter2 = line.Stations[index + 2];
+                // add
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationBefore.StationCode, Station2 = stationAfter.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationAfter.StationCode, Station2 = station.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = station.StationCode, Station2 = stationAfter2.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                // remove
+                line.AdjStats.RemoveAll(x => x.Station1 == station.StationCode && x.Station2 == stationAfter.StationCode);
+                line.AdjStats.RemoveAll(x => x.Station1 == stationBefore.StationCode && x.Station2 == station.StationCode);
+                line.AdjStats.RemoveAll(x => x.Station1 == stationAfter.StationCode && x.Station2 == stationAfter2.StationCode);
+                // update placement
+                line.Stations[index].StationPlacement += 1;
+                line.Stations[index+1].StationPlacement -= 1;
+                line.Stations = (from s in line.Stations orderby s.StationPlacement select s).ToList();
+            }
+            // update line in DL
+            UpdateLine(line);
+        }
+        public void MoveStationUpInLine(int lineID, int stationCode)
+        {
+            BO.Line line = LineDoBoAdapter(dl.GetLine(lineID));
+            BO.LineStation station = LineStationDoBoAdapter(dl.GetLineStation(lineID, stationCode));
+            int index = station.StationPlacement - 1;
+
+            if (index == 0)
+            {
+                // Can't go up
+            }
+            else if (index == 1)
+            {
+                BO.LineStation stationBefore = line.Stations[index - 1];
+                BO.LineStation stationAfter = line.Stations[index + 1];
+                // add
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = station.StationCode, Station2 = stationBefore.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationBefore.StationCode, Station2 = stationAfter.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                // remove
+                line.AdjStats.RemoveAll(x => x.Station1 == stationBefore.StationCode && x.Station2 == station.StationCode);
+                line.AdjStats.RemoveAll(x => x.Station1 == station.StationCode && x.Station2 == stationAfter.StationCode);
+                // update placement
+                line.Stations[index].StationPlacement -= 1;
+                line.Stations[index - 1].StationPlacement += 1;
+                line.Stations = (from s in line.Stations orderby s.StationPlacement select s).ToList();
+            }
+            else if (index == line.Stations.Count - 1)
+            {
+                BO.LineStation stationBefore = line.Stations[index - 1];
+                BO.LineStation stationBefore2 = line.Stations[index - 2];
+                // add
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationBefore2.StationCode, Station2 = station.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = station.StationCode, Station2 = stationBefore.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                // remove
+                line.AdjStats.RemoveAll(x => x.Station1 == stationBefore2.StationCode && x.Station2 == stationBefore.StationCode);
+                line.AdjStats.RemoveAll(x => x.Station1 == stationBefore.StationCode && x.Station2 == station.StationCode);
+                // update placement
+                line.Stations[index].StationPlacement -= 1;
+                line.Stations[index - 1].StationPlacement += 1;
+                line.Stations = (from s in line.Stations orderby s.StationPlacement select s).ToList();
+            }
+            else
+            {
+                BO.LineStation stationBefore = line.Stations[index - 1];
+                BO.LineStation stationAfter = line.Stations[index + 1];
+                BO.LineStation stationBefore2 = line.Stations[index - 2];
+                // add
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationBefore2.StationCode, Station2 = station.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = station.StationCode, Station2 = stationBefore.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                line.AdjStats.Add(new BO.AdjacentStations { Station1 = stationBefore.StationCode, Station2 = stationAfter.StationCode, Time = TimeSpan.Parse("0:0:0") });
+                // remove
+                line.AdjStats.RemoveAll(x => x.Station1 == stationBefore2.StationCode && x.Station2 == stationBefore.StationCode);
+                line.AdjStats.RemoveAll(x => x.Station1 == stationBefore.StationCode && x.Station2 == station.StationCode);
+                line.AdjStats.RemoveAll(x => x.Station1 == station.StationCode && x.Station2 == stationAfter.StationCode);
+                // update placement
+                line.Stations[index].StationPlacement -= 1;
+                line.Stations[index - 1].StationPlacement += 1;
+                line.Stations = (from s in line.Stations orderby s.StationPlacement select s).ToList();
+            }
             // update line in DL
             UpdateLine(line);
         }
@@ -349,14 +483,13 @@ namespace BL
             lineStationDo.CopyPropertiesTo(lineStationBo);
             return lineStationBo;
         }
-        private DO.LineStation LineStationBoDoAdapter(BO.LineStation lineStationBo, int prevSt, int nextSt, int placement)
+        private DO.LineStation LineStationBoDoAdapter(BO.LineStation lineStationBo, int prevSt, int nextSt)
         {
             DO.LineStation lineStationDo = new DO.LineStation();
             lineStationBo.CopyPropertiesTo(lineStationDo);
             lineStationDo.Active = true;
             lineStationDo.StationBeforeCode = prevSt;
             lineStationDo.StationAfterCode = nextSt;
-            lineStationDo.StationPlacement = placement;
             return lineStationDo;
         }
         public IEnumerable<BO.LineStation> GetAllLineStations()
@@ -368,7 +501,7 @@ namespace BL
         {
             BO.Line line = LineDoBoAdapter(dl.GetLine(newLineStation.LineID));
             int statIndex = line.Stations.FindIndex(x => x.StationCode == newLineStation.StationCode);
-            DO.LineStation lineStationDo = LineStationBoDoAdapter(newLineStation, line.Stations[statIndex - 1].StationCode, line.Stations[statIndex + 1].StationCode, statIndex+1);
+            DO.LineStation lineStationDo = LineStationBoDoAdapter(newLineStation, line.Stations[statIndex - 1].StationCode, line.Stations[statIndex + 1].StationCode);
             dl.AddLineStation(lineStationDo);
         }
         #endregion

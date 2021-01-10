@@ -176,5 +176,11 @@
   <ItemGroup>
     <Resource Include="bus-icon-flat-style-vector-7995329.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="up-arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="down-arrow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

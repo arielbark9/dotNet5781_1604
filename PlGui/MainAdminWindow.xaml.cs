@@ -110,13 +110,11 @@ namespace PlGui
                     MessageBox.Show(ex.Message);
                 }
                 // Stations View Update
-                stations.Remove(delStation);
+                UpdateStationsView(sender, e);
                 // update linesView
-                UpdateLinesView(this, new EventArgs());
+                UpdateLinesView(sender, e);
                 // update adjacent stations view
-                adjStats.Clear();
-                foreach (var adjStat in bl.GetAllAdjacentStations())
-                    adjStats.Add(adjStat);
+                UpdateAdjacentStationsView(sender, e);
             }
         }
         private void pbUpdateStat_Click(object sender, RoutedEventArgs e)
@@ -127,16 +125,12 @@ namespace PlGui
             updateStationWindow.ShowDialog();
             updateStationWindow.Closed += UpdateLinesView;
         }
-
-        private void UpdateLinesView(object sender, EventArgs e)
+        private void UpdateStationsView(object sender, EventArgs e)
         {
-            // update linesView
-            lines.Clear();
-            foreach (var line in bl.GetAllLines())
-                lines.Add(line);
-
-            cbLineNum.SelectedItem = lines[0];
-            lineStationsListView.DataContext = lines[0].Stations;
+            // update stations view
+            stations.Clear();
+            foreach (var station in bl.GetAllStations())
+                stations.Add(station);
         }
         #endregion
 
@@ -151,6 +145,13 @@ namespace PlGui
             updateAdjStat.Closed += UpdateLinesView;
             updateAdjStat.ShowDialog();
         }
+        private void UpdateAdjacentStationsView(object sender, EventArgs e)
+        {
+            // update adjacent stations view
+            adjStats.Clear();
+            foreach (var adjStat in bl.GetAllAdjacentStations())
+                adjStats.Add(adjStat);
+        }
         #endregion
 
         #region Lines View
@@ -159,6 +160,62 @@ namespace PlGui
             BO.Line line = (sender as ComboBox).SelectedItem as BO.Line;
             if (line != null)
                 lineStationsListView.DataContext = bl.GetLine(line.ID).Stations;
+        }
+        private void UpdateLinesView(object sender, EventArgs e)
+        {
+            // update linesView
+            lines.Clear();
+            foreach (var line in bl.GetAllLines())
+                lines.Add(line);
+            if(lines.Any())
+            {
+                cbLineNum.SelectedItem = lines[0];
+                lineStationsListView.DataContext = lines[0].Stations;
+            }
+            else
+                lineStationsListView.DataContext = null;
+        }
+        private void pbDeleteStationInLine_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.DeleteStationInLine(((sender as Button).DataContext as BO.LineStation).LineID, ((sender as Button).DataContext as BO.LineStation).StationCode);
+                UpdateLinesView(sender, e);
+                UpdateAdjacentStationsView(sender, e);
+            }
+            catch (InvalidOperationException ex) 
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void pbDeleteLine_Click(object sender, RoutedEventArgs e)
+        {
+            bl.DeleteLine(cbLineNum.SelectedItem as BO.Line);
+            UpdateLinesView(sender, e);
+        }
+        private void pbAddLine_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void pbDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            BO.LineStation lineStation = ((sender as Button).DataContext as BO.LineStation);
+            BO.Line line = cbLineNum.SelectedItem as BO.Line;
+            bl.MoveStationDownInLine(line.ID, lineStation.StationCode);
+            UpdateLinesView(sender, e);
+            UpdateAdjacentStationsView(sender, e);
+        }
+        private void pbUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            BO.LineStation lineStation = ((sender as Button).DataContext as BO.LineStation);
+            BO.Line line = cbLineNum.SelectedItem as BO.Line;
+            bl.MoveStationUpInLine(line.ID, lineStation.StationCode);
+            UpdateLinesView(sender, e);
+            UpdateAdjacentStationsView(sender,e);
+        }
+        private void lineStationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Hello there!\nTo see details about stations and to update times, refer to stations tab.\nThank you!");
         }
         #endregion
 

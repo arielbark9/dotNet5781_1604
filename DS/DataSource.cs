@@ -232,7 +232,7 @@ namespace DS
                     Active = true,
                     StationCode = 2524,
                     LineID = 0,
-                    StationPlacement = 0,
+                    StationPlacement = 1,
                     StationBeforeCode = 0,
                     StationAfterCode = 276
                 },
@@ -241,7 +241,7 @@ namespace DS
                     Active = true,
                     StationCode = 276,
                     LineID = 0,
-                    StationPlacement = 1,
+                    StationPlacement = 2,
                     StationBeforeCode = 2524,
                     StationAfterCode = 277
                 },
@@ -250,7 +250,7 @@ namespace DS
                     Active = true,
                     StationCode = 277,
                     LineID = 0,
-                    StationPlacement = 2,
+                    StationPlacement = 3,
                     StationBeforeCode = 276,
                     StationAfterCode = 2538
                 },
@@ -259,7 +259,7 @@ namespace DS
                     Active = true,
                     StationCode = 2538,
                     LineID = 0,
-                    StationPlacement = 3,
+                    StationPlacement = 4,
                     StationBeforeCode = 277,
                     StationAfterCode = 2944
                 },
@@ -268,7 +268,7 @@ namespace DS
                     Active = true,
                     StationCode = 2944,
                     LineID = 0,
-                    StationPlacement = 4,
+                    StationPlacement = 5,
                     StationBeforeCode = 2538,
                     StationAfterCode = 2539
                 },
@@ -277,7 +277,7 @@ namespace DS
                     Active = true,
                     StationCode = 2539,
                     LineID = 0,
-                    StationPlacement = 5,
+                    StationPlacement = 6,
                     StationBeforeCode = 2944,
                     StationAfterCode = 4216
                 },
@@ -286,7 +286,7 @@ namespace DS
                     Active = true,
                     StationCode = 4216,
                     LineID = 0,
-                    StationPlacement = 6,
+                    StationPlacement = 7,
                     StationBeforeCode = 2539,
                     StationAfterCode = 4159
                 },
@@ -295,7 +295,7 @@ namespace DS
                     Active = true,
                     StationCode = 4159,
                     LineID = 0,
-                    StationPlacement = 7,
+                    StationPlacement = 8,
                     StationBeforeCode = 4216,
                     StationAfterCode = 800
                 },
@@ -304,7 +304,7 @@ namespace DS
                     Active = true,
                     StationCode = 800,
                     LineID = 0,
-                    StationPlacement = 8,
+                    StationPlacement = 9,
                     StationBeforeCode = 4159,
                     StationAfterCode = 3375
                 },
@@ -313,7 +313,7 @@ namespace DS
                     Active = true,
                     StationCode = 3375,
                     LineID = 0,
-                    StationPlacement = 9,
+                    StationPlacement = 10,
                     StationBeforeCode = 800,
                     StationAfterCode = 221
                 },
@@ -322,7 +322,7 @@ namespace DS
                     Active = true,
                     StationCode = 221,
                     LineID = 0,
-                    StationPlacement = 10,
+                    StationPlacement = 11,
                     StationBeforeCode = 3375,
                     StationAfterCode = 2531
                 },
@@ -331,7 +331,7 @@ namespace DS
                     Active = true,
                     StationCode = 2531,
                     LineID = 0,
-                    StationPlacement = 11,
+                    StationPlacement = 12,
                     StationBeforeCode = 221,
                     StationAfterCode = 973
                 },
@@ -340,7 +340,7 @@ namespace DS
                     Active = true,
                     StationCode = 973,
                     LineID = 0,
-                    StationPlacement = 12,
+                    StationPlacement = 13,
                     StationBeforeCode = 2531,
                     StationAfterCode = 975
                 },
@@ -349,7 +349,7 @@ namespace DS
                     Active = true,
                     StationCode = 975,
                     LineID = 0,
-                    StationPlacement = 13,
+                    StationPlacement = 14,
                     StationBeforeCode = 973,
                     StationAfterCode = 6094
                 },
@@ -358,7 +358,7 @@ namespace DS
                     Active = true,
                     StationCode = 6094,
                     LineID = 0,
-                    StationPlacement = 14,
+                    StationPlacement = 15,
                     StationBeforeCode = 975,
                     StationAfterCode = 950
                 },
@@ -367,7 +367,7 @@ namespace DS
                     Active = true,
                     StationCode = 950,
                     LineID = 0,
-                    StationPlacement = 15,
+                    StationPlacement = 16,
                     StationBeforeCode = 6094,
                     StationAfterCode = 1512
                 },
@@ -376,7 +376,7 @@ namespace DS
                     Active = true,
                     StationCode = 1512,
                     LineID = 0,
-                    StationPlacement = 16,
+                    StationPlacement = 17,
                     StationBeforeCode = 950,
                     StationAfterCode = 1539
                 },
@@ -385,7 +385,7 @@ namespace DS
                     Active = true,
                     StationCode = 1539,
                     LineID = 0,
-                    StationPlacement = 17,
+                    StationPlacement = 18,
                     StationBeforeCode = 1512,
                     StationAfterCode = 2398
                 },
@@ -394,7 +394,7 @@ namespace DS
                     Active = true,
                     StationCode = 2398,
                     LineID = 0,
-                    StationPlacement = 18,
+                    StationPlacement = 19,
                     StationBeforeCode = 1539,
                     StationAfterCode = 222
                 },
@@ -403,7 +403,7 @@ namespace DS
                     Active = true,
                     StationCode = 222,
                     LineID = 0,
-                    StationPlacement = 19,
+                    StationPlacement = 20,
                     StationBeforeCode = 2398,
                     StationAfterCode = 3093
                 },
@@ -412,7 +412,7 @@ namespace DS
                     Active = true,
                     StationCode = 3093,
                     LineID = 0,
-                    StationPlacement = 20,
+                    StationPlacement = 21,
                     StationBeforeCode = 222,
                     StationAfterCode = 0
                 },
@@ -421,7 +421,7 @@ namespace DS
                     Active = true,
                     StationCode = 2398,
                     LineID = 1,
-                    StationPlacement = 0,
+                    StationPlacement = 1,
                     StationBeforeCode = 1539,
                     StationAfterCode = 222
                 },
@@ -430,7 +430,7 @@ namespace DS
                     Active = true,
                     StationCode = 222,
                     LineID = 1,
-                    StationPlacement = 1,
+                    StationPlacement = 2,
                     StationBeforeCode = 2398,
                     StationAfterCode = 3093
                 },
@@ -439,7 +439,7 @@ namespace DS
                     Active = true,
                     StationCode = 3093,
                     LineID = 1,
-                    StationPlacement = 2,
+                    StationPlacement = 3,
                     StationBeforeCode = 222,
                     StationAfterCode = 0
                 }
