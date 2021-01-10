@@ -1,0 +1,60 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlGui"
+        xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.AddStationToLineWindow"
+        mc:Ignorable="d"
+        Title="AddStationToLineWindow" Height="400" Width="450">
+    <Window.Resources>
+        <CollectionViewSource x:Key="stationViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Station}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="pbAddStations" Content="Add Selected Stations" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center" Click="pbAddStations_Click"/>
+            <Button x:Name="pbCancel" Content="Cancel" Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="80" Click="pbCancel_Click"/>
+        </Grid>
+        <ListView x:Name="stationListView" DataContext="{StaticResource stationViewSource}" ItemsSource="{Binding}" Margin="5" SelectionMode="Single">
+            <ListView.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="stationSelectColumn" Header="Add" Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox x:Name="checkBoxAdd" VerticalAlignment="Center" HorizontalAlignment="Center" Checked="checkBoxAdd_Checked" Unchecked="checkBoxAdd_Unchecked"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="stationCodeColumn" Header="Station Code" Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding StationCode}" Margin="6,-1,-6,-1"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="stationNameColumn" Header="Station Name" Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding StationName}" Margin="-6,-1"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>

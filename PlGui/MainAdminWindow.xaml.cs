@@ -217,6 +217,13 @@ namespace PlGui
         {
             MessageBox.Show("Hello there!\nTo see details about stations and to update times, refer to stations tab.\nThank you!");
         }
+        private void pbAddStationToLine_Click(object sender, RoutedEventArgs e)
+        {
+            AddStationToLineWindow addStationToLineWindow = new AddStationToLineWindow(bl, stations.ToList(), cbLineNum.SelectedItem as BO.Line);
+            addStationToLineWindow.Closed += UpdateLinesView;
+            addStationToLineWindow.Closed += UpdateAdjacentStationsView;
+            addStationToLineWindow.ShowDialog();
+        }
         #endregion
 
 

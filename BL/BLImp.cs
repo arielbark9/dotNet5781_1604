@@ -499,10 +499,18 @@ namespace BL
         }
         public void AddLineStation(BO.LineStation newLineStation)
         {
-            BO.Line line = LineDoBoAdapter(dl.GetLine(newLineStation.LineID));
-            int statIndex = line.Stations.FindIndex(x => x.StationCode == newLineStation.StationCode);
-            DO.LineStation lineStationDo = LineStationBoDoAdapter(newLineStation, line.Stations[statIndex - 1].StationCode, line.Stations[statIndex + 1].StationCode);
+            BO.Line line = LineDoBoAdapter(dl.GetLine(newLineStation.LineID)); // associated line
+            // add station to line
+            newLineStation.StationPlacement = line.Stations.Count + 1;
+            line.Stations.Add(newLineStation);
+            // add Adjacent Stations entity
+            int statIndex = newLineStation.StationPlacement - 1;
+            line.AdjStats.Add(new BO.AdjacentStations { Station1 = line.Stations[statIndex - 1].StationCode, Station2 = newLineStation.StationCode, Time = TimeSpan.Parse("0:0:0") });
+            // Add Line Station entity in DL
+            DO.LineStation lineStationDo = LineStationBoDoAdapter(newLineStation, line.Stations[statIndex - 1].StationCode, 0);
             dl.AddLineStation(lineStationDo);
+            // update Line
+            UpdateLine(line);
         }
         #endregion
 
