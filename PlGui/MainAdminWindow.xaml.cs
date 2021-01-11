@@ -217,7 +217,11 @@ namespace PlGui
         }
         private void lineStationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Hello there!\nTo see details about stations and to update times, refer to stations tab.\nThank you!");
+            BO.AdjacentStations adjStat = (cbLineNum.SelectedItem as BO.Line).AdjStats.Find(x => x.Station1 == ((sender as ListView).SelectedItem as BO.LineStation).StationCode);
+            UpdateAdjStatWindow updateAdjStat = new UpdateAdjStatWindow(adjStat, adjStats, bl);
+            updateAdjStat.Closed += UpdateAdjacentStationsView;
+            updateAdjStat.Closed += UpdateLinesView;
+            updateAdjStat.ShowDialog();
         }
         private void pbAddStationToLine_Click(object sender, RoutedEventArgs e)
         {

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using BLAPI;
@@ -22,7 +23,7 @@ namespace PlGui
             {
                 int stationOneCode = line.Stations[stationOneIndex].StationCode;
                 int stationTwoCode = line.Stations[stationOneIndex + 1].StationCode;
-                return line.AdjStats.Find(x => (x.Station1 == stationOneCode && x.Station2 == stationTwoCode)).Time;
+                return line.AdjStats.Find(x => (x.Station1 == stationOneCode && x.Station2 == stationTwoCode)).Time.ToString() ;
             }
             else
                 return null;
