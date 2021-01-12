@@ -218,6 +218,7 @@ namespace BL
 
             dl.UpdateLine(line.ID, (x) => 
             {
+                x.Active = true;
                 x.FirstStationCode = line.Stations[0].StationCode;
                 x.LastStationCode = line.Stations.Last().StationCode;
                 x.LineNum = line.LineNum;
