@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <dlconfig>
+    <dl>xml</dl>
+    <dl-packages>
+      <data namespace="DL" class="DalObject">DalObject</data>
+      <xml namespace="DL" class="DLXML">DLXml</xml>
+      <oracle namespace="DL_O" class="DLDbOracle">DLOracle</oracle>
+    </dl-packages>
+  </dlconfig>
+  <ids-entities>
+    <User>2</User>
+    <Line>3</Line>
+  </ids-entities>
+</config>

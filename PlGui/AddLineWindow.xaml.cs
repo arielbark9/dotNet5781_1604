@@ -43,9 +43,16 @@ namespace PlGui
         }
         private void pbAddLine_Click(object sender, RoutedEventArgs e)
         {
-            newLine.Region = (BO.Area)regionComboBox.SelectedItem;
-            bl.AddLine(newLine);
-            this.Close();
+            if (regionComboBox.SelectedValue != null && lineNumTextBox.Text != "0" && cbFirstStation.SelectedItem != null && cbLastStation.SelectedItem != null)
+            {
+                newLine.Region = (BO.Area)regionComboBox.SelectedItem;
+                newLine.AdjStats.Add(new BO.AdjacentStations { Station1 = newLine.Stations[0].StationCode, Station2 = newLine.Stations[1].StationCode, Time = TimeSpan.Zero });
+                newLine.LastStation = bl.GetStation(newLine.Stations[1].StationCode);
+                bl.AddLine(newLine);
+                this.Close();
+            }
+            else
+                MessageBox.Show("Please enter values in all the fields or Cancel!");
         }
 
         private void pbCancel_Click(object sender, RoutedEventArgs e)
@@ -67,12 +74,10 @@ namespace PlGui
         private void cbLastStation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             cbLastStation.IsEnabled = false;
-            if (newLine.Stations.Count == 1)
+            if (newLine.Stations.Count <= 1)
                 newLine.Stations.Add(new BO.LineStation { StationCode = (cbLastStation.SelectedItem as BO.Station).StationCode, StationPlacement = 2 });
             else
                 newLine.Stations[1] = new BO.LineStation { StationCode = (cbLastStation.SelectedItem as BO.Station).StationCode, StationPlacement = 2 };
-            newLine.AdjStats.Add(new BO.AdjacentStations { Station1 = newLine.Stations[0].StationCode, Station2 = newLine.Stations[1].StationCode, Time = TimeSpan.Zero });
-            newLine.LastStation = bl.GetStation(newLine.Stations[1].StationCode);
         }
         #region input check
         private void lineNumTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)

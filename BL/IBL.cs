@@ -53,6 +53,7 @@ namespace BLAPI
         // no option for user to delete or add
         IEnumerable<BO.AdjacentStations> GetAllAdjacentStations();
         void UpdateAdjacentStations(BO.AdjacentStations AdjStat);
+        void DeleteAdjacentStations(AdjacentStations adjStat);
         #endregion
     }
 }

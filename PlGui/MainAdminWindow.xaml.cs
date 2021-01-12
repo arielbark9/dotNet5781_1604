@@ -152,6 +152,21 @@ namespace PlGui
             foreach (var adjStat in bl.GetAllAdjacentStations())
                 adjStats.Add(adjStat);
         }
+        private void pbDeleteAdjStats_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateLinesView(sender, e);
+            foreach (var adjStat in adjStats)
+            {
+                bool delete = true;
+                foreach (var line in lines)
+                    if (line.AdjStats.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2) != null)
+                        delete = false;
+
+                if(delete)
+                    bl.DeleteAdjacentStations(adjStat);
+            }
+            UpdateAdjacentStationsView(sender, e);
+        }
         #endregion
 
         #region Lines View
@@ -232,8 +247,9 @@ namespace PlGui
             addStationToLineWindow.Closed += UpdateAdjacentStationsView;
             addStationToLineWindow.ShowDialog();
         }
+
         #endregion
 
-
+       
     }
 }

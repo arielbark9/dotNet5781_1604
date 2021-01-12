@@ -36,7 +36,7 @@ namespace PlGui
 
         private void checkBoxAdd_Checked(object sender, RoutedEventArgs e)
         {
-            stationsToAdd.Add(((sender as CheckBox).DataContext as BO.Station).StationCode);
+            stationsToAdd.Insert(0, ((sender as CheckBox).DataContext as BO.Station).StationCode);
         }
         private void checkBoxAdd_Unchecked(object sender, RoutedEventArgs e)
         {

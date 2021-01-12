@@ -147,4 +147,88 @@
     <Longitude>35.190945</Longitude>
     <Active>true</Active>
   </Station>
+  <Station>
+    <StationCode>123</StationCode>
+    <StationName>fake stat</StationName>
+    <Latitude>2</Latitude>
+    <Longitude>20</Longitude>
+    <Active>false</Active>
+  </Station>
+  <Station>
+    <StationCode>47962</StationCode>
+    <StationName>Mercazit Hadera</StationName>
+    <Latitude>32.45962</Latitude>
+    <Longitude>34.914021</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>41788</StationCode>
+    <StationName>Ehad Haam/Rotchild</StationName>
+    <Latitude>32.434276</Latitude>
+    <Longitude>34.920598</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>40200</StationCode>
+    <StationName>Hagiborim/Haaliya Harishona</StationName>
+    <Latitude>32.436167</Latitude>
+    <Longitude>34.922872</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>40227</StationCode>
+    <StationName>Vaytzman/Jerusalem</StationName>
+    <Latitude>32.437864</Latitude>
+    <Longitude>34.92632</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>40255</StationCode>
+    <StationName>Hevrat Hashmal/Tzahal</StationName>
+    <Latitude>32.441546</Latitude>
+    <Longitude>34.932949</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>40420</StationCode>
+    <StationName>Tzomet Granot</StationName>
+    <Latitude>32.447713</Latitude>
+    <Longitude>34.957584</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>40458</StationCode>
+    <StationName>Tzomet Talmey Elazar</StationName>
+    <Latitude>32.449809</Latitude>
+    <Longitude>34.963141</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>40557</StationCode>
+    <StationName>Tzomet Mahane Shmonim</StationName>
+    <Latitude>32.457376</Latitude>
+    <Longitude>34.984447</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>46132</StationCode>
+    <StationName>Tzomet Karkur</StationName>
+    <Latitude>32.4654</Latitude>
+    <Longitude>34.994606</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>46133</StationCode>
+    <StationName>Tzomet Mishmar Hagvul</StationName>
+    <Latitude>32.481259</Latitude>
+    <Longitude>35.026274</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>640</StationCode>
+    <StationName>Mehlaf Hemed</StationName>
+    <Latitude>31.80033</Latitude>
+    <Longitude>35.126238</Longitude>
+    <Active>true</Active>
+  </Station>
 </ArrayOfStation>

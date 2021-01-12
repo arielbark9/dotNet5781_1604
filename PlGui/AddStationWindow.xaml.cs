@@ -70,7 +70,7 @@ namespace PlGui
         }
         private void stationNameTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-             Regex regex = new Regex("[^a-z]+");
+             Regex regex = new Regex("[^a-z^A-Z/]+");
             e.Handled = regex.IsMatch(e.Text);
         }
         private static bool IsTextAllowed(string text)

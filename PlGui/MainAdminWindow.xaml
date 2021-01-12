@@ -207,7 +207,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.8*"/>
+                        <ColumnDefinition Width="1.6*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <ListView x:Name="stationListView" Grid.ColumnSpan="1" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}"  SelectionMode="Single" Margin="5,5" MouseDoubleClick="stationListView_MouseDoubleClick">
@@ -260,17 +260,17 @@
                         </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn x:Name="station1Column" Header="Station 1" Width="auto">
+                                <GridViewColumn x:Name="station1Column" Header="Station 1" Width="80">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Station1}" Margin="1,1"/>
+                                            <Label Content="{Binding Station1}" Margin="1,1" Width="auto"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn x:Name="station2Column" Header="Station 2" Width="auto">
+                                <GridViewColumn x:Name="station2Column" Header="Station 2" Width="80">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Station2}" Margin="1,1"/>
+                                            <Label Content="{Binding Station2}" Margin="1,1" Width="auto"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -293,6 +293,7 @@
                     </ListView>
                     <Label Content="All active stations in the system" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" FontSize="20" FontFamily="Times New Roman" FontWeight="Bold" Background="{x:Null}" Foreground="#FFFF5050"/>
                     <Label Content="All adjacent stations" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" Foreground="#FFFF5050" FontSize="20" FontWeight="Bold" FontFamily="Times New Roman"/>
+                    <Button x:Name="pbDeleteAdjStats" Content="Delete Unused Pairs" HorizontalAlignment="Right" Margin="3,3" Grid.Row="2" VerticalAlignment="Center" Width="auto" Click="pbDeleteAdjStats_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="User Details" Width="200">

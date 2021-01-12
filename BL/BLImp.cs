@@ -596,6 +596,18 @@ namespace BL
             DO.AdjacentStations adjStatDo = new DO.AdjacentStations { Active = true, Station1 = s1.StationCode, Station2 = s2.StationCode, Time = time};
             dl.AddAdjacentStation(adjStatDo);
         }
+        public void DeleteAdjacentStations(BO.AdjacentStations adjStat)
+        {
+            DO.AdjacentStations adjStatDo = new DO.AdjacentStations() { Station1 = adjStat.Station1, Station2 = adjStat.Station2 };
+            try
+            {
+                dl.DeleteAdjacentStation(adjStatDo);
+            }
+            catch (ArgumentException)
+            {
+                throw new ArgumentException("Fatal Error!");
+            }
+        }
         #endregion
     }
 }

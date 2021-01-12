@@ -4,7 +4,7 @@
     <Active>true</Active>
     <Station1>2524</Station1>
     <Station2>276</Station2>
-    <Distance>0.1</Distance>
+    <Distance>0</Distance>
     <Time>PT1M20S</Time>
   </AdjacentStations>
   <AdjacentStations>
@@ -139,5 +139,82 @@
     <Station2>3093</Station2>
     <Distance>0.3</Distance>
     <Time>PT2M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>640</Station1>
+    <Station2>4159</Station2>
+    <Distance>0</Distance>
+    <Time>PT12M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>41788</Station1>
+    <Station2>40200</Station2>
+    <Distance>0</Distance>
+    <Time>PT1M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>47962</Station1>
+    <Station2>41788</Station2>
+    <Distance>0</Distance>
+    <Time>PT3M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>40200</Station1>
+    <Station2>40227</Station2>
+    <Distance>0</Distance>
+    <Time>PT1M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>40227</Station1>
+    <Station2>40255</Station2>
+    <Distance>0</Distance>
+    <Time>PT2M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>40255</Station1>
+    <Station2>40420</Station2>
+    <Distance>0</Distance>
+    <Time>PT4M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>40420</Station1>
+    <Station2>40458</Station2>
+    <Distance>0</Distance>
+    <Time>PT1M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>40458</Station1>
+    <Station2>40557</Station2>
+    <Distance>0</Distance>
+    <Time>PT3M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>40557</Station1>
+    <Station2>46132</Station2>
+    <Distance>0</Distance>
+    <Time>PT1M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>46132</Station1>
+    <Station2>46133</Station2>
+    <Distance>0</Distance>
+    <Time>PT3M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Active>true</Active>
+    <Station1>46133</Station1>
+    <Station2>640</Station2>
+    <Distance>0</Distance>
+    <Time>PT1H8M</Time>
   </AdjacentStations>
 </ArrayOfAdjacentStations>

@@ -16,4 +16,12 @@
     <Region>General</Region>
     <Active>true</Active>
   </Line>
+  <Line>
+    <ID>2</ID>
+    <LineNum>942</LineNum>
+    <FirstStationCode>47962</FirstStationCode>
+    <LastStationCode>4159</LastStationCode>
+    <Region>General</Region>
+    <Active>true</Active>
+  </Line>
 </ArrayOfLine>
