@@ -18,6 +18,7 @@ namespace DLAPI
         void AddUser(DO.User newUser);
         IEnumerable<DO.User> GetAllUsers();
         void UpdateUser(int userID, Action<User> update);
+        void UpdateUser(User user);
         void DeleteUser(int userID);
         #endregion
 
@@ -33,6 +34,7 @@ namespace DLAPI
         IEnumerable<DO.Line> GetAllLines();
         DO.Line GetLine(int lineID);
         void UpdateLine(int lineID , Action<Line> update);
+        void UpdateLine(Line upLine);
         void DeleteLine(int lineID);
         #endregion
 

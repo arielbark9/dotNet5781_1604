@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ArrayOfLine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Line>
+    <ID>0</ID>
+    <LineNum>6</LineNum>
+    <FirstStationCode>2524</FirstStationCode>
+    <LastStationCode>3093</LastStationCode>
+    <Region>Jerusalem</Region>
+    <Active>true</Active>
+  </Line>
+  <Line>
+    <ID>1</ID>
+    <LineNum>18</LineNum>
+    <FirstStationCode>2398</FirstStationCode>
+    <LastStationCode>3093</LastStationCode>
+    <Region>General</Region>
+    <Active>true</Active>
+  </Line>
+</ArrayOfLine>

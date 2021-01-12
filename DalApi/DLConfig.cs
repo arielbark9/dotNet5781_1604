@@ -20,7 +20,8 @@ namespace DLAPI
         internal static Dictionary<string, DLPackage> DLPackages;
         static DLConfig()
         {
-            XElement dlConfig = XElement.Load(@"CONFIG.xml");
+            XElement root = XElement.Load(@"XML\CONFIG.xml");
+            XElement dlConfig = root.Element("dlconfig");
             DLName = dlConfig.Element("dl").Value;
             DLPackages = (from pkg in dlConfig.Element("dl-packages").Elements()
                           let tmp1 = pkg.Attribute("namespace")

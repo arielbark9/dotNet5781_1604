@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Station>
+    <StationCode>2524</StationCode>
+    <StationName>Masof Eged/Kanfey Nesharim</StationName>
+    <Latitude>31.787175</Latitude>
+    <Longitude>35.181048</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>276</StationCode>
+    <StationName>Beit Inbar/Kanfey Nesharim</StationName>
+    <Latitude>31.787528</Latitude>
+    <Longitude>35.184601</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>277</StationCode>
+    <StationName>Mercaz Shetner/Kanfey Nesharim</StationName>
+    <Latitude>31.78751</Latitude>
+    <Longitude>35.188178</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>2538</StationCode>
+    <StationName>Yemin Avot</StationName>
+    <Latitude>31.78751</Latitude>
+    <Longitude>35.193736</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>2944</StationCode>
+    <StationName>Tzvi Yehuda/Hameiri</StationName>
+    <Latitude>31.787508</Latitude>
+    <Longitude>35.19541</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>2539</StationCode>
+    <StationName>Merkaz Harav/Tzvi Yehuda</StationName>
+    <Latitude>31.787352</Latitude>
+    <Longitude>35.1969</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>4216</StationCode>
+    <StationName>Gesher Hameytarim/Herzel</StationName>
+    <Latitude>31.787171</Latitude>
+    <Longitude>35.199532</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>4159</StationCode>
+    <StationName>Mercazit Jerusalem (B1-B2)</StationName>
+    <Latitude>31.788603</Latitude>
+    <Longitude>35.202593</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>800</StationCode>
+    <StationName>Binyaney Hauma/Hanasi Hashishi</StationName>
+    <Latitude>31.78634</Latitude>
+    <Longitude>35.203701</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>3375</StationCode>
+    <StationName>Haleom/Hanasi Hashishi</StationName>
+    <Latitude>31.783139</Latitude>
+    <Longitude>35.203037</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>221</StationCode>
+    <StationName>Misrad Hahutz/Rabin</StationName>
+    <Latitude>31.782889</Latitude>
+    <Longitude>35.202207</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>2531</StationCode>
+    <StationName>Shachal/Heler</StationName>
+    <Latitude>31.765953</Latitude>
+    <Longitude>35.194083</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>973</StationCode>
+    <StationName>Mercaz Mischari/Shachal</StationName>
+    <Latitude>31.764457</Latitude>
+    <Longitude>35.194399</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>975</StationCode>
+    <StationName>Shachal Alef</StationName>
+    <Latitude>31.763277</Latitude>
+    <Longitude>35.19555</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>6094</StationCode>
+    <StationName>Shachal/Harav Gold</StationName>
+    <Latitude>31.761532</Latitude>
+    <Longitude>35.196755</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>950</StationCode>
+    <StationName>Shachal Bet</StationName>
+    <Latitude>31.760286</Latitude>
+    <Longitude>35.197129</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>1512</StationCode>
+    <StationName>Harav Hertzog/Shachal</StationName>
+    <Latitude>31.761109</Latitude>
+    <Longitude>35.199936</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>1539</StationCode>
+    <StationName>Pat/Golomov</StationName>
+    <Latitude>31.757465</Latitude>
+    <Longitude>35.197119</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>2398</StationCode>
+    <StationName>Golomov/San Martin</StationName>
+    <Latitude>31.756807</Latitude>
+    <Longitude>35.194807</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>222</StationCode>
+    <StationName>Ted/A.S. Beitar</StationName>
+    <Latitude>31.751345</Latitude>
+    <Longitude>35.188474</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>3093</StationCode>
+    <StationName>Masof Eged/Benbenisti</StationName>
+    <Latitude>31.748797</Latitude>
+    <Longitude>35.190945</Longitude>
+    <Active>true</Active>
+  </Station>
+</ArrayOfStation>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
-
+using DL;
 namespace DS
 {
     public static class DataSource
@@ -17,9 +17,23 @@ namespace DS
         public static List<Line> ListLines;
         public static List<AdjacentStations> ListAdjacentStations;
         #endregion
+        #region DS XML Files
+        readonly static string busesPath = @"BusesXml.xml"; //XElement
+        readonly static string stationsPath = @"StationsXml.xml"; //XMLSerializer
+        readonly static string lineStationsPath = @"LineStationsXml.xml"; //XMLSerializer
+        readonly static string linesPath = @"LinesXml.xml"; //XMLSerializer
+        readonly static string adjacentStationsPath = @"AdjacentStationsXml.xml"; //XMLSerializer
+        readonly static string usersPath = @"UsersXml.xml"; //XMLSerializer
+        #endregion
         static DataSource()
         {
             InitAllLists();
+            XMLTools.SaveListToXMLSerializer<Bus>(ListBuses, busesPath);
+            XMLTools.SaveListToXMLSerializer<User>(ListUsers, usersPath);
+            XMLTools.SaveListToXMLSerializer<Station>(ListStations, stationsPath);
+            XMLTools.SaveListToXMLSerializer<LineStation>(ListLineStations, lineStationsPath);
+            XMLTools.SaveListToXMLSerializer<AdjacentStations>(ListAdjacentStations, adjacentStationsPath);
+            XMLTools.SaveListToXMLSerializer<Line>(ListLines, linesPath);
         }
         private static void InitAllLists()
         {
@@ -629,5 +643,6 @@ namespace DS
                 }
             };
         }
+
     }
 }

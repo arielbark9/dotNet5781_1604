@@ -38,6 +38,10 @@ namespace DL
         {
             throw new NotImplementedException();
         }
+        public void UpdateUser(User user)
+        {
+            throw new NotImplementedException();
+        }
         public void DeleteUser(int userID)
         {
             throw new NotImplementedException();
@@ -124,6 +128,10 @@ namespace DL
             }
             else
                 throw new ArgumentException("Invalid Line ID Number");
+        }
+        public void UpdateLine(Line upLine)
+        {
+            throw new NotImplementedException();
         }
         public void DeleteLine(int lineID)
         {

@@ -163,14 +163,16 @@ namespace PlGui
         }
         private void UpdateLinesView(object sender, EventArgs e)
         {
+            int selectedLineId = (cbLineNum.SelectedItem as BO.Line).ID;
             // update linesView
             lines.Clear();
             foreach (var line in bl.GetAllLines())
                 lines.Add(line);
-            if(lines.Any())
+            BO.Line lineToDisplay = lines.FirstOrDefault(x => x.ID == selectedLineId);
+            if (lineToDisplay != null)
             {
-                cbLineNum.SelectedItem = lines[0];
-                lineStationsListView.DataContext = lines[0].Stations;
+                cbLineNum.SelectedItem = lines.FirstOrDefault(x => x.ID == selectedLineId);
+                lineStationsListView.DataContext = lineToDisplay.Stations;
             }
             else
                 lineStationsListView.DataContext = null;
