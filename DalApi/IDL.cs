@@ -38,6 +38,13 @@ namespace DLAPI
         void DeleteLine(int lineID);
         #endregion
 
+        #region Line Trip
+        void AddLineTrip(DO.LineTrip newLineTrip);
+        IEnumerable<DO.LineTrip> GetAllLineTrips();
+        DO.LineTrip GetLineTrip(int lineID);
+        void DeleteLineTrip(int lineID);
+        #endregion
+
         #region Station
         void AddStation(DO.Station newStation);
         IEnumerable<DO.Station> GetAllStations();

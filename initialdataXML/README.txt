@@ -3,6 +3,6 @@
 DISCLAIMER:
 	this folder is only so github could see
 	the data in xml. to use it put it in the
-	bin folder.
+	bin folder under name "XML".
 /////////////////////////////////////////////
 /////////////////////////////////////////////

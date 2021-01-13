@@ -8,7 +8,7 @@ namespace DO
 {
     public class Bus
     {
-        public int LicenceNum { get; set; }
+        public int LicenceNum { get; set; } // IDENTIFIER
         public DateTime StartDate { get; set; }
         public DateTime DateSinceMaintenance { get; set; }
         public int Mileage { get; set; }

@@ -15,7 +15,7 @@ namespace BO
         private double longitude;
         private List<LineStation> lineStationsByStation;
 
-        public int StationCode { get; set; }
+        public int StationCode { get; set; } // IDENTIFIER
         public string StationName
         {
             get => stationName;

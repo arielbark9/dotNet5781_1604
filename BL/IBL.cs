@@ -34,6 +34,7 @@ namespace BLAPI
         void DeleteStationInLine(int lineID, int stationCode);
         void MoveStationDownInLine(int lineID, int stationCode);
         void MoveStationUpInLine(int lineID, int stationCode);
+        List<TimeSpan> GetLineSchedule(BO.Line line);
         #endregion
 
         #region Station

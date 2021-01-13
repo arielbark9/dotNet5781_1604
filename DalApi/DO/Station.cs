@@ -8,7 +8,7 @@ namespace DO
 {
     public class Station
     {
-        public int StationCode { get; set; }
+        public int StationCode { get; set; } // IDENTIFIER
         public string StationName { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }

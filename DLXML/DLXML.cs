@@ -22,6 +22,7 @@ namespace DL
         readonly string stationsPath = @"StationsXml.xml"; //XMLSerializer
         readonly string lineStationsPath = @"LineStationsXml.xml"; //XMLSerializer
         readonly string linesPath = @"LinesXml.xml"; //XMLSerializer
+        readonly string lineTripsPath = @"LineTripsXml.xml"; //XMLSerializer
         readonly string adjacentStationsPath = @"AdjacentStationsXml.xml"; //XMLSerializer
         readonly string usersPath = @"UsersXml.xml"; //XMLSerializer
         #endregion
@@ -237,7 +238,7 @@ namespace DL
             List<AdjacentStations> ListAdjacentStations = XMLTools.LoadListFromXMLSerializer<AdjacentStations>(adjacentStationsPath);
             AdjacentStations adjStat = ListAdjacentStations.Find(x => x.Station1 == adjacentStation.Station1 && x.Station2 == adjacentStation.Station2);
             if (adjStat != null)
-                adjStat.Active = false;
+                ListAdjacentStations.Remove(adjStat);
             else
                 throw new ArgumentException("ERROR! that adjacentStation does not exist!");
             XMLTools.SaveListToXMLSerializer<AdjacentStations>(ListAdjacentStations, adjacentStationsPath);
@@ -245,8 +246,8 @@ namespace DL
         public AdjacentStations GetAdjacentStations(int stationCode1, int stationCode2)
         {
             List<AdjacentStations> ListAdjacentStations = XMLTools.LoadListFromXMLSerializer<AdjacentStations>(adjacentStationsPath);
-            if (ListAdjacentStations.Where(x => x.Active == true).FirstOrDefault(x => x.Station1 == stationCode1 && x.Station2 == stationCode2) != null)
-                return ListAdjacentStations.Where(x => x.Active == true).FirstOrDefault(x => x.Station1 == stationCode1 && x.Station2 == stationCode2);
+            if (ListAdjacentStations.FirstOrDefault(x => x.Station1 == stationCode1 && x.Station2 == stationCode2) != null)
+                return ListAdjacentStations.FirstOrDefault(x => x.Station1 == stationCode1 && x.Station2 == stationCode2);
             else
                 throw new ArgumentException("ERROR! no such Adjacent stations entity");
         }
@@ -254,24 +255,14 @@ namespace DL
         {
             List<AdjacentStations> ListAdjacentStations = XMLTools.LoadListFromXMLSerializer<AdjacentStations>(adjacentStationsPath);
             return from adjacentStation in ListAdjacentStations
-                   where adjacentStation.Active == true
                    select adjacentStation;
         }
         public void AddAdjacentStation(AdjacentStations newAdjacentStations)
         {
-            newAdjacentStations.Active = true;
             List<AdjacentStations> ListAdjacentStations = XMLTools.LoadListFromXMLSerializer<AdjacentStations>(adjacentStationsPath);
             AdjacentStations oldAdjacentStations = ListAdjacentStations.FirstOrDefault(x => x.Station1 == newAdjacentStations.Station1 && x.Station2 == newAdjacentStations.Station2);
             if (oldAdjacentStations != null)
-            {
-                if (oldAdjacentStations.Active == false)
-                {
-                    oldAdjacentStations.Active = true;
-                    UpdateAdjacentStation(newAdjacentStations);
-                }
-                else
-                    throw new InvalidOperationException("ERROR! these adjacent stations Already Exist!");
-            }
+                throw new InvalidOperationException("ERROR! these adjacent stations Already Exist!");
             else
                 ListAdjacentStations.Add(newAdjacentStations);
 
@@ -279,7 +270,6 @@ namespace DL
         }
         public void UpdateAdjacentStation(AdjacentStations update)
         {
-            update.Active = true;
             List<AdjacentStations> ListAdjacentStations = XMLTools.LoadListFromXMLSerializer<AdjacentStations>(adjacentStationsPath);
             AdjacentStations adjacentStation = ListAdjacentStations.Find(x => x.Station1 == update.Station1 && x.Station2 == update.Station2);
             if (adjacentStation != null)
@@ -416,6 +406,51 @@ namespace DL
             else
                 throw new ArgumentException("ERROR! that line does not exist!");
             XMLTools.SaveListToXMLSerializer<Line>(ListLines, linesPath);
+        }
+        #endregion
+
+        #region LineTrip
+        public void AddLineTrip(LineTrip newLineTrip)
+        {
+            newLineTrip.Active = true;
+            List<LineTrip> ListLineTrips = XMLTools.LoadListFromXMLSerializer<LineTrip>(lineTripsPath);
+            LineTrip oldLineTrip = ListLineTrips.FirstOrDefault(x => x.LineID == newLineTrip.LineID);
+            if (oldLineTrip != null)
+            {
+                if (oldLineTrip.Active == false)
+                    newLineTrip.CopyPropertiesTo(oldLineTrip);
+                else
+                    throw new InvalidOperationException("ERROR! LineTrip Already Exists!");
+            }
+            else
+                ListLineTrips.Add(newLineTrip);
+
+            XMLTools.SaveListToXMLSerializer<LineTrip>(ListLineTrips, lineTripsPath);
+        }
+        public IEnumerable<LineTrip> GetAllLineTrips()
+        {
+            List<LineTrip> listLineTrips = XMLTools.LoadListFromXMLSerializer<LineTrip>(lineTripsPath);
+            return from line in listLineTrips
+                   where line.Active == true
+                   select line;
+        }
+        public LineTrip GetLineTrip(int lineID)
+        {
+            List<LineTrip> listLineTrips = XMLTools.LoadListFromXMLSerializer<LineTrip>(lineTripsPath);
+            if (listLineTrips.Where(x => x.Active == true).FirstOrDefault(x => x.LineID == lineID) != null)
+                return listLineTrips.Where(x => x.Active == true).FirstOrDefault(x => x.LineID == lineID);
+            else
+                return null;
+        }
+        public void DeleteLineTrip(int lineID)
+        {
+            List<LineTrip> ListLineTrips = XMLTools.LoadListFromXMLSerializer<LineTrip>(lineTripsPath);
+            LineTrip line = ListLineTrips.Find(x => x.LineID == lineID);
+            if (line != null)
+                line.Active = false;
+            else
+                throw new ArgumentException("ERROR! that line does not exist!");
+            XMLTools.SaveListToXMLSerializer<LineTrip>(ListLineTrips, lineTripsPath);
         }
         #endregion
     }

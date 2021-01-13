@@ -14,7 +14,7 @@ namespace BO
         private List<LineStation> stations;
         private Area region;
 
-        public int ID { get; set; }
+        public int ID { get; set; } // IDENTIFIER
         public int LineNum
         {
             get => lineNum;
@@ -44,6 +44,7 @@ namespace BO
                 OnPropertyChanged();
             }
         }
+        public BO.LineTrip Trip { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")

@@ -12,8 +12,8 @@ namespace BO
     {
         private TimeSpan time;
 
-        public int Station1 { get; set; }
-        public int Station2 { get; set; }
+        public int Station1 { get; set; } // IDENTIFIER 1
+        public int Station2 { get; set; } // IDENTIFIER 2
         public TimeSpan Time
         {
             get => time; 

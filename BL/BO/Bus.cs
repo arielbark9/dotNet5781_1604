@@ -16,7 +16,7 @@ namespace BO
         private int mileageSinceFuel;
         private int mileageSinceMaintenance;
 
-        public int LicenceNum { get; set; }
+        public int LicenceNum { get; set; } // IDENTIFIER
         public DateTime StartDate
         {
             get => startDate; set

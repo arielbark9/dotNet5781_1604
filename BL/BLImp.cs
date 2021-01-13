@@ -140,6 +140,7 @@ namespace BL
             lineBo.AdjStats = new List<BO.AdjacentStations>();
             for (int i = 0; i < lineBo.Stations.Count - 1; i++)
                 lineBo.AdjStats.Add(AdjacentStationsDoBoAdapter(dl.GetAdjacentStations(lineBo.Stations[i].StationCode, lineBo.Stations[i + 1].StationCode)));
+            lineBo.Trip = LineTripDoBoAdapter(dl.GetLineTrip(lineBo.ID));
 
             return lineBo;
         }
@@ -205,7 +206,7 @@ namespace BL
             }
             foreach (var adjStat in line.AdjStats)
             {
-                DO.AdjacentStations adjacentStationsDo = new DO.AdjacentStations { Active = true, Station1 = adjStat.Station1, Station2 = adjStat.Station2, Time = adjStat.Time };
+                DO.AdjacentStations adjacentStationsDo = new DO.AdjacentStations {Station1 = adjStat.Station1, Station2 = adjStat.Station2, Time = adjStat.Time };
                 try
                 {
                     dl.UpdateAdjacentStation(adjacentStationsDo);
@@ -423,6 +424,36 @@ namespace BL
             // update line in DL
             UpdateLine(line);
         }
+        public List<TimeSpan> GetLineSchedule(BO.Line line)
+        {
+            List<TimeSpan> times = new List<TimeSpan>();
+            BO.LineTrip trip = LineTripDoBoAdapter(dl.GetLineTrip(line.ID));
+            if (trip == null)
+                return times;
+
+            TimeSpan addTime = trip.StartTime;
+            while(addTime<trip.EndTime)
+            {
+                times.Add(addTime);
+                addTime += trip.Frequency;
+            }
+
+            return times;
+        }
+        #endregion
+
+        #region Line Trip
+        private BO.LineTrip LineTripDoBoAdapter(DO.LineTrip tripDo)
+        {
+            if (tripDo != null)
+            {
+                BO.LineTrip tripBo = new BO.LineTrip();
+                tripDo.CopyPropertiesTo(tripBo);
+                return tripBo;
+            }
+            else
+                return null;
+        }
         #endregion
 
         #region Station
@@ -593,7 +624,7 @@ namespace BL
         }
         private void AddAdjacentStations(BO.LineStation s1, BO.LineStation s2, TimeSpan time)
         {
-            DO.AdjacentStations adjStatDo = new DO.AdjacentStations { Active = true, Station1 = s1.StationCode, Station2 = s2.StationCode, Time = time};
+            DO.AdjacentStations adjStatDo = new DO.AdjacentStations { Station1 = s1.StationCode, Station2 = s2.StationCode, Time = time};
             dl.AddAdjacentStation(adjStatDo);
         }
         public void DeleteAdjacentStations(BO.AdjacentStations adjStat)

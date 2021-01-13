@@ -247,9 +247,13 @@ namespace PlGui
             addStationToLineWindow.Closed += UpdateAdjacentStationsView;
             addStationToLineWindow.ShowDialog();
         }
-
+        private void pbLineSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            LineScheduleWindow scheduleWindow = new LineScheduleWindow(bl, cbLineNum.SelectedItem as BO.Line);
+            scheduleWindow.Show();
+        }
         #endregion
 
-       
+
     }
 }

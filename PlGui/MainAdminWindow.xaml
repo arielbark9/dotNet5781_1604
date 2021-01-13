@@ -22,76 +22,6 @@
             <RowDefinition Height="13*"/>
         </Grid.RowDefinitions>
         <TabControl Grid.Row="1">
-            <TabItem Header="Buses" Width="200">
-                <Grid DataContext="{StaticResource busViewSource}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="7*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <ListView x:Name="busListView" Grid.Row="0" SelectionMode="Single" Margin="0,0" ItemsSource="{Binding}" MouseDoubleClick="busListView_MouseDoubleClick">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn x:Name="busStatusColumn" Width="80" Header="Bus Status">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding BusStatus}" Margin="6,-1,-6,-1"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="licenceNumColumn" Width="80" Header="Licence Num">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding LicenceNum}" Margin="-6,-1"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="mileageColumn" Width="80" Header="Mileage">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Margin="-6,-1" Content="{Binding Mileage}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="startDateColumn" Width="100" Header="Start Date">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Margin="-6,-1" Content="{Binding StartDate}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="DriveColumn" Width="80">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button x:Name="pbDrive" Content="Drive" Margin="3,3" Click="pbDrive_Click"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="DeleteColumn" Width="80">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button x:Name="pbDelete" Content="Delete" Margin="3,3" Click="pbDelete_Click"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="updateColumn" Width="80">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button x:Name="pbUpdate" Content="Update" Margin="3,3" Click="pbUpdate_Click"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                        <ListView.ItemContainerStyle>
-                            <Style>
-                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-                    <Button x:Name="pbAddBus" Content="Add Bus" HorizontalAlignment="Stretch" Margin="200,10" Grid.Row="1" VerticalAlignment="Stretch" Width="auto" Click="pbAddBus_Click"/>
-                </Grid>
-            </TabItem>
             <TabItem Header="Lines" Width="200" >
                 <Grid x:Name="gridViewLines">
                     <Grid.RowDefinitions>
@@ -101,6 +31,7 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" Background="#FFBAFFD0">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1*"/>
@@ -119,8 +50,9 @@
                         </ComboBox>
                         <Label Content="Region :" Grid.Column="2" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
                         <TextBox x:Name="tbArea" Text="{Binding ElementName=cbLineNum, Path=SelectedItem.Region, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="3" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16" Background="#FFBAFFD0" BorderBrush="{x:Null}"/>
-                        <Button x:Name="pbAddLine" Content="New Line" Grid.Column="5" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Click="pbAddLine_Click" Background="#FFBAFFD0" BorderBrush="#FF0A1478"/>
-                        <Button x:Name="pbDeleteLine" Content="Delete" Grid.Column="4" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Click="pbDeleteLine_Click" Background="#FFBAFFD0" BorderBrush="#FF0A1478"/>
+                        <Button x:Name="pbAddLine" Content="New Line" Grid.Column="6" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Click="pbAddLine_Click" Background="#FFBAFFD0" BorderBrush="#FF0A1478"/>
+                        <Button x:Name="pbLineSchedule" Content="Schedule" Grid.Column="4" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Background="#FFBAFFD0" BorderBrush="#FF0A1478" Click="pbLineSchedule_Click"/>
+                        <Button x:Name="pbDeleteLine" Content="Delete" Grid.Column="5" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Click="pbDeleteLine_Click" Background="#FFBAFFD0" BorderBrush="#FF0A1478"/>
                     </Grid>
                     <ListView x:Name="lineStationsListView" DataContext="{DynamicResource lineStationsViewSource}" ItemsSource="{Binding}" Margin="0" Grid.Column="0" Width="auto" SelectionMode="Single" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" MouseDoubleClick="lineStationsListView_MouseDoubleClick" Background="{x:Null}">
                         <ListView.ItemContainerStyle>
@@ -298,6 +230,76 @@
             </TabItem>
             <TabItem Header="User Details" Width="200">
                 <Grid/>
+            </TabItem>
+            <TabItem Header="Buses" Width="200">
+                <Grid DataContext="{StaticResource busViewSource}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <ListView x:Name="busListView" Grid.Row="0" SelectionMode="Single" Margin="0,0" ItemsSource="{Binding}" MouseDoubleClick="busListView_MouseDoubleClick">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn x:Name="busStatusColumn" Width="80" Header="Bus Status">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding BusStatus}" Margin="6,-1,-6,-1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="licenceNumColumn" Width="80" Header="Licence Num">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding LicenceNum}" Margin="-6,-1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="mileageColumn" Width="80" Header="Mileage">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Margin="-6,-1" Content="{Binding Mileage}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="startDateColumn" Width="100" Header="Start Date">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Margin="-6,-1" Content="{Binding StartDate}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="DriveColumn" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="pbDrive" Content="Drive" Margin="3,3" Click="pbDrive_Click"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="DeleteColumn" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="pbDelete" Content="Delete" Margin="3,3" Click="pbDelete_Click"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="updateColumn" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="pbUpdate" Content="Update" Margin="3,3" Click="pbUpdate_Click"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                    <Button x:Name="pbAddBus" Content="Add Bus" HorizontalAlignment="Stretch" Margin="200,10" Grid.Row="1" VerticalAlignment="Stretch" Width="auto" Click="pbAddBus_Click"/>
+                </Grid>
             </TabItem>
         </TabControl>
         <Label x:Name="labelGreeting" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" Grid.Row="0" FontSize="20" FontFamily="Yu Gothic UI Light" Foreground="Black" Background="{x:Null}"/>
