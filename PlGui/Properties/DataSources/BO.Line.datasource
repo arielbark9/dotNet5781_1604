@@ -7,9 +7,6 @@
 -->
 <GenericObjectDataSource DisplayName="Line" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
    <Children>
-      <GenericObjectDataSource DisplayName="Stations" Version="1.0">
-         <TypeInfo>BO.LineStation, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
-      </GenericObjectDataSource>
       <GenericObjectDataSource DisplayName="LastStation" Version="1.0">
          <TypeInfo>BO.Station, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
          <TypeUISetting>
@@ -22,8 +19,26 @@
             </PropertyUISettings>
          </TypeUISetting>
       </GenericObjectDataSource>
-      <GenericObjectDataSource DisplayName="AdjStats" Version="1.0">
-         <TypeInfo>BO.AdjacentStations, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+      <GenericObjectDataSource DisplayName="Trip" Version="1.0">
+         <TypeInfo>BO.LineTrip, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+         <TypeUISetting>
+            <PropertyUISettings>
+               <PropertyUISetting Name="Line.Trip">
+                  <ControlSettings>
+                     <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
+                        <BindableControlInfo Name="Details" Type="Microsoft.VSDesigner.Data.DataForm.Windows.DetailView" />
+                     </ControlSetting>
+                  </ControlSettings>
+               </PropertyUISetting>
+               <PropertyUISetting Name="LineID">
+                  <ControlSettings>
+                     <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
+                        <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
+                     </ControlSetting>
+                  </ControlSettings>
+               </PropertyUISetting>
+            </PropertyUISettings>
+         </TypeUISetting>
       </GenericObjectDataSource>
    </Children>
    <TypeInfo>BO.Line, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>

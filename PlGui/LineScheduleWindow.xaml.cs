@@ -22,13 +22,44 @@ namespace PlGui
     {
         IBL bl;
         BO.Line line;
+        BO.LineTrip newTrip = new BO.LineTrip() { StartTime = TimeSpan.Zero, EndTime = TimeSpan.Zero, Frequency = TimeSpan.Zero};
         public LineScheduleWindow(IBL bl, BO.Line _line)
         {
             InitializeComponent();
             this.bl = bl;
             line = _line;
-            TopLabel.Content = $"Upcoming trips for line {line.LineNum}";
-            lineListBox.DataContext = bl.GetLineSchedule(line);
+            newTrip.LineID = line.ID;
+            if (line.Trip != null)
+                line.Trip.CopyPropertiesTo(newTrip);
+            TopLabel.Content = $"Add trip for line {line.LineNum}";
+            gridViewTrip.DataContext = newTrip;
+        }
+
+        private void pbAdd_Click(object sender, RoutedEventArgs e)
+        {
+            TimeSpan temp = new TimeSpan();
+            if (TimeSpan.TryParse(startTimeTextBox.Text, out temp) &&
+                TimeSpan.TryParse(endTimeTextBox.Text, out temp) &&
+                TimeSpan.TryParse(frequencyTextBox.Text, out temp))
+            {
+                try
+                {
+                    bl.AddLineTrip(newTrip);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                this.Close();
+            }
+            else
+                MessageBox.Show("ERROR: Time Value must be of correct format");
+
+        }
+
+        private void pbCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

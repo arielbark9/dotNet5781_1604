@@ -40,6 +40,7 @@ namespace PlGui
             busListView.DataContext = buses;
             lines = new ObservableCollection<BO.Line>(from item in bl.GetAllLines() select item);
             lineStationsListView.DataContext = lines[0].Stations;
+            lineTripsListView.DataContext = bl.GetLineSchedule(lines[0]);
             cbLineNum.DataContext = lines;
             cbLineNum.SelectedItem = lines[0];
             stations = new ObservableCollection<BO.Station>(from item in bl.GetAllStations() select item);
@@ -174,7 +175,10 @@ namespace PlGui
         {
             BO.Line line = (sender as ComboBox).SelectedItem as BO.Line;
             if (line != null)
+            {
                 lineStationsListView.DataContext = bl.GetLine(line.ID).Stations;
+                lineTripsListView.DataContext = bl.GetLineSchedule(line);
+            }
         }
         private void UpdateLinesView(object sender, EventArgs e)
         {
@@ -188,9 +192,13 @@ namespace PlGui
             {
                 cbLineNum.SelectedItem = lines.FirstOrDefault(x => x.ID == selectedLineId);
                 lineStationsListView.DataContext = lineToDisplay.Stations;
+                lineTripsListView.DataContext = bl.GetLineSchedule(lineToDisplay);
             }
             else
+            {
                 lineStationsListView.DataContext = null;
+                lineTripsListView.DataContext = null;
+            }
         }
         private void pbDeleteStationInLine_Click(object sender, RoutedEventArgs e)
         {
@@ -247,13 +255,12 @@ namespace PlGui
             addStationToLineWindow.Closed += UpdateAdjacentStationsView;
             addStationToLineWindow.ShowDialog();
         }
-        private void pbLineSchedule_Click(object sender, RoutedEventArgs e)
+        private void pbAddLineSchedule_Click(object sender, RoutedEventArgs e)
         {
             LineScheduleWindow scheduleWindow = new LineScheduleWindow(bl, cbLineNum.SelectedItem as BO.Line);
-            scheduleWindow.Show();
+            scheduleWindow.Closed += UpdateLinesView;
+            scheduleWindow.ShowDialog();
         }
         #endregion
-
-
     }
 }

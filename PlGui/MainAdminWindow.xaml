@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
+        xmlns:system="clr-namespace:PlGui"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.MainAdminWindow"
         mc:Ignorable="d"
         Title="Admin System" Height="550" Width="820" ResizeMode="CanMinimize" Icon="bus-icon-flat-style-vector-7995329.jpg">
@@ -13,6 +15,7 @@
         <CollectionViewSource x:Key="adjacentStationsViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:AdjacentStations}, CreateList=True}"/>
         <CollectionViewSource x:Key="linesViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Line}, CreateList=True}"/>
         <CollectionViewSource x:Key="lineStationsViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:LineStation}, CreateList=True}"/>
+        <CollectionViewSource x:Key="lineTripsViewSource" d:DesignSource="{d:DesignInstance {x:Type sys:TimeSpan}, CreateList=True}"/>
         <local:StationCodeToStationNameConverter x:Key="StationCodeToStationNameConverter"/>
         <local:StationCodeToTimeToNextConverter x:Key="StationCodeToTimeToNextConverter"/>
     </Window.Resources>
@@ -51,83 +54,108 @@
                         <Label Content="Region :" Grid.Column="2" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16"/>
                         <TextBox x:Name="tbArea" Text="{Binding ElementName=cbLineNum, Path=SelectedItem.Region, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Column="3" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="16" Background="#FFBAFFD0" BorderBrush="{x:Null}"/>
                         <Button x:Name="pbAddLine" Content="New Line" Grid.Column="6" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Click="pbAddLine_Click" Background="#FFBAFFD0" BorderBrush="#FF0A1478"/>
-                        <Button x:Name="pbLineSchedule" Content="Schedule" Grid.Column="4" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Background="#FFBAFFD0" BorderBrush="#FF0A1478" Click="pbLineSchedule_Click"/>
+                        <Button x:Name="pbAddLineSchedule" Content="New Schedule" Grid.Column="4" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="auto" FontSize="16" Background="#FFBAFFD0" BorderBrush="#FF0A1478" Click="pbAddLineSchedule_Click"/>
                         <Button x:Name="pbDeleteLine" Content="Delete" Grid.Column="5" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Click="pbDeleteLine_Click" Background="#FFBAFFD0" BorderBrush="#FF0A1478"/>
                     </Grid>
-                    <ListView x:Name="lineStationsListView" DataContext="{DynamicResource lineStationsViewSource}" ItemsSource="{Binding}" Margin="0" Grid.Column="0" Width="auto" SelectionMode="Single" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" MouseDoubleClick="lineStationsListView_MouseDoubleClick" Background="{x:Null}">
-                        <ListView.ItemContainerStyle>
-                            <Style>
-                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn x:Name="stationPlacementColumn" Header="Placement" Width="auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Margin="-6,-1" Content="{Binding StationPlacement}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="stationReorderColumn" Header="Reorder" Width="60">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Button x:Name="pbDownButton" Width="20" Margin="2,2" Click="pbDownButton_Click" Background="#FFBAFFD0">
-                                                    <Button.Content>
-                                                        <Image Source="down-arrow.png"/>
-                                                    </Button.Content>
-                                                </Button>
-                                                <Button x:Name="pbUpButton" Width="20" Margin="2,2" Click="pbUpButton_Click" Background="#FFBAFFD0">
-                                                    <Button.Content>
-                                                        <Image Source="up-arrow.png"/>
-                                                    </Button.Content>
-                                                </Button>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="stationCodeColumn1" Header="Station Code" Width="80">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Margin="-6,-1" Content="{Binding StationCode}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="stationNameColumn1" Header="Name" Width="auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Margin="6,-1,-6,-1" Content="{Binding StationCode, Converter={StaticResource StationCodeToStationNameConverter}}"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="timeToNextColumn" Header="Time To Next Station" Width="auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Margin="6,-1,-6,-1">
-                                                <Label.Content>
-                                                    <MultiBinding Converter="{StaticResource StationCodeToTimeToNextConverter}">
-                                                        <MultiBinding.Bindings>
-                                                            <Binding Path="LineID"/>
-                                                            <Binding Path="StationCode"/>
-                                                        </MultiBinding.Bindings>
-                                                    </MultiBinding>
-                                                </Label.Content>
-                                            </Label>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="delColumn" Width="auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button x:Name="pbDeleteStationInLine" Width="auto" Content="Delete Station In Line" Click="pbDeleteStationInLine_Click" Background="#FFBAFFD0" BorderBrush="#FF141478"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <ListView x:Name="lineStationsListView" DataContext="{DynamicResource lineStationsViewSource}" ItemsSource="{Binding}" Margin="0" Width="auto" SelectionMode="Single" VerticalAlignment="Stretch" Grid.Row="1" MouseDoubleClick="lineStationsListView_MouseDoubleClick" Background="{x:Null}">
+                            <ListView.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn x:Name="stationPlacementColumn" Header="Placement" Width="auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Margin="-6,-1" Content="{Binding StationPlacement}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn x:Name="stationReorderColumn" Header="Reorder" Width="60">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button x:Name="pbDownButton" Width="20" Margin="2,2" Click="pbDownButton_Click" Background="#FFBAFFD0">
+                                                        <Button.Content>
+                                                            <Image Source="down-arrow.png"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                    <Button x:Name="pbUpButton" Width="20" Margin="2,2" Click="pbUpButton_Click" Background="#FFBAFFD0">
+                                                        <Button.Content>
+                                                            <Image Source="up-arrow.png"/>
+                                                        </Button.Content>
+                                                    </Button>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn x:Name="stationCodeColumn1" Header="Station Code" Width="80">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Margin="-6,-1" Content="{Binding StationCode}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn x:Name="stationNameColumn1" Header="Name" Width="auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Margin="6,-1,-6,-1" Content="{Binding StationCode, Converter={StaticResource StationCodeToStationNameConverter}}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn x:Name="timeToNextColumn" Header="Time To Next Station" Width="auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Margin="6,-1,-6,-1">
+                                                    <Label.Content>
+                                                        <MultiBinding Converter="{StaticResource StationCodeToTimeToNextConverter}">
+                                                            <MultiBinding.Bindings>
+                                                                <Binding Path="LineID"/>
+                                                                <Binding Path="StationCode"/>
+                                                            </MultiBinding.Bindings>
+                                                        </MultiBinding>
+                                                    </Label.Content>
+                                                </Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn x:Name="delColumn" Width="auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button x:Name="pbDeleteStationInLine" Width="auto" Content="Delete Station In Line" Click="pbDeleteStationInLine_Click" Background="#FFBAFFD0" BorderBrush="#FF141478"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <ListView x:Name="lineTripsListView" Grid.Column="1" DataContext="{StaticResource lineTripsViewSource}" ItemsSource="{Binding}">
+                            <ListView.ItemContainerStyle>
+                                <Style>
+                                    <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn x:Name="TimeColumn" Header="Trip Times" Width="auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Margin="-6,-1" Content="{Binding}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
                     <Button x:Name="pbAddStationToLine" Content="Add Station To Line" HorizontalAlignment="Center" Margin="0" Grid.Row="2" VerticalAlignment="Center" Width="auto" Click="pbAddStationToLine_Click"/>
                 </Grid>
             </TabItem>

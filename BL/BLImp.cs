@@ -432,7 +432,7 @@ namespace BL
                 return times;
 
             TimeSpan addTime = trip.StartTime;
-            while(addTime<trip.EndTime)
+            while(addTime <= trip.EndTime)
             {
                 times.Add(addTime);
                 addTime += trip.Frequency;
@@ -453,6 +453,19 @@ namespace BL
             }
             else
                 return null;
+        }
+        public void AddLineTrip(BO.LineTrip newTripBo)
+        {
+            if (dl.GetLineTrip(newTripBo.LineID) != null)
+                dl.DeleteLineTrip(newTripBo.LineID);
+            if (newTripBo.StartTime <= newTripBo.EndTime)
+            {
+                DO.LineTrip newTripDo = new DO.LineTrip();
+                newTripBo.CopyPropertiesTo(newTripDo);
+                dl.AddLineTrip(newTripDo);
+            }
+            else
+                throw new InvalidOperationException("Error! start time was after end time!");
         }
         #endregion
 
