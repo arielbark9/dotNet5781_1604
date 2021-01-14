@@ -21,7 +21,7 @@ namespace PlGui
     /// </summary>
     public partial class MainWindow : Window
     {
-        IBL bl = BLFactory.GetBL();
+        IBL bl = BLFactory.GetBL("1");
         public MainWindow()
         {
             InitializeComponent();
@@ -29,10 +29,12 @@ namespace PlGui
 
         private void bLogin_Click(object sender, RoutedEventArgs e)
         {
+            bool found = false;
             foreach (var user in bl.GetAllUsers())
             {
                 if (user.UserName == tbUser.Text && user.Password == passboxPass.Password)
                 {
+                    found = true;
                     if (user.Admin == true)
                     {
                         new MainAdminWindow(user, bl).Show();
@@ -43,11 +45,14 @@ namespace PlGui
                     //    new MainUserWindow().Show();
                 }    
             }
+            if(!found)
+                MessageBox.Show("Invalid credentials! please try again.");
         }
 
         private void bReg_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            RegisterWindow registerWindow = new RegisterWindow(bl);
+            registerWindow.ShowDialog();
         }
     }
 }

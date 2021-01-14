@@ -33,6 +33,7 @@ namespace PlGui
         {
             InitializeComponent();
             this.user = user;
+            gridViewUser.DataContext = user;
             this.bl = bl;
             labelGreeting.Content = $"Hello {user.UserName}! Welcome to Ariel's Bus handeling system";
             // using more than one BL request to Bind all listviews With Hirearchial Data Context
@@ -48,6 +49,12 @@ namespace PlGui
             adjStats = new ObservableCollection<BO.AdjacentStations>(from item in bl.GetAllAdjacentStations() select item);
             adjacentStationsListView.DataContext = adjStats;
         }
+        private void pbUpdateUser_Click(object sender, RoutedEventArgs e)
+        {
+            bl.UpdateUser(user);
+            labelGreeting.Content = $"Hello {user.UserName}! Welcome to Ariel's Bus handeling system";
+        }
+
         #region Buses View
         private void pbAddBus_Click(object sender, RoutedEventArgs e)
         {
@@ -262,5 +269,6 @@ namespace PlGui
             scheduleWindow.ShowDialog();
         }
         #endregion
+        
     }
 }

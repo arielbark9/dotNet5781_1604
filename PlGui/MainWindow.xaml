@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlGui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="300">
+        Title="MainWindow" Height="300" Width="250">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -25,7 +25,7 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="bLogin" Content="Login" HorizontalAlignment="Right" Margin="10,0" VerticalAlignment="Center" Width="75" Click="bLogin_Click"/>
-            <Button x:Name="bReg" IsEnabled="False" Content="Register" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" Width="75" Click="bReg_Click"/>
+            <Button x:Name="bReg" Content="Register" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" Width="75" Click="bReg_Click"/>
         </Grid>
     </Grid>
 </Window>

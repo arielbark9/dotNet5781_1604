@@ -32,12 +32,16 @@ namespace BL
         }
         public void AddUser(BO.User newUser)
         {
-            throw new NotImplementedException();
+            DO.User userDo = new DO.User();
+            newUser.CopyPropertiesTo(userDo);
+            dl.AddUser(userDo);
         }
 
-        public void UpdateUser(BO.User User)
+        public void UpdateUser(BO.User user)
         {
-            throw new NotImplementedException();
+            DO.User userDo = new DO.User();
+            user.CopyPropertiesTo(userDo);
+            dl.UpdateUser(userDo);
         }
 
         public void DeleteUser(BO.User User)

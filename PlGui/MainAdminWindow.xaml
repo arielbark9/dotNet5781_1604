@@ -18,6 +18,7 @@
         <CollectionViewSource x:Key="lineTripsViewSource" d:DesignSource="{d:DesignInstance {x:Type sys:TimeSpan}, CreateList=True}"/>
         <local:StationCodeToStationNameConverter x:Key="StationCodeToStationNameConverter"/>
         <local:StationCodeToTimeToNextConverter x:Key="StationCodeToTimeToNextConverter"/>
+        <CollectionViewSource x:Key="userViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:User}, CreateList=True}"/>
     </Window.Resources>
     <Grid Background="#FFBAFFD0">
         <Grid.RowDefinitions>
@@ -257,7 +258,30 @@
                 </Grid>
             </TabItem>
             <TabItem Header="User Details" Width="200">
-                <Grid/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="gridViewUser" DataContext="{StaticResource userViewSource}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Admin:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <Label x:Name="adminLabel" Content="{Binding Admin}" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                        <Label Content="Password:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                        <TextBox x:Name="passwordTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Password, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                        <Label Content="User Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                        <TextBox x:Name="userNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding UserName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                    </Grid>
+                    <Button x:Name="pbUpdateUser" Content="Update Details" HorizontalAlignment="Center" Margin="0" Grid.Row="1" VerticalAlignment="Center" Width="auto" Click="pbUpdateUser_Click"/>
+                </Grid>
             </TabItem>
             <TabItem Header="Buses" Width="200">
                 <Grid DataContext="{StaticResource busViewSource}">
