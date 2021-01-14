@@ -23,7 +23,7 @@ namespace PlGui
             {
                 int stationOneCode = line.Stations[stationOneIndex].StationCode;
                 int stationTwoCode = line.Stations[stationOneIndex + 1].StationCode;
-                return line.AdjStats.Find(x => (x.Station1 == stationOneCode && x.Station2 == stationTwoCode)).Time.ToString() ;
+                return line.AdjStats.Find(x => (x.Station1 == stationOneCode && x.Station2 == stationTwoCode)).Time.ToString();
             }
             else
                 return null;

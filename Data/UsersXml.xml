@@ -14,4 +14,11 @@
     <Admin>true</Admin>
     <Active>true</Active>
   </User>
+  <User>
+    <ID>2</ID>
+    <UserName>arielbark9</UserName>
+    <Password>!Ab850850850</Password>
+    <Admin>true</Admin>
+    <Active>true</Active>
+  </User>
 </ArrayOfUser>

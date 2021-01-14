@@ -11,7 +11,7 @@ namespace DL
 {
     public class XMLTools
     {
-        static string dir = @"XML\";
+        static string dir = @"..\Data\";
         static XMLTools()
         {
             if (!Directory.Exists(dir))
@@ -54,11 +54,11 @@ namespace DL
         public static int GetAndIncrementRunningNum<T>()
         {
             int res = 0;
-            string fp = @"CONFIG.xml";
+            string fp = @"..\Configuration\CONFIG.xml";
             XElement configRoot;
             try
             {
-               configRoot  = XElement.Load(dir + fp);
+               configRoot  = XElement.Load(fp);
             }
             catch
             {

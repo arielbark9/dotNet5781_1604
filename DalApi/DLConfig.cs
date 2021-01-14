@@ -9,6 +9,7 @@ namespace DLAPI
 {
     static class DLConfig
     {
+        const string CONFIG_PATH = @"..\Configuration\CONFIG.xml";
         public class DLPackage
         {
             public string Name;
@@ -20,7 +21,7 @@ namespace DLAPI
         internal static Dictionary<string, DLPackage> DLPackages;
         static DLConfig()
         {
-            XElement root = XElement.Load(@"XML\CONFIG.xml");
+            XElement root = XElement.Load(CONFIG_PATH);
             XElement dlConfig = root.Element("dlconfig");
             DLName = dlConfig.Element("dl").Value;
             DLPackages = (from pkg in dlConfig.Element("dl-packages").Elements()

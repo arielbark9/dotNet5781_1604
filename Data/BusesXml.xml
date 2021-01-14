@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfBus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Bus>
+    <LicenceNum>22399223</LicenceNum>
+    <StartDate>12/23/2019 12:00:00 AM</StartDate>
+    <DateSinceMaintenance>12/17/2019 12:00:00 AM</DateSinceMaintenance>
+    <Mileage>2400</Mileage>
+    <MileageSinceFuel>30</MileageSinceFuel>
+    <MileageSinceMaintenance>2400</MileageSinceMaintenance>
+    <BusStatus>READY</BusStatus>
+    <Active>true</Active>
+  </Bus>
+  <Bus>
+    <LicenceNum>5467383</LicenceNum>
+    <StartDate>12/30/2017 12:00:00 AM</StartDate>
+    <DateSinceMaintenance>12/15/2018 12:00:00 AM</DateSinceMaintenance>
+    <Mileage>3000</Mileage>
+    <MileageSinceFuel>330</MileageSinceFuel>
+    <BusStatus>READY</BusStatus>
+    <Active>False</Active>
+  </Bus>
+</ArrayOfBus>
