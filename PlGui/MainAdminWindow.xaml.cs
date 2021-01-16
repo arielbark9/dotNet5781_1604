@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -269,6 +270,26 @@ namespace PlGui
             scheduleWindow.ShowDialog();
         }
         #endregion
-        
+
+        #region Clock
+        private void tbClockTime_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex _regex = new Regex("[^0-9:]+"); //regex that matches disallowed text
+            e.Handled = _regex.IsMatch(e.Text);
+        }
+        private void tbClockRate_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
+            e.Handled = _regex.IsMatch(e.Text);
+        }
+        private void pbStartClock_Click(object sender, RoutedEventArgs e)
+        {
+            TimeSpan temp = new TimeSpan();
+            if (TimeSpan.TryParse(tbClockTime.Text, out temp))
+                bl.StartSimulation(TimeSpan.Parse(tbClockTime.Text), Convert.ToInt32(tbClockRate.Text), (TimeSpan x) => { tbClockTime.Text = x.ToString(); });
+            else
+                MessageBox.Show("Invalid time value!");
+        }
+        #endregion
     }
 }

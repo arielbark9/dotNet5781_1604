@@ -36,14 +36,12 @@ namespace BL
             newUser.CopyPropertiesTo(userDo);
             dl.AddUser(userDo);
         }
-
         public void UpdateUser(BO.User user)
         {
             DO.User userDo = new DO.User();
             user.CopyPropertiesTo(userDo);
             dl.UpdateUser(userDo);
         }
-
         public void DeleteUser(BO.User User)
         {
             throw new NotImplementedException();
@@ -655,6 +653,13 @@ namespace BL
             {
                 throw new ArgumentException("Fatal Error!");
             }
+        }
+        #endregion
+
+        #region Clock
+        public void StartSimulation(TimeSpan time, int rate, Action<TimeSpan> updateDispClock)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }

@@ -57,5 +57,9 @@ namespace BLAPI
         void UpdateAdjacentStations(BO.AdjacentStations AdjStat);
         void DeleteAdjacentStations(AdjacentStations adjStat);
         #endregion
+
+        #region Clock
+        void StartSimulation(TimeSpan time, int rate, Action<TimeSpan> updateDispClock);
+        #endregion
     }
 }
