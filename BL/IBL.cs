@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace BLAPI
 {
     public interface IBL
     {
+        void InitializeDisplay(ref ObservableCollection<BO.Bus> buses, ref ObservableCollection<BO.Line> lines, ref ObservableCollection<BO.Station> stations, ref ObservableCollection<BO.AdjacentStations> adjStats);
         #region User
         BO.User userDoBoAdapter(DO.User userDo);
         IEnumerable<BO.User> GetAllUsers();

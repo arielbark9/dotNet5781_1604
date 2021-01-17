@@ -10,6 +10,8 @@ namespace BO
     {
         public int LineID { get; set; } // IDENTIFIER 1
         public int StationCode { get; set; } // IDENTIFIER 2
+        public string StationName { get; set; }
+        public TimeSpan TimeToNext { get; set; }
         public int StationPlacement { get; set; }
     }
 }

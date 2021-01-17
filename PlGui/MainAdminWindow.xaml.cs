@@ -37,17 +37,18 @@ namespace PlGui
             gridViewUser.DataContext = user;
             this.bl = bl;
             labelGreeting.Content = $"Hello {user.UserName}! Welcome to Ariel's Bus handeling system";
-            // using more than one BL request to Bind all listviews With Hirearchial Data Context
-            buses = new ObservableCollection<BO.Bus>(from item in bl.GetAllBuses() select item);
+            // init lists
+            bl.InitializeDisplay(ref buses, ref lines, ref stations, ref adjStats);
+            // buses
             busListView.DataContext = buses;
-            lines = new ObservableCollection<BO.Line>(from item in bl.GetAllLines() select item);
+            // lines
             lineStationsListView.DataContext = lines[0].Stations;
             lineTripsListView.DataContext = bl.GetLineSchedule(lines[0]);
             cbLineNum.DataContext = lines;
             cbLineNum.SelectedItem = lines[0];
-            stations = new ObservableCollection<BO.Station>(from item in bl.GetAllStations() select item);
+            // stations
             stationListView.DataContext = stations;
-            adjStats = new ObservableCollection<BO.AdjacentStations>(from item in bl.GetAllAdjacentStations() select item);
+            // adjacent stations
             adjacentStationsListView.DataContext = adjStats;
         }
         private void pbUpdateUser_Click(object sender, RoutedEventArgs e)
@@ -108,7 +109,7 @@ namespace PlGui
         private void pbDeleteStat_Click(object sender, RoutedEventArgs e)
         {
             BO.Station delStation = (sender as Button).DataContext as BO.Station;
-            if (MessageBox.Show("Are you sure?", "Consent", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure?", "Consent", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 try
                 {
@@ -282,11 +283,22 @@ namespace PlGui
             Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
             e.Handled = _regex.IsMatch(e.Text);
         }
+        BackgroundWorker simulationWorker;
         private void pbStartClock_Click(object sender, RoutedEventArgs e)
         {
+            if (simulationWorker != null)
+                simulationWorker.CancelAsync();
+
             TimeSpan temp = new TimeSpan();
             if (TimeSpan.TryParse(tbClockTime.Text, out temp))
-                bl.StartSimulation(TimeSpan.Parse(tbClockTime.Text), Convert.ToInt32(tbClockRate.Text), (TimeSpan x) => { tbClockTime.Text = x.ToString(); });
+            {
+                simulationWorker = new BackgroundWorker();
+                simulationWorker.WorkerSupportsCancellation = true;
+                simulationWorker.DoWork += (object senderDoWork, DoWorkEventArgs args) => 
+                { 
+                    bl.StartSimulation(TimeSpan.Parse(tbClockTime.Text), Convert.ToInt32(tbClockRate.Text), (TimeSpan x) => { tbClockTime.Text = x.ToString(); }); 
+                };
+            }
             else
                 MessageBox.Show("Invalid time value!");
         }

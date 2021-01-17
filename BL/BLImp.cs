@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,14 @@ namespace BL
         BLImp() { } // default => private
         public static BLImp Instance { get => instance; }// The public Instance property to use
         #endregion
+
+        public void InitializeDisplay(ref ObservableCollection<BO.Bus> buses, ref ObservableCollection<BO.Line> lines, ref ObservableCollection<BO.Station> stations, ref ObservableCollection<BO.AdjacentStations> adjStats)
+        {
+            buses = new ObservableCollection<BO.Bus>(GetAllBuses());
+            lines = new ObservableCollection<BO.Line>(GetAllLines());
+            stations = new ObservableCollection<BO.Station>(GetAllStations());
+            adjStats = new ObservableCollection<BO.AdjacentStations>(GetAllAdjacentStations());
+        }
 
         #region User
         public IEnumerable<BO.User> GetAllUsers()
@@ -578,6 +587,12 @@ namespace BL
         {
             BO.LineStation lineStationBo = new BO.LineStation();
             lineStationDo.CopyPropertiesTo(lineStationBo);
+            lineStationBo.StationName = dl.GetStation(lineStationBo.StationCode).StationName;
+            if (lineStationDo.StationAfterCode != 0)
+                lineStationBo.TimeToNext = dl.GetAdjacentStations(lineStationDo.StationCode, lineStationDo.StationAfterCode).Time;
+            else
+                lineStationBo.TimeToNext = new TimeSpan(1); // pseudo value for converter
+
             return lineStationBo;
         }
         private DO.LineStation LineStationBoDoAdapter(BO.LineStation lineStationBo, int prevSt, int nextSt, int statPlacement)
@@ -661,6 +676,8 @@ namespace BL
         {
             throw new NotImplementedException();
         }
+
+        
         #endregion
     }
 }

@@ -16,9 +16,8 @@
         <CollectionViewSource x:Key="linesViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Line}, CreateList=True}"/>
         <CollectionViewSource x:Key="lineStationsViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:LineStation}, CreateList=True}"/>
         <CollectionViewSource x:Key="lineTripsViewSource" d:DesignSource="{d:DesignInstance {x:Type sys:TimeSpan}, CreateList=True}"/>
-        <local:StationCodeToStationNameConverter x:Key="StationCodeToStationNameConverter"/>
-        <local:StationCodeToTimeToNextConverter x:Key="StationCodeToTimeToNextConverter"/>
         <CollectionViewSource x:Key="userViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:User}, CreateList=True}"/>
+        <local:StationTimeToMessageConverter x:Key="TimeToMessage"/>
     </Window.Resources>
     <Grid Background="#FFBAFFD0">
         <Grid.RowDefinitions>
@@ -129,23 +128,14 @@
                                     <GridViewColumn x:Name="stationNameColumn1" Header="Name" Width="auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <!--<Label Margin="6,-1,-6,-1" Content="{Binding StationCode, Converter={StaticResource StationCodeToStationNameConverter}}"/>-->
+                                                <Label Margin="6,-1,-6,-1" Content="{Binding StationName}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                     <GridViewColumn x:Name="timeToNextColumn" Header="Time To Next Station" Width="auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Label Margin="6,-1,-6,-1">
-                                                    <!--<Label.Content>
-                                                        <MultiBinding Converter="{StaticResource StationCodeToTimeToNextConverter}">
-                                                            <MultiBinding.Bindings>
-                                                                <Binding Path="LineID"/>
-                                                                <Binding Path="StationCode"/>
-                                                            </MultiBinding.Bindings>
-                                                        </MultiBinding>
-                                                    </Label.Content>-->
-                                                </Label>
+                                                <Label Margin="6,-1,-6,-1" Content="{Binding TimeToNext, Converter={StaticResource TimeToMessage}}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
