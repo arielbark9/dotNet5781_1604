@@ -46,15 +46,15 @@ namespace PlGui
                 }
                 catch (ArgumentException)
                 {
-                    MessageBox.Show("ERROR!");
+                    MessageBox.Show("ERROR!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (InvalidOperationException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
-                MessageBox.Show("ERROR: Time Value must be of correct format");
+                MessageBox.Show("Time value must be of correct format", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             this.Close();
         }
 

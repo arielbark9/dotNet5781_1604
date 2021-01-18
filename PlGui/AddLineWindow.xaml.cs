@@ -52,7 +52,7 @@ namespace PlGui
                 this.Close();
             }
             else
-                MessageBox.Show("Please enter values in all the fields or Cancel!");
+                MessageBox.Show("Please enter values in all the fields or Cancel!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void pbCancel_Click(object sender, RoutedEventArgs e)

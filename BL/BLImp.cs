@@ -93,7 +93,7 @@ namespace BL
                 }
                 catch (InvalidOperationException ex)
                 {
-                    throw new InvalidOperationException("Error! that bus already exists!", ex);
+                    throw new InvalidOperationException("That bus already exists!", ex);
                 }
             }
             else
@@ -109,7 +109,7 @@ namespace BL
             }
             catch (ArgumentException ex)
             {
-                throw new ArgumentException("FATAL ERROR! BUS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);    
+                throw new ArgumentException("BUS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);    
             }
         }
         public void UpdateBus(BO.Bus bus)
@@ -131,11 +131,11 @@ namespace BL
                 }
                 catch (ArgumentException ex)
                 {
-                    throw new ArgumentException("FATAL ERROR! BUS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+                    throw new ArgumentException("BUS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
                 }
             }
             else
-                throw new InvalidOperationException("Error! invalid change to bus!");
+                throw new InvalidOperationException("Invalid change to bus!");
         }
         #endregion
 
@@ -178,7 +178,7 @@ namespace BL
             }
             catch (ArgumentException ex)
             {
-                throw new ArgumentException("FATAL ERROR! LINE LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+                throw new ArgumentException("LINE LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
         }
         public void AddLine(BO.Line newLine)
@@ -290,7 +290,7 @@ namespace BL
                 UpdateLine(line);
             }
             else
-                throw new InvalidOperationException("ERROR! No line can have less than two stations");
+                throw new InvalidOperationException("No line can have less than two stations");
         }
         public void MoveStationDownInLine(int lineID, int stationCode)
         {
@@ -479,7 +479,7 @@ namespace BL
                 dl.AddLineTrip(newTripDo);
             }
             else
-                throw new InvalidOperationException("Error! start time was after end time!");
+                throw new InvalidOperationException("start time was after end time!");
         }
         #endregion
 
@@ -527,7 +527,7 @@ namespace BL
                 }
                 catch (InvalidOperationException ex)
                 {
-                    throw new InvalidOperationException("Error! that Station already exists!", ex);
+                    throw new InvalidOperationException("That Station already exists!", ex);
                 }
             }
             else
@@ -543,7 +543,7 @@ namespace BL
             }
             catch (ArgumentException ex)
             {
-                throw new ArgumentException("FATAL ERROR! STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+                throw new ArgumentException("STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
         }
         public void DeleteStation(BO.Station station)
@@ -580,7 +580,7 @@ namespace BL
             }
             catch (ArgumentException ex)
             {
-                throw new ArgumentException("FATAL ERROR! STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+                throw new ArgumentException("STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
         }
         #endregion
@@ -652,7 +652,7 @@ namespace BL
             }
             catch (ArgumentException ex)
             {
-                throw new ArgumentException("FATAL ERROR! ADJACENT STATIONS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
+                throw new ArgumentException("ADJACENT STATIONS LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
         }
         private void AddAdjacentStations(BO.LineStation s1, BO.LineStation s2, TimeSpan time)
@@ -685,13 +685,13 @@ namespace BL
             Clock clock = Clock.Instance;
             onTimeChanged = null; // Allow for only One observer
             onTimeChanged += (object sender, Action<TimeSpan> updateTime) => updateTime(clock.Time);
-
+            TimeSpan sleepTime = new TimeSpan((1000 / rate) * TimeSpan.TicksPerMillisecond);
             new Thread(() =>
             {
                 stopwatch.Restart();
                 while (!Canceled)
                 {
-                    Thread.Sleep(1000 / rate);
+                    Thread.Sleep(sleepTime);
                     clock.Time = startTime + new TimeSpan(stopwatch.ElapsedTicks * rate);
                     onTimeChanged?.Invoke(this, updateDispClock); // Notify Observers
                 }

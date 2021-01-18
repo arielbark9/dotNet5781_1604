@@ -38,8 +38,8 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="tbClockTime" Height="23" Margin="0" TextWrapping="Wrap" Text="00:00:00" Width="102" BorderThickness="1,2,2,2" PreviewTextInput="tbClockTime_PreviewTextInput"/>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,4,0,0">
+                <TextBox x:Name="tbClockTime" Height="23" Margin="0" TextWrapping="Wrap" Text="00:00:00" Width="auto" BorderThickness="1,2,2,2" PreviewTextInput="tbClockTime_PreviewTextInput" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,4,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <TextBox x:Name="tbClockRate" Width="auto" Text="50" BorderThickness="2" PreviewTextInput="tbClockRate_PreviewTextInput"/>
                     <Label Width="auto" Content="X" FontSize="8" Margin="5,0,0,0"/>
                 </StackPanel>

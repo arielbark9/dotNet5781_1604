@@ -50,7 +50,16 @@ namespace PlGui
             stationListView.DataContext = stations;
             // adjacent stations
             adjacentStationsListView.DataContext = adjStats;
+            this.Closed += MainAdminWindow_Closed;
         }
+
+        private void MainAdminWindow_Closed(object sender, EventArgs e)
+        {
+            bl.StopSimulation();
+            if (simulationWorker != null && !simulationWorker.CancellationPending)
+                simulationWorker.CancelAsync();
+        }
+
         private void pbUpdateUser_Click(object sender, RoutedEventArgs e)
         {
             bl.UpdateUser(user);
@@ -62,12 +71,10 @@ namespace PlGui
         {
             new AddBusWindow(bl, buses).ShowDialog();
         }
-
         private void pbDrive_Click(object sender, RoutedEventArgs e)
         {
             // TODO: implement
         }
-
         private void pbDelete_Click(object sender, RoutedEventArgs e)
         {
             if(MessageBox.Show("Are you sure?", "Consent", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -78,19 +85,17 @@ namespace PlGui
                 }
                 catch (ArgumentException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 buses.Remove((sender as Button).DataContext as BO.Bus);
             }
         }
-
         private void pbUpdate_Click(object sender, RoutedEventArgs e)
         {
             BO.Bus updateBus = new BO.Bus();
             ((sender as Button).DataContext as BO.Bus).CopyPropertiesTo(updateBus);
             new UpdateBusWindow(updateBus, buses, bl).ShowDialog();
         }
-
         private void busListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             new BusDetailsWindow((sender as ListView).SelectedItem as BO.Bus, bl).Show();
@@ -117,7 +122,7 @@ namespace PlGui
                 }
                 catch (ArgumentException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 // Stations View Update
                 UpdateStationsView(sender, e);
@@ -219,7 +224,7 @@ namespace PlGui
             }
             catch (InvalidOperationException ex) 
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void pbDeleteLine_Click(object sender, RoutedEventArgs e)
@@ -283,14 +288,15 @@ namespace PlGui
             Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
             e.Handled = _regex.IsMatch(e.Text);
         }
+
         BackgroundWorker simulationWorker;
         private void pbStartClock_Click(object sender, RoutedEventArgs e)
         {
             if (pbStartClock.Content.ToString() == "Start")
             {
                 TimeSpan startTime = new TimeSpan();
-                int rate;
-                if (TimeSpan.TryParse(tbClockTime.Text, out startTime) && int.TryParse(tbClockRate.Text, out rate))
+                int rate = 0;
+                if (TimeSpan.TryParse(tbClockTime.Text, out startTime) && int.TryParse(tbClockRate.Text, out rate) && rate != 0 && rate <= 1000)
                 {
                     // take care of display options
                     tbClockRate.IsReadOnly = true;
@@ -304,8 +310,10 @@ namespace PlGui
                     simulationWorker.DoWork += SimWorker_DoWork;
                     simulationWorker.RunWorkerAsync(new object[] { startTime, rate });
                 }
+                else if (rate <= 1000)
+                    MessageBox.Show("Invalid time or rate value!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
-                    MessageBox.Show("Invalid time or rate value!");
+                    MessageBox.Show("rate can't be more than 1000", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else // Stop Clock
             {

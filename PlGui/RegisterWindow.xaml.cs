@@ -53,7 +53,7 @@ namespace PlGui
                 this.Close();
             }
             else
-                MessageBox.Show("Please enter matching passcodes!");
+                MessageBox.Show("Please enter matching passcodes!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void pbCancel_Click(object sender, RoutedEventArgs e)

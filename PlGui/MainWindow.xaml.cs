@@ -46,7 +46,7 @@ namespace PlGui
                 }    
             }
             if(!found)
-                MessageBox.Show("Invalid credentials! please try again.");
+                MessageBox.Show("Invalid credentials! please try again.", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void bReg_Click(object sender, RoutedEventArgs e)

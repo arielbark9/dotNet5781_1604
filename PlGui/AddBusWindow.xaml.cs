@@ -44,11 +44,11 @@ namespace PlGui
             }
             catch(InvalidOperationException ex)
             {
-                MessageBox.Show("Error! you tried to add a bus that already exists!");
+                MessageBox.Show("You tried to add a bus that already exists!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch(ArgumentException ex)
             {
-                MessageBox.Show("Error! you tried to add a bus that is invalid!");
+                MessageBox.Show("You tried to add a bus that is invalid!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void pbCancel_Click(object sender, RoutedEventArgs e)

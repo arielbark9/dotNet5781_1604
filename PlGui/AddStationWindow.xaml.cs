@@ -43,11 +43,11 @@ namespace PlGui
             }
             catch (InvalidOperationException ex)
             {
-                MessageBox.Show("Error! you tried to add a Station that already exists!");
+                MessageBox.Show("You tried to add a Station that already exists!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show("Error! you tried to add a Station that is invalid!");
+                MessageBox.Show("you tried to add a Station that is invalid!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
