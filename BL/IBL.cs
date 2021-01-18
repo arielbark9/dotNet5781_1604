@@ -62,6 +62,7 @@ namespace BLAPI
 
         #region Clock
         void StartSimulation(TimeSpan time, int rate, Action<TimeSpan> updateDispClock);
+        void StopSimulation();
         #endregion
     }
 }

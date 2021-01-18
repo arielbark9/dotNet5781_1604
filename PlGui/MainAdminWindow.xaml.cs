@@ -286,21 +286,52 @@ namespace PlGui
         BackgroundWorker simulationWorker;
         private void pbStartClock_Click(object sender, RoutedEventArgs e)
         {
-            if (simulationWorker != null)
-                simulationWorker.CancelAsync();
-
-            TimeSpan temp = new TimeSpan();
-            if (TimeSpan.TryParse(tbClockTime.Text, out temp))
+            if (pbStartClock.Content.ToString() == "Start")
             {
-                simulationWorker = new BackgroundWorker();
-                simulationWorker.WorkerSupportsCancellation = true;
-                simulationWorker.DoWork += (object senderDoWork, DoWorkEventArgs args) => 
-                { 
-                    bl.StartSimulation(TimeSpan.Parse(tbClockTime.Text), Convert.ToInt32(tbClockRate.Text), (TimeSpan x) => { tbClockTime.Text = x.ToString(); }); 
-                };
+                TimeSpan startTime = new TimeSpan();
+                int rate;
+                if (TimeSpan.TryParse(tbClockTime.Text, out startTime) && int.TryParse(tbClockRate.Text, out rate))
+                {
+                    // take care of display options
+                    tbClockRate.IsReadOnly = true;
+                    tbClockTime.IsReadOnly = true;
+                    pbStartClock.Content = "Stop";
+                    // Activate Clock
+                    simulationWorker = new BackgroundWorker();
+                    simulationWorker.WorkerSupportsCancellation = true;
+                    simulationWorker.WorkerReportsProgress = true;
+                    simulationWorker.ProgressChanged += SimWorker_ProgressChanged;
+                    simulationWorker.DoWork += SimWorker_DoWork;
+                    simulationWorker.RunWorkerAsync(new object[] { startTime, rate });
+                }
+                else
+                    MessageBox.Show("Invalid time or rate value!");
             }
-            else
-                MessageBox.Show("Invalid time value!");
+            else // Stop Clock
+            {
+                // take care of display options
+                tbClockRate.IsReadOnly = false;
+                tbClockTime.IsReadOnly = false;
+                pbStartClock.Content = "Start";
+                // Stop the Clock
+                bl.StopSimulation();
+                if (simulationWorker.WorkerSupportsCancellation == true)
+                    simulationWorker.CancelAsync();
+            }
+        }
+        void SimWorker_ProgressChanged(object sender, ProgressChangedEventArgs args)
+        {
+            tbClockTime.Text = ((TimeSpan)args.UserState).ToString().Substring(0, 8); // this happens in UI Thread
+        }
+        void SimWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            object[] arguments = e.Argument as object[];
+            bl.StartSimulation((TimeSpan)arguments[0], (int)arguments[1], (TimeSpan x) =>
+            {
+                if (!simulationWorker.CancellationPending)
+                    simulationWorker.ReportProgress(0, x);
+            });
+            while (!simulationWorker.CancellationPending);
         }
         #endregion
     }

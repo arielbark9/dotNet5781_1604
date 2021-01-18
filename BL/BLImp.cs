@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BLAPI;
 using DLAPI;
@@ -672,12 +675,34 @@ namespace BL
         #endregion
 
         #region Clock
-        public void StartSimulation(TimeSpan time, int rate, Action<TimeSpan> updateDispClock)
+        private delegate void UpdateEventHandler(object sender, Action<TimeSpan> action);
+        private event UpdateEventHandler onTimeChanged;
+        private volatile bool Canceled;
+        public void StartSimulation(TimeSpan startTime, int rate, Action<TimeSpan> updateDispClock)
         {
-            throw new NotImplementedException();
-        }
+            Canceled = false;
+            Stopwatch stopwatch = new Stopwatch();
+            Clock clock = Clock.Instance;
+            onTimeChanged = null; // Allow for only One observer
+            onTimeChanged += (object sender, Action<TimeSpan> updateTime) => updateTime(clock.Time);
 
-        
+            new Thread(() =>
+            {
+                stopwatch.Restart();
+                while (!Canceled)
+                {
+                    Thread.Sleep(1000 / rate);
+                    clock.Time = startTime + new TimeSpan(stopwatch.ElapsedTicks * rate);
+                    onTimeChanged?.Invoke(this, updateDispClock); // Notify Observers
+                }
+                stopwatch.Stop();
+            }).Start();
+        }
+        public void StopSimulation()
+        {
+            Canceled = true;
+            onTimeChanged = null;
+        }
         #endregion
     }
 }
