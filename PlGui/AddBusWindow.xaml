@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PlGui"
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.AddBusWindow"
         mc:Ignorable="d"
-        Title="AddBusWindow" Height="350" Width="338">
+        Title="AddBusWindow" Height="350" Width="338" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Bus}, CreateList=True}"/>
     </Window.Resources>
@@ -35,7 +35,7 @@
             <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Mileage Since Maintenance:"/>
             <TextBox x:Name="mileageSinceMaintenanceTextBox" Width="120" VerticalAlignment="Center" Text="{Binding MileageSinceMaintenance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="4" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="mileageSinceMaintenanceTextBox_PreviewTextInput"/>
             <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Start Date:"/>
-        <DatePicker x:Name="startDateDatePicker" VerticalAlignment="Center" SelectedDate="{Binding StartDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="1" DisplayDate="2018-01-01" Text="1/1/2018" IsTodayHighlighted="False"/>
+        <DatePicker x:Name="startDateDatePicker" VerticalAlignment="Center"  SelectedDate="{Binding StartDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="1" DisplayDate="2018-01-01" Text="1/1/2018" IsTodayHighlighted="False"/>
         <Button x:Name="pbAddBus" Grid.ColumnSpan="1" Content="Add Bus" HorizontalAlignment="Center" Margin="0,0" Grid.Row="6" VerticalAlignment="Center" Width="75" Click="pbAddBus_Click"/>
         <Button x:Name="pbCancel" Content="Cancel" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0" Grid.Row="6" VerticalAlignment="Center" Width="75" Click="pbCancel_Click"/>
     </Grid>

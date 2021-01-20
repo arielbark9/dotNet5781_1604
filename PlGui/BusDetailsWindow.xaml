@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PlGui"
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.BusDetailsWindow"
         mc:Ignorable="d"
-        Title="BusDetailsWindow" Height="350" Width="335">
+        Title="BusDetailsWindow" Height="350" Width="335" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Bus}, CreateList=True}"/>
     </Window.Resources>

@@ -30,7 +30,7 @@ namespace PlGui
             InitializeComponent();
             this.bl = bl;
             this.buses = buses;
-            newBus = new BO.Bus();
+            newBus = new BO.Bus() { StartDate = DateTime.Now, DateSinceMaintenance = DateTime.Now };
             gridViewBus.DataContext = newBus;
         }
 

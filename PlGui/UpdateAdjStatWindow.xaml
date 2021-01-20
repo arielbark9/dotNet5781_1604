@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PlGui"
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.UpdateAdjStatWindow"
         mc:Ignorable="d"
-        Title="UpdateAdjStatWindow" Height="250" Width="200">
+        Title="UpdateAdjStatWindow" Height="250" Width="200" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <CollectionViewSource x:Key="adjacentStationsViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:AdjacentStations}, CreateList=True}"/>
     </Window.Resources>

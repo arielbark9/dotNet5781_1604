@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PlGui"
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.AddStationToLineWindow"
         mc:Ignorable="d"
-        Title="AddStationToLineWindow" Height="400" Width="450">
+        Title="AddStationToLineWindow" Height="400" Width="450"  WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <CollectionViewSource x:Key="stationViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Station}, CreateList=True}"/>
     </Window.Resources>
