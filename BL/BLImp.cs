@@ -675,17 +675,16 @@ namespace BL
         #endregion
 
         #region Clock
-        private delegate void UpdateEventHandler(object sender, Action<TimeSpan> action);
-        private event UpdateEventHandler onTimeChanged;
+        
         private volatile bool Canceled;
         public void StartSimulation(TimeSpan startTime, int rate, Action<TimeSpan> updateDispClock)
         {
             Canceled = false;
             Stopwatch stopwatch = new Stopwatch();
             Clock clock = Clock.Instance;
-            onTimeChanged = null; // Allow for only One observer
-            onTimeChanged += (object sender, Action<TimeSpan> updateTime) => updateTime(clock.Time);
+            Clock.onTimeChanged += (object sender, BO.TimeChangedEventArgs args) => updateDispClock(args.Time);
             TimeSpan sleepTime = new TimeSpan((1000 / rate) * TimeSpan.TicksPerMillisecond);
+            // Run Clock simulation thread
             new Thread(() =>
             {
                 stopwatch.Restart();
@@ -693,15 +692,22 @@ namespace BL
                 {
                     Thread.Sleep(sleepTime);
                     clock.Time = startTime + new TimeSpan(stopwatch.ElapsedTicks * rate);
-                    onTimeChanged?.Invoke(this, updateDispClock); // Notify Observers
                 }
                 stopwatch.Stop();
             }).Start();
+            // Run Line Dispatcher Thread
+            //new Thread(() =>
+            //{
+            //    while(!Canceled)
+            //    {
+
+            //    }
+            //}).Start();
         }
         public void StopSimulation()
         {
             Canceled = true;
-            onTimeChanged = null;
+            Clock.RemoveObservers();
         }
         #endregion
     }

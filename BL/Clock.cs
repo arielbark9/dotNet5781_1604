@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class Clock 
+    public class Clock
     {
         #region Singelton
         static readonly Clock instance = new Clock();
@@ -15,6 +15,22 @@ namespace BL
         Clock() { } // default => private
         public static Clock Instance { get => instance; }// The public Instance property to use
         #endregion
-        public TimeSpan Time { get; set; }
+
+        private TimeSpan time;
+        public TimeSpan Time
+        {
+            get => time; set
+            {
+                time = value;
+                onTimeChanged?.Invoke(this, new BO.TimeChangedEventArgs(value));
+            }
+        }
+
+        public delegate void UpdateEventHandler(object sender, BO.TimeChangedEventArgs args);
+        public static event UpdateEventHandler onTimeChanged;
+        public static void RemoveObservers()
+        {
+            onTimeChanged = null;
+        }
     }
 }
