@@ -28,7 +28,6 @@ namespace PlGui
             this.bl = bl;
             InitializeComponent();
             gridViewStat.DataContext = displayStat;
-            linesByStationListView.ItemsSource = bl.GetLinesThatGoThroughStation(displayStat.StationCode);
         }
     }
 }

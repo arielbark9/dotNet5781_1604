@@ -29,7 +29,6 @@ namespace PlGui
         ObservableCollection<BO.Bus> buses;
         ObservableCollection<BO.Line> lines;
         ObservableCollection<BO.Station> stations;
-        ObservableCollection<BO.AdjacentStations> adjStats;
         public MainAdminWindow(BO.User user, IBL bl)
         {
             InitializeComponent();
@@ -38,7 +37,7 @@ namespace PlGui
             this.bl = bl;
             labelGreeting.Content = $"Hello {user.UserName}! Welcome to Ariel's Bus handeling system";
             // init lists
-            bl.InitializeDisplay(ref buses, ref lines, ref stations, ref adjStats);
+            bl.InitializeDisplay(ref buses, ref lines, ref stations);
             // buses
             busListView.DataContext = buses;
             // lines
@@ -48,8 +47,6 @@ namespace PlGui
             cbLineNum.SelectedItem = lines[0];
             // stations
             stationListView.DataContext = stations;
-            // adjacent stations
-            adjacentStationsListView.DataContext = adjStats;
             this.Closed += MainAdminWindow_Closed;
         }
 
@@ -128,8 +125,6 @@ namespace PlGui
                 UpdateStationsView(sender, e);
                 // update linesView
                 UpdateLinesView(sender, e);
-                // update adjacent stations view
-                UpdateAdjacentStationsView(sender, e);
             }
         }
         private void pbUpdateStat_Click(object sender, RoutedEventArgs e)
@@ -147,40 +142,9 @@ namespace PlGui
             foreach (var station in bl.GetAllStations())
                 stations.Add(station);
         }
-        #endregion
-
-        #region AdjacentStations View
-        private void adjacentStationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void stationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            new AdjStatDetailsWindow((sender as ListView).SelectedItem as BO.AdjacentStations).Show();
-        }
-        private void pbUpdateAdjStat_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateAdjStatWindow updateAdjStat = new UpdateAdjStatWindow((sender as Button).DataContext as BO.AdjacentStations, adjStats, bl);
-            updateAdjStat.Closed += UpdateLinesView;
-            updateAdjStat.ShowDialog();
-        }
-        private void UpdateAdjacentStationsView(object sender, EventArgs e)
-        {
-            // update adjacent stations view
-            adjStats.Clear();
-            foreach (var adjStat in bl.GetAllAdjacentStations())
-                adjStats.Add(adjStat);
-        }
-        private void pbDeleteAdjStats_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateLinesView(sender, e);
-            foreach (var adjStat in adjStats)
-            {
-                bool delete = true;
-                foreach (var line in lines)
-                    if (line.AdjStats.FirstOrDefault(x => x.Station1 == adjStat.Station1 && x.Station2 == adjStat.Station2) != null)
-                        delete = false;
-
-                if(delete)
-                    bl.DeleteAdjacentStations(adjStat);
-            }
-            UpdateAdjacentStationsView(sender, e);
+            linesByStationListView.DataContext = bl.GetLinesThatGoThroughStation(((sender as ListView).SelectedItem as BO.Station).StationCode);
         }
         #endregion
 
@@ -220,7 +184,6 @@ namespace PlGui
             {
                 bl.DeleteStationInLine(((sender as Button).DataContext as BO.LineStation).LineID, ((sender as Button).DataContext as BO.LineStation).StationCode);
                 UpdateLinesView(sender, e);
-                UpdateAdjacentStationsView(sender, e);
             }
             catch (InvalidOperationException ex) 
             {
@@ -244,7 +207,6 @@ namespace PlGui
             BO.Line line = cbLineNum.SelectedItem as BO.Line;
             bl.MoveStationDownInLine(line.ID, lineStation.StationCode);
             UpdateLinesView(sender, e);
-            UpdateAdjacentStationsView(sender, e);
         }
         private void pbUpButton_Click(object sender, RoutedEventArgs e)
         {
@@ -252,13 +214,11 @@ namespace PlGui
             BO.Line line = cbLineNum.SelectedItem as BO.Line;
             bl.MoveStationUpInLine(line.ID, lineStation.StationCode);
             UpdateLinesView(sender, e);
-            UpdateAdjacentStationsView(sender,e);
         }
         private void lineStationsListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             BO.AdjacentStations adjStat = (cbLineNum.SelectedItem as BO.Line).AdjStats.Find(x => x.Station1 == ((sender as ListView).SelectedItem as BO.LineStation).StationCode);
-            UpdateAdjStatWindow updateAdjStat = new UpdateAdjStatWindow(adjStat, adjStats, bl);
-            updateAdjStat.Closed += UpdateAdjacentStationsView;
+            UpdateAdjStatWindow updateAdjStat = new UpdateAdjStatWindow(adjStat, bl);
             updateAdjStat.Closed += UpdateLinesView;
             updateAdjStat.ShowDialog();
         }
@@ -266,7 +226,6 @@ namespace PlGui
         {
             AddStationToLineWindow addStationToLineWindow = new AddStationToLineWindow(bl, stations.ToList(), cbLineNum.SelectedItem as BO.Line);
             addStationToLineWindow.Closed += UpdateLinesView;
-            addStationToLineWindow.Closed += UpdateAdjacentStationsView;
             addStationToLineWindow.ShowDialog();
         }
         private void pbAddLineSchedule_Click(object sender, RoutedEventArgs e)
@@ -342,5 +301,7 @@ namespace PlGui
             while (!simulationWorker.CancellationPending);
         }
         #endregion
+
+        
     }
 }

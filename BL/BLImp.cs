@@ -22,12 +22,11 @@ namespace BL
         public static BLImp Instance { get => instance; }// The public Instance property to use
         #endregion
 
-        public void InitializeDisplay(ref ObservableCollection<BO.Bus> buses, ref ObservableCollection<BO.Line> lines, ref ObservableCollection<BO.Station> stations, ref ObservableCollection<BO.AdjacentStations> adjStats)
+        public void InitializeDisplay(ref ObservableCollection<BO.Bus> buses, ref ObservableCollection<BO.Line> lines, ref ObservableCollection<BO.Station> stations)
         {
             buses = new ObservableCollection<BO.Bus>(GetAllBuses());
             lines = new ObservableCollection<BO.Line>(GetAllLines());
             stations = new ObservableCollection<BO.Station>(GetAllStations());
-            adjStats = new ObservableCollection<BO.AdjacentStations>(GetAllAdjacentStations());
         }
 
         #region User
@@ -444,7 +443,11 @@ namespace BL
             BO.LineTrip trip = LineTripDoBoAdapter(dl.GetLineTrip(line.ID));
             if (trip == null)
                 return times;
-
+            if (trip.Frequency == TimeSpan.Zero)
+            {
+                times.Add(trip.StartTime);
+                return times;
+            }
             TimeSpan addTime = trip.StartTime;
             while(addTime <= trip.EndTime)
             {

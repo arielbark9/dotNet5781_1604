@@ -23,13 +23,11 @@ namespace PlGui
     public partial class UpdateAdjStatWindow : Window
     {
         BO.AdjacentStations updateAdjStat;
-        ObservableCollection<BO.AdjacentStations> dispAdjStat;
         IBL bl;
-        public UpdateAdjStatWindow(BO.AdjacentStations updateAdjStat, ObservableCollection<BO.AdjacentStations> dispAdjStat, IBL bl)
+        public UpdateAdjStatWindow(BO.AdjacentStations updateAdjStat, IBL bl)
         {
             InitializeComponent();
             this.updateAdjStat = updateAdjStat;
-            this.dispAdjStat = dispAdjStat;
             this.bl = bl;
             gridViewAdjStat.DataContext = this.updateAdjStat;
         }
@@ -40,9 +38,7 @@ namespace PlGui
             {
                 try
                 {
-                    bl.UpdateAdjacentStations(updateAdjStat); // will stop here if an exception is thrown
-                    BO.AdjacentStations adjStat = dispAdjStat.FirstOrDefault(x => x.Station1 == updateAdjStat.Station1 && x.Station2 == updateAdjStat.Station2);
-                    updateAdjStat.CopyPropertiesTo(adjStat);
+                    bl.UpdateAdjacentStations(updateAdjStat);
                 }
                 catch (ArgumentException)
                 {

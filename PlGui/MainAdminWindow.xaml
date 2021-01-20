@@ -12,7 +12,6 @@
     <Window.Resources>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Bus}, CreateList=True}"/>
         <CollectionViewSource x:Key="stationViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Station}, CreateList=True}"/>
-        <CollectionViewSource x:Key="adjacentStationsViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:AdjacentStations}, CreateList=True}"/>
         <CollectionViewSource x:Key="linesViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Line}, CreateList=True}"/>
         <CollectionViewSource x:Key="lineStationsViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:LineStation}, CreateList=True}"/>
         <CollectionViewSource x:Key="lineTripsViewSource" d:DesignSource="{d:DesignInstance {x:Type sys:TimeSpan}, CreateList=True}"/>
@@ -48,7 +47,7 @@
         </Grid>
         <TabControl Grid.Row="1">
             <TabItem Header="Lines" Width="200" >
-                <Grid x:Name="gridViewLines">
+                <Grid x:Name="gridViewLines" Background="#FFBAFFD0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="8*"/>
@@ -79,7 +78,7 @@
                         <Button x:Name="pbAddLineSchedule" Content="New Schedule" Grid.Column="4" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="auto" FontSize="16" Background="#FFBAFFD0" BorderBrush="#FF0A1478" Click="pbAddLineSchedule_Click"/>
                         <Button x:Name="pbDeleteLine" Content="Delete" Grid.Column="5" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" Width="75" FontSize="16" Click="pbDeleteLine_Click" Background="#FFBAFFD0" BorderBrush="#FF0A1478"/>
                     </Grid>
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="1" Background="#FFFDFDFD">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="8*"/>
                             <ColumnDefinition Width="1*"/>
@@ -173,17 +172,17 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Stations" Width="200">
-                <Grid DataContext="{StaticResource stationViewSource}">
+                <Grid DataContext="{StaticResource stationViewSource}" Background="#FFBAFFD0">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="9*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="5*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.6*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <ListView x:Name="stationListView" Grid.ColumnSpan="1" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding}"  SelectionMode="Single" Margin="5,5" MouseDoubleClick="stationListView_MouseDoubleClick">
+                    <ListView x:Name="stationListView" Grid.RowSpan="2" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding}"  SelectionMode="Single" Margin="5,5" MouseDoubleClick="stationListView_MouseDoubleClick" SelectionChanged="stationListView_SelectionChanged">
                         <ListView.ItemContainerStyle>
                             <Style>
                                 <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
@@ -224,53 +223,43 @@
                         </ListView.View>
                     </ListView>
                     <Button x:Name="AddStation" Content="Add Station" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" Width="75" Grid.Row="2" Grid.Column="0" Click="AddStation_Click"/>
-                    <ListView x:Name="adjacentStationsListView" Grid.RowSpan="2" Grid.Column="1" ItemsSource="{Binding}"  Margin="5,5" Grid.Row="1" SelectionMode="Single" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="adjacentStationsListView_MouseDoubleClick">
+                    <ListView x:Name="linesByStationListView" DataContext="{StaticResource linesViewSource}" ItemsSource="{Binding}" Margin="5"  SelectionMode="Single" Grid.Column="1" Grid.Row="0" Width="auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="#FFE4FB00">
                         <ListView.ItemContainerStyle>
                             <Style>
-                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn x:Name="station1Column" Header="Station 1" Width="80">
+                                <GridViewColumn x:Name="lineNumColumn" Header="Line" Width="50">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Station1}" Margin="1,1" Width="auto"/>
+                                            <Label Content="{Binding LineNum}" Width="auto"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn x:Name="station2Column" Header="Station 2" Width="80">
+                                <GridViewColumn x:Name="lastStationNameColumn" Header="Last Station Name" Width="190">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Station2}" Margin="1,1" Width="auto"/>
+                                            <Label Content="{Binding LastStation.StationName}" Width="auto"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn x:Name="timeColumn" Header="Time" Width="auto">
+                                <GridViewColumn x:Name="lastStationCodeColumn" Header="Code" Width="auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Time}" Margin="-6,-1"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn x:Name="updateAdjStatColumn" Width="80">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Button x:Name="pbUpdateAdjStat" Content="Update" Click="pbUpdateAdjStat_Click" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <Label Content="{Binding LastStation.StationCode}" Width="auto"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Label Content="All active stations in the system" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" FontSize="20" FontFamily="Times New Roman" FontWeight="Bold" Background="{x:Null}" Foreground="#FFFF5050"/>
-                    <Label Content="All adjacent stations" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0" VerticalAlignment="Center" Foreground="#FFFF5050" FontSize="20" FontWeight="Bold" FontFamily="Times New Roman"/>
-                    <Button x:Name="pbDeleteAdjStats" Content="Delete Unused Pairs" HorizontalAlignment="Right" Margin="3,3" Grid.Row="2" VerticalAlignment="Center" Width="auto" Click="pbDeleteAdjStats_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="User Details" Width="200">
-                <Grid>
+                <Grid Background="#FFBAFFD0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="7*"/>
                         <RowDefinition Height="1*"/>
@@ -296,7 +285,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Buses" Width="200">
-                <Grid DataContext="{StaticResource busViewSource}">
+                <Grid DataContext="{StaticResource busViewSource}" Background="#FFBAFFD0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="7*"/>
                         <RowDefinition Height="1*"/>
@@ -362,7 +351,7 @@
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
-                    <Button x:Name="pbAddBus" Content="Add Bus" HorizontalAlignment="Stretch" Margin="200,10" Grid.Row="1" VerticalAlignment="Stretch" Width="auto" Click="pbAddBus_Click"/>
+                    <Button x:Name="pbAddBus" Content="Add Bus" HorizontalAlignment="Center" Margin="200,10" Grid.Row="1" VerticalAlignment="Center" Width="80" Click="pbAddBus_Click" Height="25"/>
                 </Grid>
             </TabItem>
         </TabControl>

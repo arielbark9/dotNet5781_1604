@@ -10,7 +10,7 @@ namespace BLAPI
 {
     public interface IBL
     {
-        void InitializeDisplay(ref ObservableCollection<BO.Bus> buses, ref ObservableCollection<BO.Line> lines, ref ObservableCollection<BO.Station> stations, ref ObservableCollection<BO.AdjacentStations> adjStats);
+        void InitializeDisplay(ref ObservableCollection<BO.Bus> buses, ref ObservableCollection<BO.Line> lines, ref ObservableCollection<BO.Station> stations);
         #region User
         BO.User userDoBoAdapter(DO.User userDo);
         IEnumerable<BO.User> GetAllUsers();
