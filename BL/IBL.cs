@@ -46,11 +46,13 @@ namespace BLAPI
         void AddStation(BO.Station newStation);
         void UpdateStation(BO.Station Station);
         void DeleteStation(BO.Station Station);
+        void SetStationPanel(int station, Action<LineTiming> updateBus);
         #endregion
 
         #region LineStation
         IEnumerable<BO.LineStation> GetAllLineStations();
         void AddLineStation(BO.LineStation newLineStation);
+        TimeSpan TimeBetweenLineStations(BO.LineStation station1, BO.LineStation station2, BO.Line line);
         #endregion
 
         #region AdjacentStations 
@@ -58,6 +60,7 @@ namespace BLAPI
         IEnumerable<BO.AdjacentStations> GetAllAdjacentStations();
         void UpdateAdjacentStations(BO.AdjacentStations AdjStat);
         void DeleteAdjacentStations(AdjacentStations adjStat);
+        BO.AdjacentStations GetAdjacentStations(int stationOneCode, int stationTwoCode);
         #endregion
 
         #region Clock

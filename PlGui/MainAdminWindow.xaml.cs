@@ -29,6 +29,7 @@ namespace PlGui
         ObservableCollection<BO.Bus> buses;
         ObservableCollection<BO.Line> lines;
         ObservableCollection<BO.Station> stations;
+        ObservableCollection<BO.LineTiming> lineTimings;
         public MainAdminWindow(BO.User user, IBL bl)
         {
             InitializeComponent();
@@ -38,6 +39,7 @@ namespace PlGui
             labelGreeting.Content = $"Hello {user.UserName}! Welcome to Ariel's Bus handeling system";
             // init lists
             bl.InitializeDisplay(ref buses, ref lines, ref stations);
+            lineTimings = new ObservableCollection<BO.LineTiming>();
             // buses
             busListView.DataContext = buses;
             // lines
@@ -47,6 +49,7 @@ namespace PlGui
             cbLineNum.SelectedItem = lines[0];
             // stations
             stationListView.DataContext = stations;
+            lineTimingListView.DataContext = lineTimings;
             this.Closed += MainAdminWindow_Closed;
         }
 
@@ -142,9 +145,58 @@ namespace PlGui
             foreach (var station in bl.GetAllStations())
                 stations.Add(station);
         }
+        BackgroundWorker stationSimWorker;
         private void stationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             linesByStationListView.DataContext = bl.GetLinesThatGoThroughStation(((sender as ListView).SelectedItem as BO.Station).StationCode);
+
+            stationSimWorker = new BackgroundWorker();
+            stationSimWorker.WorkerReportsProgress = true;
+            stationSimWorker.WorkerSupportsCancellation = true;
+            stationSimWorker.DoWork += StationSimWorker_DoWork;
+            stationSimWorker.ProgressChanged += StationSimWorker_ProgressChanged;
+            stationSimWorker.RunWorkerAsync(((sender as ListView).SelectedItem as BO.Station).StationCode);
+        }
+
+        private void StationSimWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            BO.LineTiming newLineTiming = e.UserState as BO.LineTiming;
+
+            if (newLineTiming != null)
+            {
+                if (newLineTiming.ArrivalTimeAtStation != TimeSpan.Zero)
+                {
+                    if (lineTimings.Any(x => x.ID == newLineTiming.ID))
+                        lineTimings.Remove(lineTimings.FirstOrDefault(x => x.ID == newLineTiming.ID));
+                    lineTimings.Add(newLineTiming);
+                }
+                else
+                    gridViewLastLineToArrive.DataContext = newLineTiming;
+
+                UpdateLineTimings();
+            }
+            else
+                lineTimings.Clear();
+        }
+
+        private void StationSimWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            bl.SetStationPanel((int)e.Argument, (BO.LineTiming x) => stationSimWorker.ReportProgress(0, x));
+            while (!stationSimWorker.CancellationPending) ;
+        }
+
+        private void UpdateLineTimings()
+        {
+            List<BO.LineTiming> newList = new List<BO.LineTiming>();
+            
+            newList = (from lineTiming in lineTimings
+                              orderby lineTiming.ArrivalTimeAtStation
+                              select lineTiming).ToList();
+
+            lineTimings.Clear();
+            foreach (var lineTiming in newList)
+                if (lineTiming.ArrivalTimeAtStation != TimeSpan.Zero)
+                    lineTimings.Add(lineTiming);
         }
         #endregion
 
@@ -300,8 +352,15 @@ namespace PlGui
             });
             while (!simulationWorker.CancellationPending);
         }
+
         #endregion
 
-        
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource lineTimingViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("lineTimingViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // lineTimingViewSource.Source = [generic data source]
+        }
     }
 }

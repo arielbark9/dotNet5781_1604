@@ -8,7 +8,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PlGui.MainAdminWindow"
         mc:Ignorable="d"
-        Title="Admin System" Height="550" Width="820" ResizeMode="CanMinimize" Icon="bus-icon-flat-style-vector-7995329.jpg" WindowStartupLocation="CenterScreen">
+        Title="Admin System" Height="550" Width="820" ResizeMode="CanMinimize" Icon="bus-icon-flat-style-vector-7995329.jpg" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="busViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Bus}, CreateList=True}"/>
         <CollectionViewSource x:Key="stationViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:Station}, CreateList=True}"/>
@@ -17,6 +17,7 @@
         <CollectionViewSource x:Key="lineTripsViewSource" d:DesignSource="{d:DesignInstance {x:Type sys:TimeSpan}, CreateList=True}"/>
         <CollectionViewSource x:Key="userViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:User}, CreateList=True}"/>
         <local:StationTimeToMessageConverter x:Key="TimeToMessage"/>
+        <CollectionViewSource x:Key="lineTimingViewSource" d:DesignSource="{d:DesignInstance {x:Type BO:LineTiming}, CreateList=True}"/>
     </Window.Resources>
     <Grid Background="#FFBAFFD0">
         <Grid.RowDefinitions>
@@ -37,7 +38,7 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="tbClockTime" Height="23" Margin="0" TextWrapping="Wrap" Text="00:00:00" Width="auto" BorderThickness="1,2,2,2" PreviewTextInput="tbClockTime_PreviewTextInput" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbClockTime" Height="23" Margin="0" TextWrapping="Wrap" Text="05:29:00" Width="auto" BorderThickness="1,2,2,2" PreviewTextInput="tbClockTime_PreviewTextInput" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,4,0,0" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <TextBox x:Name="tbClockRate" Width="auto" Text="50" BorderThickness="2" PreviewTextInput="tbClockRate_PreviewTextInput"/>
                     <Label Width="auto" Content="X" FontSize="8" Margin="5,0,0,0"/>
@@ -256,6 +257,47 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <ListView x:Name="lineTimingListView" Grid.Column="1" DataContext="{DynamicResource lineTimingViewSource}" ItemsSource="{Binding}" Margin="5" Grid.Row="1">
+                        <ListView.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn x:Name="lineNumColumn1" Header="Line" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding LineNum}" Width="auto" Margin="-6,-1"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="arrivalTimeAtStationColumn" Header="Arrival Time" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Margin="6,-1,-6,-1" Content="{Binding ArrivalTimeAtStation}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="lastStationColumn" Header="Last Station" Width="auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Margin="-6,-1" Content="{Binding LastStationName}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid x:Name="gridViewLastLineToArrive" DataContext="{DynamicResource lineTimingViewSource}" Grid.Column="1" Margin="0" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Last Line That Arrived: " HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="15" FontFamily="Yu Gothic UI Light"/>
+                        <Label Content="{Binding LineNum}" Grid.Column="1" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center" FontSize="15" FontFamily="Yu Gothic UI Light"/>
+                    </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="User Details" Width="200">

@@ -586,6 +586,12 @@ namespace BL
                 throw new ArgumentException("STATION LIST AND DISPLAY LIST ARE NOT SYNCED", ex);
             }
         }
+        public void SetStationPanel(int station, Action<BO.LineTiming> updateBus)
+        {
+            LineDispatcher dispatcher = LineDispatcher.Instance;
+            dispatcher.DisplayStationCode = station;
+            dispatcher.OnTimeChanged += updateBus;
+        }
         #endregion
 
         #region LineStation
@@ -631,6 +637,17 @@ namespace BL
             // update Line
             UpdateLine(line);
         }
+        public TimeSpan TimeBetweenLineStations(BO.LineStation station1, BO.LineStation station2, BO.Line line)
+        {
+            TimeSpan res = new TimeSpan();
+            while (station1.StationCode != station2.StationCode)
+            {
+                line.Stations.Find(x => x.StationCode == station1.StationCode).CopyPropertiesTo(station1);
+                res += station1.TimeToNext;
+                station1.StationCode = line.Stations[(station1.StationPlacement - 1) + 1].StationCode;
+            }
+            return res;
+        }
         #endregion
 
         #region AdjacentStations
@@ -675,17 +692,29 @@ namespace BL
                 throw new ArgumentException("Fatal Error!");
             }
         }
+        public BO.AdjacentStations GetAdjacentStations(int stationOneCode, int stationTwoCode)
+        {
+            try
+            {
+                return AdjacentStationsDoBoAdapter(dl.GetAdjacentStations(stationOneCode, stationTwoCode));
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException("FATAL ERROR!", ex);
+            }
+        }
+
         #endregion
 
         #region Clock
-        
         private volatile bool Canceled;
         public void StartSimulation(TimeSpan startTime, int rate, Action<TimeSpan> updateDispClock)
         {
             Canceled = false;
             Stopwatch stopwatch = new Stopwatch();
             Clock clock = Clock.Instance;
-            Clock.onTimeChanged += (object sender, BO.TimeChangedEventArgs args) => updateDispClock(args.Time);
+            clock.Rate = rate;
+            clock.onTimeChanged += updateDispClock;
             TimeSpan sleepTime = new TimeSpan((1000 / rate) * TimeSpan.TicksPerMillisecond);
             // Run Clock simulation thread
             new Thread(() =>
@@ -697,20 +726,18 @@ namespace BL
                     clock.Time = startTime + new TimeSpan(stopwatch.ElapsedTicks * rate);
                 }
                 stopwatch.Stop();
+                LineDispatcher.Instance.Canceled = true;
             }).Start();
             // Run Line Dispatcher Thread
-            //new Thread(() =>
-            //{
-            //    while(!Canceled)
-            //    {
-
-            //    }
-            //}).Start();
+            LineDispatcher dispatch = LineDispatcher.Instance;
+            dispatch.Canceled = Canceled;
+            dispatch.StartDispatch();
         }
         public void StopSimulation()
         {
             Canceled = true;
-            Clock.RemoveObservers();
+            Clock.Instance.ResetObservers();
+            Clock.Instance.Rate = 0;
         }
         #endregion
     }

@@ -152,7 +152,7 @@
     <StationName>fake stat</StationName>
     <Latitude>2</Latitude>
     <Longitude>20</Longitude>
-    <Active>false</Active>
+    <Active>true</Active>
   </Station>
   <Station>
     <StationCode>47962</StationCode>
@@ -229,6 +229,83 @@
     <StationName>Mehlaf Hemed</StationName>
     <Latitude>31.80033</Latitude>
     <Longitude>35.126238</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>61157</StationCode>
+    <StationName>Harav Pardes/Meir</StationName>
+    <Latitude>31.844981</Latitude>
+    <Longitude>35.242001</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>730</StationCode>
+    <StationName>Golda Meir/Hamshorer</StationName>
+    <Latitude>31.825302</Latitude>
+    <Longitude>35.188624</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>103</StationCode>
+    <StationName>Golda/Hartom</StationName>
+    <Latitude>31.8</Latitude>
+    <Longitude>35.214106</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>127</StationCode>
+    <StationName>Panim Meirot</StationName>
+    <Latitude>31.796655</Latitude>
+    <Longitude>35.199964</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>152</StationCode>
+    <StationName>Rakanti/Idelzon</StationName>
+    <Latitude>31.817802</Latitude>
+    <Longitude>35.190391</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>166</StationCode>
+    <StationName>Zolti</StationName>
+    <Latitude>31.810445</Latitude>
+    <Longitude>35.215754</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>590</StationCode>
+    <StationName>Nahal Luz/Nahal Refaim</StationName>
+    <Latitude>31.710922</Latitude>
+    <Longitude>34.995945</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>609</StationCode>
+    <StationName>Nahar Hayarden/Rabi Yehoshoua</StationName>
+    <Latitude>31.73176</Latitude>
+    <Longitude>34.993684</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>615</StationCode>
+    <StationName>Ben Zeev/Rabin</StationName>
+    <Latitude>31.742856</Latitude>
+    <Longitude>34.992317</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>664</StationCode>
+    <StationName>Horev/Golda Meir</StationName>
+    <Latitude>31.799833</Latitude>
+    <Longitude>35.2156</Longitude>
+    <Active>true</Active>
+  </Station>
+  <Station>
+    <StationCode>731</StationCode>
+    <StationName>Tzomet Hazeytim</StationName>
+    <Latitude>31.783507</Latitude>
+    <Longitude>35.257738</Longitude>
     <Active>true</Active>
   </Station>
 </ArrayOfStation>

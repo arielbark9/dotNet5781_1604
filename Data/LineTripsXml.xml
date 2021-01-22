@@ -7,4 +7,32 @@
     <EndTime>PT23H30M</EndTime>
     <Frequency>PT15M</Frequency>
   </LineTrip>
+  <LineTrip>
+    <LineID>1</LineID>
+    <Active>true</Active>
+    <StartTime>PT5H30M</StartTime>
+    <EndTime>PT12H30M</EndTime>
+    <Frequency>PT5M</Frequency>
+  </LineTrip>
+  <LineTrip>
+    <LineID>2</LineID>
+    <Active>true</Active>
+    <StartTime>PT7H</StartTime>
+    <EndTime>PT12H</EndTime>
+    <Frequency>PT50M</Frequency>
+  </LineTrip>
+  <LineTrip>
+    <LineID>3</LineID>
+    <Active>true</Active>
+    <StartTime>PT10H</StartTime>
+    <EndTime>PT23H30M</EndTime>
+    <Frequency>PT20M</Frequency>
+  </LineTrip>
+  <LineTrip>
+    <LineID>4</LineID>
+    <Active>true</Active>
+    <StartTime>PT0S</StartTime>
+    <EndTime>PT23H</EndTime>
+    <Frequency>PT30M</Frequency>
+  </LineTrip>
 </ArrayOfLineTrip>

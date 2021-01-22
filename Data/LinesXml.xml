@@ -12,7 +12,7 @@
     <ID>1</ID>
     <LineNum>18</LineNum>
     <FirstStationCode>2398</FirstStationCode>
-    <LastStationCode>3093</LastStationCode>
+    <LastStationCode>2539</LastStationCode>
     <Region>Jerusalem</Region>
     <Active>true</Active>
   </Line>
@@ -22,6 +22,22 @@
     <FirstStationCode>47962</FirstStationCode>
     <LastStationCode>4159</LastStationCode>
     <Region>General</Region>
+    <Active>true</Active>
+  </Line>
+  <Line>
+    <ID>3</ID>
+    <LineNum>5</LineNum>
+    <FirstStationCode>40420</FirstStationCode>
+    <LastStationCode>41788</LastStationCode>
+    <Region>Jerusalem</Region>
+    <Active>true</Active>
+  </Line>
+  <Line>
+    <ID>4</ID>
+    <LineNum>1</LineNum>
+    <FirstStationCode>4159</FirstStationCode>
+    <LastStationCode>40200</LastStationCode>
+    <Region>Jerusalem</Region>
     <Active>true</Active>
   </Line>
 </ArrayOfLine>

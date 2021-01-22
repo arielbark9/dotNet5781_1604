@@ -17,18 +17,18 @@ namespace BL
         #endregion
 
         private TimeSpan time;
+        public int Rate { get; set; }
         public TimeSpan Time
         {
             get => time; set
             {
                 time = value;
-                onTimeChanged?.Invoke(this, new BO.TimeChangedEventArgs(value));
+                onTimeChanged?.Invoke(value);
             }
         }
 
-        public delegate void UpdateEventHandler(object sender, BO.TimeChangedEventArgs args);
-        public static event UpdateEventHandler onTimeChanged;
-        public static void RemoveObservers()
+        public event Action<TimeSpan> onTimeChanged;
+        public void ResetObservers()
         {
             onTimeChanged = null;
         }
