@@ -336,6 +336,9 @@ namespace PlGui
                     // Activate station view worker
                     if (stationSimWorker == null)
                         InitStationSimWorker();
+                    if (stationSimWorker.IsBusy && stationSimWorker.CancellationPending)
+                        while (stationSimWorker.IsBusy)
+                            Thread.Sleep(50);
                     stationSimWorker.RunWorkerAsync();
                 }
                 else if (rate <= 1000)

@@ -257,7 +257,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <ListView x:Name="lineTimingListView" Grid.Column="1" DataContext="{DynamicResource lineTimingViewSource}" ItemsSource="{Binding}" Margin="5" Grid.Row="1">
+                    <ListView x:Name="lineTimingListView" Grid.Column="1" DataContext="{DynamicResource lineTimingViewSource}" ItemsSource="{Binding}" Margin="5" Grid.Row="1" Background="#FF2A51FF">
                         <ListView.ItemContainerStyle>
                             <Style>
                                 <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
@@ -269,21 +269,21 @@
                                 <GridViewColumn x:Name="lineNumColumn1" Header="Line" Width="auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding LineNum}" Width="auto" Margin="-6,-1"/>
+                                            <Label Content="{Binding LineNum}" Width="auto" Margin="-6,-1" Foreground="Yellow"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn x:Name="arrivalTimeAtStationColumn" Header="Arrival Time" Width="auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Margin="6,-1,-6,-1" Content="{Binding ArrivalTimeAtStation}"/>
+                                            <Label Margin="6,-1,-6,-1" Content="{Binding ArrivalTimeAtStation}" Background="{x:Null}" Foreground="Yellow"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn x:Name="lastStationColumn" Header="Last Station" Width="auto">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Margin="-6,-1" Content="{Binding LastStationName}"/>
+                                            <Label Margin="-6,-1" Content="{Binding LastStationName}" Background="{x:Null}" Foreground="Yellow"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
