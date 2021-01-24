@@ -51,7 +51,6 @@
     <Compile Include="BO\LineTiming.cs" />
     <Compile Include="BO\LineTrip.cs" />
     <Compile Include="BO\Station.cs" />
-    <Compile Include="BO\TimeChangedEventArgs.cs" />
     <Compile Include="BO\User.cs" />
     <Compile Include="Clock.cs" />
     <Compile Include="DeepCopyUtilities.cs" />

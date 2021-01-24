@@ -590,7 +590,9 @@ namespace BL
         {
             LineDispatcher dispatcher = LineDispatcher.Instance;
             dispatcher.DisplayStationCode = station;
-            dispatcher.OnTimeChanged += updateBus;
+            dispatcher.ResetObservers();
+            dispatcher.OnLineTimingChanged += updateBus;
+            dispatcher.SecondsToUpdate = 10;
         }
         #endregion
 
@@ -707,37 +709,24 @@ namespace BL
         #endregion
 
         #region Clock
-        private volatile bool Canceled;
         public void StartSimulation(TimeSpan startTime, int rate, Action<TimeSpan> updateDispClock)
         {
-            Canceled = false;
-            Stopwatch stopwatch = new Stopwatch();
+            // Start Clock simulation
             Clock clock = Clock.Instance;
             clock.Rate = rate;
+            clock.StartTime = startTime;
             clock.onTimeChanged += updateDispClock;
-            TimeSpan sleepTime = new TimeSpan((1000 / rate) * TimeSpan.TicksPerMillisecond);
-            // Run Clock simulation thread
-            new Thread(() =>
-            {
-                stopwatch.Restart();
-                while (!Canceled)
-                {
-                    Thread.Sleep(sleepTime);
-                    clock.Time = startTime + new TimeSpan(stopwatch.ElapsedTicks * rate);
-                }
-                stopwatch.Stop();
-                LineDispatcher.Instance.Canceled = true;
-            }).Start();
+            clock.Cancel = false;
+            clock.StartClock();
+          
             // Run Line Dispatcher Thread
-            LineDispatcher dispatch = LineDispatcher.Instance;
-            dispatch.Canceled = Canceled;
-            dispatch.StartDispatch();
+            LineDispatcher.Instance.StartDispatch();
         }
         public void StopSimulation()
         {
-            Canceled = true;
-            Clock.Instance.ResetObservers();
-            Clock.Instance.Rate = 0;
+            // Stop clock and Line Dispatcher
+            Clock.Instance.StopClock();
+            LineDispatcher.Instance.StopDispatch();
         }
         #endregion
     }

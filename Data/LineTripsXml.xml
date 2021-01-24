@@ -35,4 +35,11 @@
     <EndTime>PT23H</EndTime>
     <Frequency>PT30M</Frequency>
   </LineTrip>
+  <LineTrip>
+    <LineID>5</LineID>
+    <Active>true</Active>
+    <StartTime>PT12H</StartTime>
+    <EndTime>PT23H30M</EndTime>
+    <Frequency>PT30M</Frequency>
+  </LineTrip>
 </ArrayOfLineTrip>

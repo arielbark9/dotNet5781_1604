@@ -10,7 +10,7 @@
     <Station1>276</Station1>
     <Station2>277</Station2>
     <Distance>0</Distance>
-    <Time>PT1M10S</Time>
+    <Time>PT2M</Time>
   </AdjacentStations>
   <AdjacentStations>
     <Station1>277</Station1>
@@ -232,7 +232,7 @@
     <Station1>40420</Station1>
     <Station2>664</Station2>
     <Distance>0</Distance>
-    <Time>PT2M</Time>
+    <Time>PT15S</Time>
   </AdjacentStations>
   <AdjacentStations>
     <Station1>664</Station1>
@@ -425,5 +425,53 @@
     <Station2>40200</Station2>
     <Distance>0</Distance>
     <Time>PT10M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Station1>4216</Station1>
+    <Station2>800</Station2>
+    <Distance>0</Distance>
+    <Time>PT1M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Station1>800</Station1>
+    <Station2>2524</Station2>
+    <Distance>0</Distance>
+    <Time>PT2M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Station1>2524</Station1>
+    <Station2>221</Station2>
+    <Distance>0</Distance>
+    <Time>PT1M20S</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Station1>221</Station1>
+    <Station2>4159</Station2>
+    <Distance>0</Distance>
+    <Time>PT3M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Station1>4159</Station1>
+    <Station2>3375</Station2>
+    <Distance>0</Distance>
+    <Time>PT4M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Station1>3375</Station1>
+    <Station2>2539</Station2>
+    <Distance>0</Distance>
+    <Time>PT2M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Station1>2539</Station1>
+    <Station2>2944</Station2>
+    <Distance>0</Distance>
+    <Time>PT1M</Time>
+  </AdjacentStations>
+  <AdjacentStations>
+    <Station1>2944</Station1>
+    <Station2>276</Station2>
+    <Distance>0</Distance>
+    <Time>PT1M</Time>
   </AdjacentStations>
 </ArrayOfAdjacentStations>

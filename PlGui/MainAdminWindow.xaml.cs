@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -58,6 +59,9 @@ namespace PlGui
             bl.StopSimulation();
             if (simulationWorker != null && !simulationWorker.CancellationPending)
                 simulationWorker.CancelAsync();
+            // stop station simulation
+            if (stationSimWorker != null && stationSimWorker.WorkerSupportsCancellation == true)
+                stationSimWorker.CancelAsync();
         }
 
         private void pbUpdateUser_Click(object sender, RoutedEventArgs e)
@@ -146,22 +150,39 @@ namespace PlGui
                 stations.Add(station);
         }
         BackgroundWorker stationSimWorker;
-        private void stationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void InitStationSimWorker()
         {
-            linesByStationListView.DataContext = bl.GetLinesThatGoThroughStation(((sender as ListView).SelectedItem as BO.Station).StationCode);
-
             stationSimWorker = new BackgroundWorker();
             stationSimWorker.WorkerReportsProgress = true;
             stationSimWorker.WorkerSupportsCancellation = true;
             stationSimWorker.DoWork += StationSimWorker_DoWork;
             stationSimWorker.ProgressChanged += StationSimWorker_ProgressChanged;
-            stationSimWorker.RunWorkerAsync(((sender as ListView).SelectedItem as BO.Station).StationCode);
+            stationSimWorker.RunWorkerCompleted += StationSimWorker_RunWorkerCompleted;
         }
-
+        private void stationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            linesByStationListView.DataContext = bl.GetLinesThatGoThroughStation(((sender as ListView).SelectedItem as BO.Station).StationCode);
+            if (stationSimWorker == null) InitStationSimWorker();
+            bl.SetStationPanel(((sender as ListView).SelectedItem as BO.Station).StationCode, (BO.LineTiming x) => stationSimWorker.ReportProgress(0, x));
+            gridViewLastLineToArrive.DataContext = null;
+        }
+        private void StationSimWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            UpdateLineTimings(null); // reset line timings view
+            bl.SetStationPanel(-1, null); // tell thread not to update view anymore.
+            gridViewLastLineToArrive.DataContext = null;
+        }
         private void StationSimWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            BO.LineTiming newLineTiming = e.UserState as BO.LineTiming;
-
+            UpdateLineTimings(e.UserState as BO.LineTiming);
+        }
+        private void StationSimWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (!stationSimWorker.CancellationPending)
+                Thread.Sleep(1000);
+        }
+        private void UpdateLineTimings(BO.LineTiming newLineTiming)
+        {
             if (newLineTiming != null)
             {
                 if (newLineTiming.ArrivalTimeAtStation != TimeSpan.Zero)
@@ -173,30 +194,22 @@ namespace PlGui
                 else
                     gridViewLastLineToArrive.DataContext = newLineTiming;
 
-                UpdateLineTimings();
+                List<BO.LineTiming> newList = new List<BO.LineTiming>();
+
+                newList = (from lineTiming in lineTimings
+                           orderby lineTiming.ArrivalTimeAtStation
+                           select lineTiming).ToList();
+
+                lineTimings.Clear();
+                foreach (var lineTiming in newList)
+                    if (lineTiming.ArrivalTimeAtStation != TimeSpan.Zero)
+                        lineTimings.Add(lineTiming);
+
+                while (lineTimings.Count > 5)
+                    lineTimings.Remove(lineTimings.Last());
             }
             else
                 lineTimings.Clear();
-        }
-
-        private void StationSimWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            bl.SetStationPanel((int)e.Argument, (BO.LineTiming x) => stationSimWorker.ReportProgress(0, x));
-            while (!stationSimWorker.CancellationPending) ;
-        }
-
-        private void UpdateLineTimings()
-        {
-            List<BO.LineTiming> newList = new List<BO.LineTiming>();
-            
-            newList = (from lineTiming in lineTimings
-                              orderby lineTiming.ArrivalTimeAtStation
-                              select lineTiming).ToList();
-
-            lineTimings.Clear();
-            foreach (var lineTiming in newList)
-                if (lineTiming.ArrivalTimeAtStation != TimeSpan.Zero)
-                    lineTimings.Add(lineTiming);
         }
         #endregion
 
@@ -320,6 +333,10 @@ namespace PlGui
                     simulationWorker.ProgressChanged += SimWorker_ProgressChanged;
                     simulationWorker.DoWork += SimWorker_DoWork;
                     simulationWorker.RunWorkerAsync(new object[] { startTime, rate });
+                    // Activate station view worker
+                    if (stationSimWorker == null)
+                        InitStationSimWorker();
+                    stationSimWorker.RunWorkerAsync();
                 }
                 else if (rate <= 1000)
                     MessageBox.Show("Invalid time or rate value!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -336,6 +353,9 @@ namespace PlGui
                 bl.StopSimulation();
                 if (simulationWorker.WorkerSupportsCancellation == true)
                     simulationWorker.CancelAsync();
+                // stop station simulation
+                if (stationSimWorker.WorkerSupportsCancellation == true)
+                    stationSimWorker.CancelAsync();
             }
         }
         void SimWorker_ProgressChanged(object sender, ProgressChangedEventArgs args)
@@ -350,17 +370,9 @@ namespace PlGui
                 if (!simulationWorker.CancellationPending)
                     simulationWorker.ReportProgress(0, x);
             });
-            while (!simulationWorker.CancellationPending);
+            while (!simulationWorker.CancellationPending)
+                Thread.Sleep(1000);
         }
-
         #endregion
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            System.Windows.Data.CollectionViewSource lineTimingViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("lineTimingViewSource")));
-            // Load data by setting the CollectionViewSource.Source property:
-            // lineTimingViewSource.Source = [generic data source]
-        }
     }
 }

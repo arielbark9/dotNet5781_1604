@@ -40,4 +40,12 @@
     <Region>Jerusalem</Region>
     <Active>true</Active>
   </Line>
+  <Line>
+    <ID>5</ID>
+    <LineNum>15</LineNum>
+    <FirstStationCode>4216</FirstStationCode>
+    <LastStationCode>2538</LastStationCode>
+    <Region>Jerusalem</Region>
+    <Active>true</Active>
+  </Line>
 </ArrayOfLine>
