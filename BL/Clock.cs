@@ -32,6 +32,9 @@ namespace BL
         }
 
         public event Action<TimeSpan> onTimeChanged;
+        /// <summary>
+        /// Start clock running by rate and start time.
+        /// </summary>
         public void StartClock()
         {
             Cancel = false;
@@ -54,6 +57,8 @@ namespace BL
             Cancel = true;
             Rate = 0;
             onTimeChanged = null;
+            StartTime = TimeSpan.Zero;
+            time = TimeSpan.Zero;
         }
     }
 }

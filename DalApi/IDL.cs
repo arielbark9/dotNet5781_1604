@@ -7,13 +7,14 @@ using DO;
 
 namespace DLAPI
 {
-    //CRUD Logic:
-    // Create - add new instance
-    // Request - ask for an instance or for a collection
-    // Update - update properties of an instance
-    // Delete - delete an instance
     public interface IDL
     {
+        //CRUD Logic:
+        // Create - add new instance
+        // Request - ask for an instance or for a collection
+        // Update - update properties of an instance
+        // Delete - delete an instance
+
         #region User
         void AddUser(DO.User newUser);
         IEnumerable<DO.User> GetAllUsers();

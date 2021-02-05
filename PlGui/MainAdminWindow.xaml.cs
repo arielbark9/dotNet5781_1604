@@ -62,8 +62,8 @@ namespace PlGui
             // stop station simulation
             if (stationSimWorker != null && stationSimWorker.WorkerSupportsCancellation == true)
                 stationSimWorker.CancelAsync();
+            Environment.Exit(0);
         }
-
         private void pbUpdateUser_Click(object sender, RoutedEventArgs e)
         {
             bl.UpdateUser(user);
@@ -327,9 +327,11 @@ namespace PlGui
                     tbClockTime.IsReadOnly = true;
                     pbStartClock.Content = "Stop";
                     // Activate Clock
-                    simulationWorker = new BackgroundWorker();
-                    simulationWorker.WorkerSupportsCancellation = true;
-                    simulationWorker.WorkerReportsProgress = true;
+                    simulationWorker = new BackgroundWorker
+                    {
+                        WorkerSupportsCancellation = true,
+                        WorkerReportsProgress = true
+                    };
                     simulationWorker.ProgressChanged += SimWorker_ProgressChanged;
                     simulationWorker.DoWork += SimWorker_DoWork;
                     simulationWorker.RunWorkerAsync(new object[] { startTime, rate });
@@ -337,7 +339,7 @@ namespace PlGui
                     if (stationSimWorker == null)
                         InitStationSimWorker();
                     if (stationSimWorker.IsBusy && stationSimWorker.CancellationPending)
-                        while (stationSimWorker.IsBusy)
+                        while (stationSimWorker.IsBusy) // wait for station sim worker to be stopped
                             Thread.Sleep(50);
                     stationSimWorker.RunWorkerAsync();
                 }

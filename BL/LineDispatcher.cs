@@ -28,7 +28,9 @@ namespace BL
             public BO.Line Line { get; set; }
             public TimeSpan LeaveTime { get; set; }
         }
-
+        /// <summary>
+        /// Dispatch lines to their trips
+        /// </summary>
         public void StartDispatch()
         {
             List<LeavingLine> startTimes = new List<LeavingLine>(); // line id, time of leaving
@@ -40,31 +42,42 @@ namespace BL
                           orderby item.LeaveTime
                           select item).ToList();
 
+            List<LeavingLine> linesLeavingNow = new List<LeavingLine>();
             new Thread(() =>
             {
                 int index = 0;
-                List<LeavingLine> linesLeavingNow = new List<LeavingLine>();
+                while (clock.Time == TimeSpan.Zero) Thread.Sleep(100); // wait for Clock to be initialized
+
                 while (!clock.Cancel)
                 {
                     while (linesLeavingNow.Count == 0)
-                        linesLeavingNow = startTimes.FindAll(x => x.LeaveTime == new TimeSpan(clock.Time.Hours, clock.Time.Minutes, clock.Time.Seconds));
+                    {
+                        linesLeavingNow = startTimes.FindAll(x => x.LeaveTime.Hours == clock.Time.Hours && x.LeaveTime.Minutes == clock.Time.Minutes && x.LeaveTime.Seconds == clock.Time.Seconds);
+                    }
                     index = startTimes.IndexOf(linesLeavingNow.Last());
 
                     foreach (var leavingLine in linesLeavingNow)
-                        SendLine(leavingLine);
+                        DispatchLine(leavingLine);
 
                     linesLeavingNow.Clear(); // reset lines leaving
 
-                    if (index < startTimes.Count - 1)
+                    if (index < startTimes.Count - 1 && !clock.Cancel)
                         Thread.Sleep(TimeSpan.FromTicks((startTimes[index + 1].LeaveTime - startTimes[index].LeaveTime).Ticks / clock.Rate));
                 }
             }).Start();
         }
+        /// <summary>
+        /// Stop Dispatching lines
+        /// </summary>
         public void StopDispatch()
         {
             OnLineTimingChanged = null;
+            DisplayStationCode = -1;
         }
-        private void SendLine(LeavingLine leavingLine)
+        /// <summary>
+        /// Dispatch line to its trip and keep track of its progress.
+        /// </summary>
+        private void DispatchLine(LeavingLine leavingLine)
         {
             Thread newLineLeaving = new Thread(() =>
             {
@@ -75,32 +88,31 @@ namespace BL
                 lineOnTrip.LastStationName = line.LastStation.StationName;
                 TimeSpan TimeSinceStation = TimeSpan.Zero;
                 Random r = new Random();
-
+                BO.LineStation station1 = new BO.LineStation();
+                BO.LineStation station2 = new BO.LineStation();
                 while (!clock.Cancel)
                 {
-                    if (this.DisplayStationCode != -1 && lineOnTrip.CurrentStationIndex <= line.Stations.FindIndex(x => x.StationCode == this.DisplayStationCode))
+                    if ((this.DisplayStationCode != -1 && lineOnTrip.CurrentStationIndex <= line.Stations.FindIndex(x => x.StationCode == this.DisplayStationCode)) 
+                   || this.DisplayStationCode == -1)
                     {
-                        BO.LineStation station1 = new BO.LineStation { StationCode = line.Stations[lineOnTrip.CurrentStationIndex].StationCode, LineID = line.ID };
-                        BO.LineStation station2 = new BO.LineStation { StationCode = this.DisplayStationCode, LineID = line.ID };
+                        station1.StationCode = line.Stations[lineOnTrip.CurrentStationIndex].StationCode; 
+                        station1.LineID = line.ID;
+                        station2.StationCode = this.DisplayStationCode != -1 ? this.DisplayStationCode : line.Stations.Last().StationCode; 
+                        station2.LineID = line.ID;
+
                         lineOnTrip.ArrivalTimeAtStation = bl.TimeBetweenLineStations(station1, station2, line) - TimeSinceStation;
-                        OnLineTimingChanged?.Invoke(lineOnTrip);
+                        if (this.DisplayStationCode != -1) OnLineTimingChanged?.Invoke(lineOnTrip);
                         if (lineOnTrip.ArrivalTimeAtStation == TimeSpan.Zero)
-                            break; // Arrived
+                            break; // Arrived at display station
                         
-                        Thread.Sleep(SecondsToUpdate*(1000 / clock.Rate));
+                        Thread.Sleep(SecondsToUpdate * (1000 / clock.Rate));
                         TimeSinceStation += TimeSpan.FromSeconds(SecondsToUpdate);
                         if (TimeSinceStation >= line.Stations[lineOnTrip.CurrentStationIndex].TimeToNext)
                         {
                             TimeSinceStation = TimeSpan.Zero;
                             if (lineOnTrip.CurrentStationIndex++ == line.Stations.Count - 1)
-                                break;
+                                break; // arrived at last station
                         }
-                    }
-                    else if (DisplayStationCode == -1)
-                    {
-                        Thread.Sleep(TimeSpan.FromTicks((line.Stations[lineOnTrip.CurrentStationIndex].TimeToNext).Ticks / clock.Rate));
-                        if (lineOnTrip.CurrentStationIndex++ == line.Stations.Count - 1) // arrived at last station
-                            break;
                     }
                     else
                         break;
