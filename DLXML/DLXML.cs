@@ -43,7 +43,7 @@ namespace DL
                         MileageSinceMaintenance = Int32.Parse(bus.Element("MileageSinceMaintenance").Value),
                         StartDate = DateTime.Parse(bus.Element("StartDate").Value),
                         DateSinceMaintenance = DateTime.Parse(bus.Element("DateSinceMaintenance").Value),
-                        BusStatus = (Status)Enum.Parse(typeof(Status), bus.Element("BusStatus").Value),
+                        BusStatus = (Status)Enum.Parse(typeof(Status), bus.Element("BusStatus").Value)
                     });
         }
         public void UpdateBus(Bus busUpdate)

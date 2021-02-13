@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
   <dlconfig>
-    <dl>data</dl>
+    <dl>xml</dl>
     <dl-packages>
       <data namespace="DL" class="DalObject">DalObject</data>
       <xml namespace="DL" class="DLXML">DLXML</xml>
@@ -9,7 +9,7 @@
     </dl-packages>
   </dlconfig>
   <ids-entities>
-    <User>3</User>
+    <User>4</User>
     <Line>6</Line>
   </ids-entities>
 </config>
