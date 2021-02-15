@@ -104,8 +104,8 @@ namespace BL
                         if (this.DisplayStationCode != -1) OnLineTimingChanged?.Invoke(lineOnTrip);
                         if (lineOnTrip.ArrivalTimeAtStation == TimeSpan.Zero)
                             break; // Arrived at display station
-                        
-                        Thread.Sleep(SecondsToUpdate * (1000 / clock.Rate));
+                        if(clock.Rate != 0)
+                            Thread.Sleep(SecondsToUpdate * (1000 / clock.Rate));
                         TimeSinceStation += TimeSpan.FromSeconds(SecondsToUpdate);
                         if (TimeSinceStation >= line.Stations[lineOnTrip.CurrentStationIndex].TimeToNext)
                         {
