@@ -316,6 +316,7 @@ namespace PlGui
         BackgroundWorker simulationWorker;
         private void pbStartClock_Click(object sender, RoutedEventArgs e)
         {
+            pbStartClock.IsEnabled = false;
             if (pbStartClock.Content.ToString() == "Start")
             {
                 TimeSpan startTime = new TimeSpan();
@@ -323,10 +324,15 @@ namespace PlGui
                 if (TimeSpan.TryParse(tbClockTime.Text, out startTime) && int.TryParse(tbClockRate.Text, out rate) && rate != 0 && rate <= 1000)
                 {
                     // take care of display options
+                    pbStartClock.Content = "Stop";
                     tbClockRate.IsReadOnly = true;
                     tbClockTime.IsReadOnly = true;
-                    pbStartClock.Content = "Stop";
+
                     // Activate Clock
+                    if (simulationWorker != null && simulationWorker.IsBusy && simulationWorker.CancellationPending)
+                        while (simulationWorker.IsBusy) // wait for sim worker to be stopped
+                            Thread.Sleep(50);
+
                     simulationWorker = new BackgroundWorker
                     {
                         WorkerSupportsCancellation = true,
@@ -335,6 +341,7 @@ namespace PlGui
                     simulationWorker.ProgressChanged += SimWorker_ProgressChanged;
                     simulationWorker.DoWork += SimWorker_DoWork;
                     simulationWorker.RunWorkerAsync(new object[] { startTime, rate });
+
                     // Activate station view worker
                     if (stationSimWorker == null)
                         InitStationSimWorker();
@@ -362,6 +369,7 @@ namespace PlGui
                 if (stationSimWorker.WorkerSupportsCancellation == true)
                     stationSimWorker.CancelAsync();
             }
+            pbStartClock.IsEnabled = true;
         }
         void SimWorker_ProgressChanged(object sender, ProgressChangedEventArgs args)
         {
